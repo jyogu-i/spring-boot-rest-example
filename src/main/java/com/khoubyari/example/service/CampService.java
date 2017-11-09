@@ -7,11 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.metrics.CounterService;
 import org.springframework.boot.actuate.metrics.GaugeService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import javax.ejb.EJB;
 
 /*
  * Sample service to demonstrate what the API would use to get things done
@@ -27,7 +23,9 @@ public class CampService {
     @Autowired
     private UserRepository userRepository;
     private CARepository caRepository;
-    private CA_ResultRepository ca_resultRepository;
+    private CA_Result_Job_CategoryRepository ca_result_job_categoryRepository;
+    private CA_Result_CompanyRepository ca_result_companyRepository;
+    private CA_Result_IndustryRepository ca_result_industryRepository;
     private ChatRepository chatRepository;
     private ContactRepository contactRepository;
     private MessageRepository messageRepository;
@@ -80,10 +78,17 @@ public class CampService {
         return caRepository.findOne(ca_id);
     }
 
-    // ca情報は参照のみ
-    public CA_result getCA_result(String ca_id) {
-        return ca_resultRepository.findOne(ca_id);
+    // ca_result情報は参照のみ
+    public CA_result_job_category getResult_job_category(String result_job_cetegory_id) {
+        return ca_result_job_categoryRepository.findOne(result_job_cetegory_id);
     }
+    public CA_result_industry getResult_industry(String result_industry_id) {
+        return ca_result_industryRepository.findOne(result_industry_id);
+    }
+    public CA_result_company getResult_company(String result_company_id) {
+        return ca_result_companyRepository.findOne(result_company_id);
+    }
+
 
     // お問い合わせ情報は送るのみ
     public Contact createContact(Contact contact) {

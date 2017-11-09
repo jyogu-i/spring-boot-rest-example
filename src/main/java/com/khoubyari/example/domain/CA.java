@@ -38,7 +38,7 @@ public class CA implements Serializable {
 
     @OneToMany(mappedBy = "ca", cascade = {CascadeType.ALL})
     @JoinColumn(name="ca_id")
-    private List<CA_result> ca_results;
+    private List<CA_result_job_category> ca_results;
 
     public CA() {
     }
