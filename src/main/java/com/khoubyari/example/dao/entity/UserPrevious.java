@@ -32,93 +32,54 @@ public class UserPrevious {
     @Column(name = "job_category_id")
     String jobCategoryId;
 
-    /** 
-     * Returns the previousId.
-     * 
-     * @return the previousId
-     */
+    @Column(name = "industry_id")
+    String industryId;
+
     public Integer getPreviousId() {
         return previousId;
     }
 
-    /** 
-     * Sets the previousId.
-     * 
-     * @param previousId the previousId
-     */
     public void setPreviousId(Integer previousId) {
         this.previousId = previousId;
     }
 
-    /** 
-     * Returns the userId.
-     * 
-     * @return the userId
-     */
     public String getUserId() {
         return userId;
     }
 
-    /** 
-     * Sets the userId.
-     * 
-     * @param userId the userId
-     */
     public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    /** 
-     * Returns the companyName.
-     * 
-     * @return the companyName
-     */
     public String getCompanyName() {
         return companyName;
     }
 
-    /** 
-     * Sets the companyName.
-     * 
-     * @param companyName the companyName
-     */
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
 
-    /** 
-     * Returns the joinedYear.
-     * 
-     * @return the joinedYear
-     */
     public Integer getJoinedYear() {
         return joinedYear;
     }
 
-    /** 
-     * Sets the joinedYear.
-     * 
-     * @param joinedYear the joinedYear
-     */
     public void setJoinedYear(Integer joinedYear) {
         this.joinedYear = joinedYear;
     }
 
-    /** 
-     * Returns the jobCategoryId.
-     * 
-     * @return the jobCategoryId
-     */
     public String getJobCategoryId() {
         return jobCategoryId;
     }
 
-    /** 
-     * Sets the jobCategoryId.
-     * 
-     * @param jobCategoryId the jobCategoryId
-     */
     public void setJobCategoryId(String jobCategoryId) {
         this.jobCategoryId = jobCategoryId;
+    }
+
+    public String getIndustryId() {
+        return industryId;
+    }
+
+    public void setIndustryId(String industryId) {
+        this.industryId = industryId;
     }
 }

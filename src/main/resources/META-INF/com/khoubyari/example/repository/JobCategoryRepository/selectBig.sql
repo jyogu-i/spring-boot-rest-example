@@ -1,0 +1,1 @@
+SELECT big_category,big_category_id FROM public."JobCategory";

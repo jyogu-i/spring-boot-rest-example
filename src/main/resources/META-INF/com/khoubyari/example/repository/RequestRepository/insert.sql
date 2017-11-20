@@ -1,2 +1,2 @@
 INSERT INTO public."Request"(requester_id,request_message)
-	VALUES (/* contact.getRequesterId() */'01', /* contact.getrequestMessage() */'aaaaa');
+	VALUES (/* request.getRequesterId() */'01', /* request.getRequestMessage() */'aaaaa');

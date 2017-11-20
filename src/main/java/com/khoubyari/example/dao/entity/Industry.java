@@ -28,6 +28,18 @@ public class Industry {
     @Column(name = "small_category")
     String smallCategory;
 
+    /** */
+    @Column(name = "big_category_id")
+    String bigCategoryId;
+
+    /** */
+    @Column(name = "middle_category_id")
+    String middleCategoryId;
+
+    /** */
+    @Column(name = "small_category_id")
+    String smallCategoryId;
+
     /** 
      * Returns the industryId.
      * 
@@ -37,66 +49,56 @@ public class Industry {
         return industryId;
     }
 
-    /** 
-     * Sets the industryId.
-     * 
-     * @param industryId the industryId
-     */
     public void setIndustryId(String industryId) {
         this.industryId = industryId;
     }
 
-    /** 
-     * Returns the bigCategory.
-     * 
-     * @return the bigCategory
-     */
     public String getBigCategory() {
         return bigCategory;
     }
 
-    /** 
-     * Sets the bigCategory.
-     * 
-     * @param bigCategory the bigCategory
-     */
     public void setBigCategory(String bigCategory) {
         this.bigCategory = bigCategory;
     }
 
-    /** 
-     * Returns the middleCategory.
-     * 
-     * @return the middleCategory
-     */
     public String getMiddleCategory() {
         return middleCategory;
     }
 
-    /** 
-     * Sets the middleCategory.
-     * 
-     * @param middleCategory the middleCategory
-     */
     public void setMiddleCategory(String middleCategory) {
         this.middleCategory = middleCategory;
     }
 
-    /** 
-     * Returns the smallCategory.
-     * 
-     * @return the smallCategory
-     */
     public String getSmallCategory() {
         return smallCategory;
     }
 
-    /** 
-     * Sets the smallCategory.
-     * 
-     * @param smallCategory the smallCategory
-     */
     public void setSmallCategory(String smallCategory) {
         this.smallCategory = smallCategory;
     }
+
+    public String getBigCategoryId() {
+        return bigCategoryId;
+    }
+
+    public void setBigCategoryId(String bigCategoryId) {
+        this.bigCategoryId = bigCategoryId;
+    }
+
+    public String getMiddleCategoryId() {
+        return middleCategoryId;
+    }
+
+    public void setMiddleCategoryId(String middleCategoryId) {
+        this.middleCategoryId = middleCategoryId;
+    }
+
+    public String getSmallCategoryId() {
+        return smallCategoryId;
+    }
+
+    public void setSmallCategoryId(String smallCategoryId) {
+        this.smallCategoryId = smallCategoryId;
+    }
+
 }

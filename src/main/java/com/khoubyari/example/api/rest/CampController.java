@@ -18,6 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.*;
+import java.util.Properties;
+import org.python.util.PythonInterpreter;
+import org.python.core.PyInteger;
+import org.python.core.PyObject;
+
 import java.util.List;
 
 
@@ -113,6 +119,12 @@ public class CampController extends AbstractRestHandler {
     @Autowired
     private UserReviewRepository userreviewRepository;
 
+    @Autowired
+    private TosRepository tosRepository;
+
+    @Autowired
+    private PersonalInfoRepository personalInfoRepository;
+
 
     // welcome画面
     @RequestMapping(value = "/welcome" , method = RequestMethod.GET, produces = {"application/json"})
@@ -123,8 +135,12 @@ public class CampController extends AbstractRestHandler {
         List welcome = genderRepository.selectAll();
         welcome.add(academicRepository.selectAll());
         welcome.add(englishRepository.selectAll());
-        welcome.add(industryRepository.selectAll());
-        welcome.add(jobcategoryRepository.selectAll());
+        welcome.add(industryRepository.selectBig());
+        welcome.add(industryRepository.selectMiddle());
+        welcome.add(industryRepository.selectSmall());
+        welcome.add(jobcategoryRepository.selectBig());
+        welcome.add(jobcategoryRepository.selectMiddle());
+        welcome.add(jobcategoryRepository.selectSmall());
         welcome.add(majorRepository.selectAll());
         welcome.add(placeRepository.selectAll());
         welcome.add(termRepository.selectAll());
@@ -137,7 +153,8 @@ public class CampController extends AbstractRestHandler {
     }
 
     // ログイン画面 TODO
-    @RequestMapping(value = "/login", method = {RequestMethod.POST}, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/login", method = {RequestMethod.POST}, consumes = MediaType.APPLICATION_JSON_VALUE
+    )
     @ResponseBody
     public String login(@RequestBody User login){
         // ToDo:正しいものか確認するところ実装
@@ -148,24 +165,25 @@ public class CampController extends AbstractRestHandler {
 
     // 初期登録画面 TODO
     @RequestMapping(value = "/{user_id}/question/basic"
-          //  , method = {RequestMethod.GET},consumes = {"application/json"}
+            //, method = {RequestMethod.GET},consumes = {"application/json"}
             )
     @ResponseStatus(HttpStatus.OK)
     public void basic(@PathVariable String user_id
-           // , @RequestBody User user, @RequestBody UserHope userhope, @RequestBody UserPrevious userprevious
-    ){
+            //, @RequestBody User user
+    )throws Exception{
         UserHope userhope=new UserHope();
         userhope.setUserId(user_id);
         userhope.setIndustryId("100");
         userhope.setJobCategoryId("1690");
-        userhopeRepository.insertBasicUserHope(userhope);
+        //userhopeRepository.insertBasicUserHope(userhope);
 
         UserPrevious userprevious=new UserPrevious();
         userprevious.setUserId(user_id);
         userprevious.setCompanyName("kocchi");
+        userprevious.setIndustryId("A230");
         userprevious.setJobCategoryId("0999");
         userprevious.setJoinedYear(1900);
-        userpreviousRepository.insertOptionUserPrevious(userprevious);
+       // userpreviousRepository.insertOptionUserPrevious(userprevious);
 
         User user=new User();
         user.setUserId(user_id);
@@ -178,11 +196,36 @@ public class CampController extends AbstractRestHandler {
         user.setTimingId("1");
         user.setTermId("2");
         user.setTimesId("4");
-        userRepository.insertOptionUser(user);
+        //userRepository.insertOptionUser(user);
 
-        //ToDO ここでマッチング
+        String hope_jc=userhope.getJobCategoryId().substring(0);
+        String hope_in=userhope.getIndustryId().substring(0);
 
-        System.out.println(user);
+        String pre_jc=userprevious.getJobCategoryId().substring(0);
+        String pre_in=userprevious.getIndustryId().substring(0);
+
+//        List<Str>
+//        //AIシステムへ
+//        String[] cmd = {"/Users/sekipon/anaconda3/bin/python3","1114_random_forest_ok.py","25","0"
+//                ,user.getTimesId(),pre_in,pre_jc,hope_in,hope_jc
+//                ,userprevious.getIndustryId(),userprevious.getJobCategoryId()};
+//
+//        ProcessBuilder pb = new ProcessBuilder(cmd);
+//        Process proc = pb.start();
+//
+//        String str;
+//
+//        BufferedReader brerr = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
+//        while((str = brerr.readLine()) != null) {
+//            System.err.println(str);
+//        }
+//        brerr.close();
+//
+//        BufferedReader brstd = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+//        while((str = brstd.readLine()) != null) {
+//            System.err.println(str);
+//        }
+//        brstd.close();
     }
 
      // オプション登録画面 TODO
@@ -399,14 +442,19 @@ public class CampController extends AbstractRestHandler {
     // 利用規約画面
     @RequestMapping(value="/{user_id}/tos",method = RequestMethod.GET, produces = {"application/json"})
     @ResponseBody
-    public String tos(@PathVariable String user_id) throws Exception{
+    public List tos(@PathVariable String user_id) throws Exception{
         // TosDBに接続して値を取得
-        ObjectMapper mapper = new ObjectMapper();
-        User user = new User();
-        user.setUser_id(user_id);
-        //String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(hotel.getUser_id());
-        String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(user);
-        return json;
+        List tos = tosRepository.selectAll();
+        return tos;
+    }
+
+    // 個人情報規約画面
+    @RequestMapping(value="/{user_id}/personal_info",method = RequestMethod.GET, produces = {"application/json"})
+    @ResponseBody
+    public List pi(@PathVariable String user_id) throws Exception{
+        // TosDBに接続して値を取得
+        List pi = personalInfoRepository.selectAll();
+        return pi;
     }
 
 

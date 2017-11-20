@@ -15,6 +15,12 @@ import java.util.List;
 @Dao
 public interface JobCategoryRepository {
     @Select
-    List<JobCategory> selectAll();
+    List<JobCategory> selectBig();
+
+    @Select
+    List<JobCategory> selectMiddle();
+
+    @Select
+    List<JobCategory> selectSmall();
 
 }

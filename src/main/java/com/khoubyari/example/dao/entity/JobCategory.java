@@ -28,6 +28,17 @@ public class JobCategory {
     @Column(name = "small_category")
     String smallCategory;
 
+    @Column(name = "big_category_id")
+    String bigCategoryId;
+
+    /** */
+    @Column(name = "middle_category_id")
+    String middleCategoryId;
+
+    /** */
+    @Column(name = "small_category_id")
+    String smallCategoryId;
+
     /** 
      * Returns the jobCategoryId.
      * 
@@ -91,12 +102,33 @@ public class JobCategory {
         return smallCategory;
     }
 
-    /** 
-     * Sets the smallCategory.
-     * 
-     * @param smallCategory the smallCategory
-     */
     public void setSmallCategory(String smallCategory) {
         this.smallCategory = smallCategory;
     }
+
+    public String getBigCategoryId() {
+        return bigCategoryId;
+    }
+
+    public void setBigCategoryId(String bigCategoryId) {
+        this.bigCategoryId = bigCategoryId;
+    }
+
+    public void setMiddleCategoryId(String middleCategoryId) {
+        this.middleCategoryId = middleCategoryId;
+    }
+
+    public String getMiddleCategoryId() {
+        return middleCategoryId;
+    }
+
+    public String getSmallCategoryId() {
+        return smallCategoryId;
+    }
+
+    public void setSmallCategoryId(String smallCategoryId) {
+        this.smallCategoryId = smallCategoryId;
+    }
+
+
 }

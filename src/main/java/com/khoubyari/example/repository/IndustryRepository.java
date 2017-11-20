@@ -15,6 +15,12 @@ import java.util.List;
 @Dao
 public interface IndustryRepository {
     @Select
-    List<Industry> selectAll();
+    List<Industry> selectBig();
+
+    @Select
+    List<Industry> selectMiddle();
+
+    @Select
+    List<Industry> selectSmall();
 
 }

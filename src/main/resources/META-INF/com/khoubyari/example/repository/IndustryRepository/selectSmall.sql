@@ -1,0 +1,1 @@
+SELECT big_category_id,middle_category_id,small_category,small_category_id FROM public."Industry";
