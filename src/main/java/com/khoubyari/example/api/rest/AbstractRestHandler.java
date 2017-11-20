@@ -1,6 +1,6 @@
 package com.khoubyari.example.api.rest;
 
-import com.khoubyari.example.domain.RestErrorInfo;
+//import com.khoubyari.example.domain.RestErrorInfo;
 import com.khoubyari.example.exception.DataFormatException;
 import com.khoubyari.example.exception.ResourceNotFoundException;
 import org.slf4j.Logger;
@@ -31,30 +31,30 @@ public abstract class AbstractRestHandler implements ApplicationEventPublisherAw
     protected static final String DEFAULT_PAGE_NUM = "0";
 
     // クライアントにレスポンスを返す際のステータスコード。ここでは400を返す設定？
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    // DataFormatExceptionが発生した場合handleDataStoreExceptionメソッドで対処
-    @ExceptionHandler(DataFormatException.class)
-    public
-    // returnがそのままのレスポンス内容になる
-    @ResponseBody
-    RestErrorInfo handleDataStoreException(DataFormatException ex, WebRequest request, HttpServletResponse response) {
-        log.info("Converting Data Store exception to RestResponse : " + ex.getMessage());
-
-        return new RestErrorInfo(ex, "You messed up.");
-    }
-
-    // クライアントにレスポンスを返す際のステータスコード。ここでは404を返す設定？
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    // ResourceNotFoundExceptionが発生した場合handleResourceNotFoundExceptionメソッドで対処
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public
-    // returnがそのままのレスポンス内容になる
-    @ResponseBody
-    RestErrorInfo handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest request, HttpServletResponse response) {
-        log.info("ResourceNotFoundException handler:" + ex.getMessage());
-
-        return new RestErrorInfo(ex, "Sorry I couldn't find it.");
-    }
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    // DataFormatExceptionが発生した場合handleDataStoreExceptionメソッドで対処
+//    @ExceptionHandler(DataFormatException.class)
+//    public
+//    // returnがそのままのレスポンス内容になる
+//    @ResponseBody
+//    RestErrorInfo handleDataStoreException(DataFormatException ex, WebRequest request, HttpServletResponse response) {
+//        log.info("Converting Data Store exception to RestResponse : " + ex.getMessage());
+//
+//        return new RestErrorInfo(ex, "You messed up.");
+//    }
+//
+//    // クライアントにレスポンスを返す際のステータスコード。ここでは404を返す設定？
+//    @ResponseStatus(HttpStatus.NOT_FOUND)
+//    // ResourceNotFoundExceptionが発生した場合handleResourceNotFoundExceptionメソッドで対処
+//    @ExceptionHandler(ResourceNotFoundException.class)
+//    public
+//    // returnがそのままのレスポンス内容になる
+//    @ResponseBody
+//    RestErrorInfo handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest request, HttpServletResponse response) {
+//        log.info("ResourceNotFoundException handler:" + ex.getMessage());
+//
+//        return new RestErrorInfo(ex, "Sorry I couldn't find it.");
+//    }
 
     @Override
     public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {

@@ -2,12 +2,15 @@
 ### This file is in Yaml format but you can also configure spring boot using the traditional
 ### Java properties file format. 
 
-spring.jmx:
-   enabled: false
+spring:
+  datasource:
+    url: jdbc:postgresql://192.168.50.5:51705/camp
+    username: brainlab_camp
+    password: jCcwRsP1
+    driverClassName: org.postgresql.Driver
+  jmx:
+    enabled: false
 
-spring.datasource:
-    driverClassName: org.h2.Driver
-    url: jdbc:h2:mem:bootexample;MODE=MySQL
 
 server:
   port: 8090

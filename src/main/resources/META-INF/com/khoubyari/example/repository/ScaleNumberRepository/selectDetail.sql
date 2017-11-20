@@ -1,0 +1,1 @@
+select * from public."Scale_number" where scale_number_id=/* scalenumber.getScaleNumberId() */'1';

@@ -1,0 +1,1 @@
+select * from public."User_hope" where user_id=/* userhope.getUserId() */'U1';

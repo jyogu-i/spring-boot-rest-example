@@ -1,0 +1,1 @@
+select * from public."User_previous" where user_id=/* userprevious.getUserId() */'U1';

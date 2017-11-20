@@ -1,0 +1,1 @@
+select * from public."Ca_result_company" where ca_id=/* caresultcompany.getCaId() */'N1';

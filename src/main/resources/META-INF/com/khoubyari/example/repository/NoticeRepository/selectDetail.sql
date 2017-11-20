@@ -1,0 +1,1 @@
+select sender, title, date, notice_message, flg from public."Notice" where notice_id=/* notice.getNoticeId() */'N1';

@@ -25,7 +25,6 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.Random;
 import java.util.regex.Pattern;
 
 import static org.hamcrest.Matchers.*;

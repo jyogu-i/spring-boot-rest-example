@@ -1,0 +1,1 @@
+select * from public."Ca" where ca_id=/* ca.getCaId() */'N1';

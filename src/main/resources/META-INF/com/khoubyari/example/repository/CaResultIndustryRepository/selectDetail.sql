@@ -1,0 +1,1 @@
+select * from public."Ca_result_industry" where ca_id=/* caresultindustry.getCaId() */'N1';

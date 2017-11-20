@@ -1,0 +1,1 @@
+select * from public."Ca_result_job_category" where ca_id=/* caresultjobcategory.getCaId() */'N1';

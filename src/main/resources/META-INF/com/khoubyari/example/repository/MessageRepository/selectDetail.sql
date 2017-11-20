@@ -1,0 +1,1 @@
+select * from public."Message" where chat_id=/* message.getChatId() */1;

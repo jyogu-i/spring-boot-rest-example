@@ -1,0 +1,1 @@
+SELECT * FROM public."Scale_number";
