@@ -45,155 +45,121 @@ public class Ca {
     Integer maxFlg;
 
     @Column(name = "ca_company_place")
-    Integer caCompanyPlace;
+    String caCompanyPlace;
 
     @Column(name = "ca_company_url")
-    Integer caCompanyUrl;
+    String caCompanyUrl;
 
     @Column(name = "phone_number")
-    Integer phoneNumber;
+    String phoneNumber;
 
-    /** 
-     * Returns the caId.
-     * 
-     * @return the caId
-     */
+    @Column(name = "ca_yomigana")
+    String caYomigana;
+
+    @Column(name = "intro_message")
+    String introMessage;
+
     public String getCaId() {
         return caId;
     }
 
-    /** 
-     * Sets the caId.
-     * 
-     * @param caId the caId
-     */
     public void setCaId(String caId) {
         this.caId = caId;
     }
 
-    /** 
-     * Returns the caName.
-     * 
-     * @return the caName
-     */
     public String getCaName() {
         return caName;
     }
 
-    /** 
-     * Sets the caName.
-     * 
-     * @param caName the caName
-     */
     public void setCaName(String caName) {
         this.caName = caName;
     }
 
-    /** 
-     * Returns the genderId.
-     * 
-     * @return the genderId
-     */
     public Integer getGenderId() {
         return genderId;
     }
 
-    /** 
-     * Sets the genderId.
-     * 
-     * @param genderId the genderId
-     */
     public void setGenderId(Integer genderId) {
         this.genderId = genderId;
     }
 
-    /** 
-     * Returns the caCompany.
-     * 
-     * @return the caCompany
-     */
     public String getCaCompany() {
         return caCompany;
     }
 
-    /** 
-     * Sets the caCompany.
-     * 
-     * @param caCompany the caCompany
-     */
     public void setCaCompany(String caCompany) {
         this.caCompany = caCompany;
     }
 
-    /** 
-     * Returns the caImg.
-     * 
-     * @return the caImg
-     */
     public String getCaImg() {
         return caImg;
     }
 
-    /** 
-     * Sets the caImg.
-     * 
-     * @param caImg the caImg
-     */
     public void setCaImg(String caImg) {
         this.caImg = caImg;
     }
 
-    /** 
-     * Returns the placeId.
-     * 
-     * @return the placeId
-     */
     public Integer getPlaceId() {
         return placeId;
     }
 
-    /** 
-     * Sets the placeId.
-     * 
-     * @param placeId the placeId
-     */
     public void setPlaceId(Integer placeId) {
         this.placeId = placeId;
     }
 
-    /** 
-     * Returns the prMessage.
-     * 
-     * @return the prMessage
-     */
     public String getPrMessage() {
         return prMessage;
     }
 
-    /** 
-     * Sets the prMessage.
-     * 
-     * @param prMessage the prMessage
-     */
     public void setPrMessage(String prMessage) {
         this.prMessage = prMessage;
     }
 
-    /** 
-     * Returns the maxFlg.
-     * 
-     * @return the maxFlg
-     */
     public Integer getMaxFlg() {
         return maxFlg;
     }
 
-    /** 
-     * Sets the maxFlg.
-     * 
-     * @param maxFlg the maxFlg
-     */
     public void setMaxFlg(Integer maxFlg) {
         this.maxFlg = maxFlg;
+    }
+
+    public String getCaCompanyPlace() {
+        return caCompanyPlace;
+    }
+
+    public void setCaCompanyPlace(String caCompanyPlace) {
+        this.caCompanyPlace = caCompanyPlace;
+    }
+
+    public String getCaCompanyUrl() {
+        return caCompanyUrl;
+    }
+
+    public void setCaCompanyUrl(String caCompanyUrl) {
+        this.caCompanyUrl = caCompanyUrl;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getCaYomigana() {
+        return caYomigana;
+    }
+
+    public void setCaYomigana(String caYomigana) {
+        this.caYomigana = caYomigana;
+    }
+
+    public String getIntroMessage() {
+        return introMessage;
+    }
+
+    public void setIntroMessag(String introMessage) {
+        this.introMessage = introMessage;
     }
 }

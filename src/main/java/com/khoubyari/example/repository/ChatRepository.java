@@ -21,7 +21,9 @@ public interface ChatRepository {
     @Select
     List<Chat> selectDetail(Chat chat);
 
-    @Insert
-    @Transactional
+    @Select
+    List<Chat> selectApproval(Chat chat);
+
+    @Insert(sqlFile = true)
     int insert(Chat chat);
 }

@@ -3,33 +3,21 @@ package com.khoubyari.example.api.rest;
 import com.khoubyari.example.dao.entity.*;
 import com.khoubyari.example.repository.*;
 import io.swagger.annotations.Api;
-
 import com.khoubyari.example.service.CampService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.*;
-import java.util.Properties;
-import org.python.util.PythonInterpreter;
-import org.python.core.PyInteger;
-import org.python.core.PyObject;
-
 import java.util.List;
 
 
-/*
- * Demonstrates how to set up RESTful API endpoints using Spring MVC
- */
 // コントローラークラスだよっていうおまじない
 @RestController
 @RequestMapping(value = "/v1/api/camp")
@@ -164,17 +152,23 @@ public class CampController extends AbstractRestHandler {
     }
 
     // 初期登録画面 TODO
-    @RequestMapping(value = "/{user_id}/question/basic"
-            //, method = {RequestMethod.GET},consumes = {"application/json"}
+    @RequestMapping(value = "/{user_id}/question/basic", method = {RequestMethod.POST}
+    , consumes =MediaType.ALL_VALUE
             )
-    @ResponseStatus(HttpStatus.OK)
-    public void basic(@PathVariable String user_id
-            //, @RequestBody User user
-    )throws Exception{
+    @ResponseBody
+    public void basic(@PathVariable String user_id, @RequestBody String basic
+    )throws IOException, ServletException{
+        System.out.println("basicの中身＝"+basic);
+        System.out.println(basic.toString());
+        Chat chat = new Chat();
+        chat.setUserId(user_id);
+        chat.setFlg(1);
+
         UserHope userhope=new UserHope();
         userhope.setUserId(user_id);
         userhope.setIndustryId("100");
         userhope.setJobCategoryId("1690");
+        userhope.setScaleNumberId("6");
         //userhopeRepository.insertBasicUserHope(userhope);
 
         UserPrevious userprevious=new UserPrevious();
@@ -204,28 +198,43 @@ public class CampController extends AbstractRestHandler {
         String pre_jc=userprevious.getJobCategoryId().substring(0);
         String pre_in=userprevious.getIndustryId().substring(0);
 
-//        List<Str>
-//        //AIシステムへ
-//        String[] cmd = {"/Users/sekipon/anaconda3/bin/python3","1114_random_forest_ok.py","25","0"
-//                ,user.getTimesId(),pre_in,pre_jc,hope_in,hope_jc
-//                ,userprevious.getIndustryId(),userprevious.getJobCategoryId()};
-//
-//        ProcessBuilder pb = new ProcessBuilder(cmd);
-//        Process proc = pb.start();
-//
-//        String str;
-//
-//        BufferedReader brerr = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
-//        while((str = brerr.readLine()) != null) {
-//            System.err.println(str);
-//        }
-//        brerr.close();
-//
-//        BufferedReader brstd = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-//        while((str = brstd.readLine()) != null) {
-//            System.err.println(str);
-//        }
-//        brstd.close();
+        //AIシステムへ
+        String[] cmd = {"/Users/sekipon/anaconda3/bin/python3","1121_rf_match.py", String.valueOf(user.getAge())
+                ,user.getGenderId(),user.getTimesId(),pre_in,pre_jc,hope_in,hope_jc,userhope.getScaleNumberId()};
+
+        ProcessBuilder pb = new ProcessBuilder(cmd);
+        Process proc = pb.start();
+
+        String str;
+
+        //　エラーの場合
+        BufferedReader brerr = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
+        while((str = brerr.readLine()) != null) {
+            System.err.println(str);
+        }
+        brerr.close();
+
+        BufferedReader brstd = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+
+        while((str = brstd.readLine()) != null) {
+            // 配列を分解
+            String[] fruit = str.split(",", 0);
+            System.err.println(str);
+
+            for (String s:fruit) {
+                // "["と"]"を除去
+                s=s.replace("[","");
+                s=s.replace("]","");
+                s=s.replace(" ","");
+                s.trim();
+                //System.out.println(s);
+                chat.setCaId(s);
+                chatRepository.insert(chat);
+//                List a = chatRepository.selectApproval(chat);
+//                System.out.println("aの値は"+a);
+            }
+        }
+        brstd.close();
     }
 
      // オプション登録画面 TODO
@@ -354,7 +363,7 @@ public class CampController extends AbstractRestHandler {
         userreviewRepository.insert(userreview);
     }
 
-    // ca一覧 chatテーブルにいるCAさんの一覧情報を全て返す　Todo
+    // ca一覧 chatテーブルにいるCAさんの一覧情報を全て返す(flg=2)
     @RequestMapping(value="/{user_id}/ca",method=RequestMethod.GET,produces = {"application/json"})
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -386,7 +395,7 @@ public class CampController extends AbstractRestHandler {
         return caDetail;
   }
 
-    // チャット一覧 Todo チャットが始まってるのだけ返す
+    // チャット一覧 Todo チャットが始まってるのだけ返す?
     @RequestMapping(value = "/{user_id}/chat", method = RequestMethod.GET, produces = {"application/json"})
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody

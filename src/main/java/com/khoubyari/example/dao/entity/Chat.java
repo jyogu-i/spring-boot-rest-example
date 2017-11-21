@@ -1,20 +1,18 @@
 package com.khoubyari.example.dao.entity;
 
-import org.seasar.doma.Column;
-import org.seasar.doma.Entity;
-import org.seasar.doma.Id;
-import org.seasar.doma.Table;
+import org.seasar.doma.*;
 
 /**
  */
 @Entity
-@Table(name = "chat")
+@Table(name = "Chat")
 public class Chat {
 
     /** */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chat_id")
-    Integer chatId;
+    int chatId;
 
     /** */
     @Column(name = "user_id")
@@ -23,6 +21,12 @@ public class Chat {
     /** */
     @Column(name = "ca_id")
     String caId;
+
+    @Column(name = "flg")
+    int flg;
+
+    @Column(name = "count")
+    int count;
 
     /** 
      * Returns the chatId.
@@ -60,21 +64,27 @@ public class Chat {
         this.userId = userId;
     }
 
-    /** 
-     * Returns the caId.
-     * 
-     * @return the caId
-     */
     public String getCaId() {
         return caId;
     }
 
-    /** 
-     * Sets the caId.
-     * 
-     * @param caId the caId
-     */
     public void setCaId(String caId) {
         this.caId = caId;
+    }
+
+    public int getFlg() {
+        return flg;
+    }
+
+    public void setFlg(int flg) {
+        this.flg = flg;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }

@@ -74,65 +74,30 @@ public class UserHope {
         return companyName;
     }
 
-    /** 
-     * Sets the companyName.
-     * 
-     * @param companyName the companyName
-     */
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
 
-    /** 
-     * Returns the placeId.
-     * 
-     * @return the placeId
-     */
     public String getPlaceId() {
         return placeId;
     }
 
-    /** 
-     * Sets the placeId.
-     * 
-     * @param placeId the placeId
-     */
     public void setPlaceId(String placeId) {
         this.placeId = placeId;
     }
 
-    /** 
-     * Returns the income.
-     * 
-     * @return the income
-     */
     public Integer getIncome() {
         return income;
     }
 
-    /** 
-     * Sets the income.
-     * 
-     * @param income the income
-     */
     public void setIncome(Integer income) {
         this.income = income;
     }
 
-    /** 
-     * Returns the scaleId.
-     * 
-     * @return the scaleId
-     */
     public String getScaleNumberId() {
         return scaleNumberId;
     }
 
-    /** 
-     * Sets the scaleId.
-     * 
-     * @param scaleNumberId the scaleId
-     */
     public void setScaleNumberId(String scaleNumberId) {
         this.scaleNumberId = scaleNumberId;
     }
@@ -177,29 +142,14 @@ public class UserHope {
         return industryId;
     }
 
-    /** 
-     * Sets the industryId.
-     * 
-     * @param industryId the industryId
-     */
     public void setIndustryId(String industryId) {
         this.industryId = industryId;
     }
 
-    /** 
-     * Returns the jobCategoryId.
-     * 
-     * @return the jobCategoryId
-     */
     public String getJobCategoryId() {
         return jobCategoryId;
     }
 
-    /** 
-     * Sets the jobCategoryId.
-     * 
-     * @param jobCategoryId the jobCategoryId
-     */
     public void setJobCategoryId(String jobCategoryId) {
         this.jobCategoryId = jobCategoryId;
     }

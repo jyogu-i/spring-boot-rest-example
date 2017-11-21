@@ -1,5 +1,7 @@
 package com.khoubyari.example.dao.entity;
 
+import net.minidev.json.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
 import org.seasar.doma.Id;
@@ -9,6 +11,7 @@ import org.seasar.doma.Table;
  */
 @Entity
 @Table(name = "user")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
 
     /** */
@@ -71,6 +74,8 @@ public class User {
     /** */
     @Column(name = "password")
     String password;
+
+
 
     /** 
      * Returns the userId.
