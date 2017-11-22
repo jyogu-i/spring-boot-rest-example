@@ -28,4 +28,7 @@ public interface UserRepository {
 
     @Update(sqlFile = true)
     int updateMyprofileUser(User user);
+
+    @Update(sqlFile = true)
+    int updateOptionUser(User user);
 }

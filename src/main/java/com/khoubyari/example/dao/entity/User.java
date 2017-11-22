@@ -248,20 +248,10 @@ public class User {
         return skill;
     }
 
-    /** 
-     * Sets the skill.
-     * 
-     * @param skill the skill
-     */
     public void setSkill(String skill) {
         this.skill = skill;
     }
 
-    /** 
-     * Returns the timingId.
-     * 
-     * @return the timingId
-     */
     public String getTimingId() {
         return timingId;
     }

@@ -19,7 +19,7 @@ public interface ChatRepository {
     List<Chat> selectAll();
 
     @Select
-    List<Chat> selectDetail(Chat chat);
+    List<Chat> selectCaList(Chat chat);
 
     @Select
     List<Chat> selectApproval(Chat chat);

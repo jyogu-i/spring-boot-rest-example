@@ -4,6 +4,7 @@ import com.khoubyari.example.dao.entity.*;
 import com.khoubyari.example.repository.*;
 import io.swagger.annotations.Api;
 import com.khoubyari.example.service.CampService;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,6 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+
 import java.io.*;
 import java.util.List;
 
@@ -23,6 +28,9 @@ import java.util.List;
 @RequestMapping(value = "/v1/api/camp")
 @Api(tags = {"camp"})
 public class CampController extends AbstractRestHandler {
+    @Autowired
+    private ResourceLoader resourceLoader;
+
     @Autowired
     private CampService campService;
 
@@ -151,48 +159,66 @@ public class CampController extends AbstractRestHandler {
         return login.toString();
     }
 
-    // 初期登録画面 TODO
-    @RequestMapping(value = "/{user_id}/question/basic", method = {RequestMethod.POST}
-    , consumes =MediaType.ALL_VALUE
-            )
+    // ログイン画面 TODO
+    @RequestMapping(value = "/test", method = {RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_VALUE
+    )
     @ResponseBody
-    public void basic(@PathVariable String user_id, @RequestBody String basic
-    )throws IOException, ServletException{
-        System.out.println("basicの中身＝"+basic);
-        System.out.println(basic.toString());
+    public Basic a()throws IOException{
+        String json="{\"gender\":\"女性\",\"age\":\"23\",\"academic\":\"\",\"school\":\"o\",\"major\":\"10\",\"p_company_name\":\"p\",\"joined_year\":\"2017\",\"p_job_category\":\"4\"}\n";
+        ObjectMapper mapper = new ObjectMapper();
+        Basic hoge = mapper.readValue(json, Basic.class);
+        System.err.println(hoge.getAge());
+        System.err.println(hoge.getSchool());
+        return hoge;
+    }
+
+    // 初期登録画面
+    @RequestMapping(value = "/{user_id}/question/basic", method = {RequestMethod.POST}, consumes =MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String basic(@PathVariable String user_id, @RequestBody String json)throws IOException
+    {
+        System.err.println("basicの中身＝"+json);
+        ObjectMapper mapper = new ObjectMapper();
+        Basic basic = mapper.readValue(json, Basic.class);
+
         Chat chat = new Chat();
         chat.setUserId(user_id);
         chat.setFlg(1);
 
         UserHope userhope=new UserHope();
         userhope.setUserId(user_id);
-        userhope.setIndustryId("100");
-        userhope.setJobCategoryId("1690");
+        // ToDo
+        userhope.setIndustryId(basic.getHIndustry());
+        userhope.setJobCategoryId("あとで");
+
+        // オプション項目できくけど一旦６にする
         userhope.setScaleNumberId("6");
         //userhopeRepository.insertBasicUserHope(userhope);
 
         UserPrevious userprevious=new UserPrevious();
         userprevious.setUserId(user_id);
-        userprevious.setCompanyName("kocchi");
-        userprevious.setIndustryId("A230");
-        userprevious.setJobCategoryId("0999");
-        userprevious.setJoinedYear(1900);
+        userprevious.setCompanyName(basic.getPCompanyName());
+        userprevious.setIndustryId(basic.getPIndustry());
+        // ToDo
+        userprevious.setJobCategoryId("あとで");
+        userprevious.setJoinedYear(basic.getJoinedYear());
        // userpreviousRepository.insertOptionUserPrevious(userprevious);
 
         User user=new User();
         user.setUserId(user_id);
-        user.setAcademicId("0");
-        user.setAge(24);
-        user.setEnglishId("2");
-        user.setGenderId("1");
-        user.setMajorId("1");
-        user.setSchool("hogeUniv");
-        user.setTimingId("1");
-        user.setTermId("2");
-        user.setTimesId("4");
+        user.setAcademicId(basic.getAcademic());
+        user.setAge(basic.getAge());
+        user.setEnglishId(basic.getEnglish());
+        user.setGenderId(basic.getGender());
+        user.setMajorId(basic.getMajor());
+        user.setSchool(basic.getSchool());
+        user.setTimingId(basic.getTimingId());
+        user.setTermId(basic.getTermId());
+        user.setTimesId(basic.getTimesId());
         //userRepository.insertOptionUser(user);
 
         String hope_jc=userhope.getJobCategoryId().substring(0);
+        System.err.println("iiiii"+basic.getHIndustry());
         String hope_in=userhope.getIndustryId().substring(0);
 
         String pre_jc=userprevious.getJobCategoryId().substring(0);
@@ -227,37 +253,42 @@ public class CampController extends AbstractRestHandler {
                 s=s.replace("]","");
                 s=s.replace(" ","");
                 s.trim();
-                //System.out.println(s);
                 chat.setCaId(s);
                 chatRepository.insert(chat);
-//                List a = chatRepository.selectApproval(chat);
-//                System.out.println("aの値は"+a);
             }
         }
         brstd.close();
+        System.err.println("キタコレ");
+        return "完了";
     }
 
-     // オプション登録画面 TODO
+     // オプション登録画面
     @RequestMapping(value = "/{user_id}/question/option", method = {RequestMethod.POST}, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public void option(@RequestBody User option,@PathVariable String user_id){
+    public void option(@RequestBody String json,@PathVariable String user_id)throws IOException{
+        System.err.println("optionの中身＝"+json);
+        ObjectMapper mapper = new ObjectMapper();
+        Option option = mapper.readValue(json, Option.class);
+
         UserHope userhope=new UserHope();
         userhope.setUserId(user_id);
-        userhope.setPlaceId("100");
-        userhope.setCompanyName("株式会社テスト");
-        userhope.setIncome(1);
-        userhope.setWorkId("3");
-        userhope.setScaleNumberId("3");
-        userhope.setScaleTypeId("2");
-        userhopeRepository.insertOptionUserHope(userhope);
+        userhope.setPlaceId(option.getPlaceId());
+        userhope.setCompanyName(option.getCompanyName());
+        userhope.setIncome(option.getIncome());
+        userhope.setWorkId(option.getWorkId());
+        userhope.setScaleNumberId(option.getScaleNumberId());
+        userhope.setScaleTypeId(option.getScaleTypeId());
+        userhopeRepository.updateOptionUserHope(userhope);
 
         User user=new User();
         user.setUserId(user_id);
-        user.setSkill("0");
-        userRepository.insertBasicUser(user);
+        // ToDo スキル複数どうする
+        user.setSkill(option.getSkill());
+        userRepository.updateOptionUser(user);
 
         System.out.println(user);
+        //ToDo Python処理
     }
 
     // マイプロフィール画面 プロフィール一覧をフロントに送信
@@ -274,92 +305,106 @@ public class CampController extends AbstractRestHandler {
         List userLists = userRepository.selectUser(user);
         userLists.add(userhopeRepository.selectUserHope(userhope));
         userLists.add(userpreviousRepository.selectUserPrevious(userprevious));
+
         return userLists;
     }
 
-    // プロフィール登録画面　新しく登録し直す TODO
-    @RequestMapping(value = "/{user_id}/myprofile"
-          //  , method = {RequestMethod.POST}, consumes ={"application/json"}
-            )
+    // プロフィール登録画面　新しく登録し直す
+    @RequestMapping(value = "/{user_id}/myprofile", method = {RequestMethod.POST}, consumes ={"application/json"})
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public void myprofile(
-           // @RequestBody User myprofile,
-           @PathVariable String user_id
-    ){
+    public void myprofile(@RequestBody String json, @PathVariable String user_id)throws IOException{
+        System.err.println("myprofileの中身＝"+json);
+        ObjectMapper mapper = new ObjectMapper();
+        Myprofile myprofile = mapper.readValue(json, Myprofile.class);
+
         UserHope userhope=new UserHope();
         userhope.setUserId(user_id);
+        // ToDo
         userhope.setIndustryId("100");
-        userhope.setPlaceId("100");
-        userhope.setCompanyName("株式会社テスト");
-        userhope.setIncome(1);
-        userhope.setWorkId("3");
-        userhope.setScaleTypeId("3");
-        userhope.setScaleNumberId("1");
+
+        userhope.setPlaceId(myprofile.getPlaceId());
+        userhope.setCompanyName(myprofile.getCompanyName());
+        userhope.setIncome(myprofile.getIncome());
+        userhope.setWorkId(myprofile.getWorkId());
+        userhope.setScaleTypeId(myprofile.getScaleTypeId());
+        userhope.setScaleNumberId(myprofile.getScaleNumberId());
+
+        //Todo
         userhope.setJobCategoryId("1690");
         userhopeRepository.updateMyprofileUserHope(userhope);
 
-        //ToDo previous_idをもらってそれを元にUPDATEしないといけない
+        //会社の数だけ繰り返すfor文
+        //previous_idはAutoIncrementで生成しているので、更新時は前のものは全てDeleteし、新しくinsertする
         UserPrevious userprevious=new UserPrevious();
         userprevious.setUserId(user_id);
-        userprevious.setCompanyName("kocchi");
+        userpreviousRepository.delete(userprevious);
+        userprevious.setCompanyName(myprofile.getCompanyName());
+        //Todo
         userprevious.setJobCategoryId("0999");
-        userprevious.setJoinedYear(1900);
+        userprevious.setJoinedYear(myprofile.getJoinedYear());
         userpreviousRepository.updateMyprofileUserPrevious(userprevious);
 
         User user=new User();
         user.setUserId(user_id);
-        user.setAcademicId("0");
-        user.setAge(24);
-        user.setEnglishId("2");
-        user.setGenderId("1");
-        user.setMajorId("1");
-        user.setSchool("hogeUniv");
-        user.setTimingId("1");
-        user.setTermId("2");
-        user.setTimesId("4");
-        user.setSkill("0");
+        user.setAcademicId(myprofile.getAcademicId());
+        user.setAge(myprofile.getAge());
+        user.setEnglishId(myprofile.getEnglishId());
+        user.setGenderId(myprofile.getGenderId());
+        user.setMajorId(myprofile.getMajorId());
+        user.setSchool(myprofile.getSchool());
+        user.setTimingId(myprofile.getTimingId());
+        user.setTermId(myprofile.getTermId());
+        user.setTimesId(myprofile.getTimesId());
+        // ToDO
+        user.setSkill(myprofile.getSkill());
         userRepository.updateMyprofileUser(user);
 
         System.out.println(user);
     }
 
-    // お問い合わせ画面 TODO
+    // お問い合わせ画面
     @RequestMapping(value = "/{user_id}/contact", method = {RequestMethod.POST}, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public void contact(@RequestBody Contact contact,@PathVariable String user_id){
+    public void contact(@RequestBody String json,@PathVariable String user_id)throws IOException{
         // IDはクエリから取得
-        Contact contactList=new Contact();
+        System.err.println("jsonの中身＝"+json);
+        ObjectMapper mapper = new ObjectMapper();
+        Contact contact = mapper.readValue(json, Contact.class);
         contact.setRequesterId(user_id);
-        contact.setContactMessage("");
+        contact.setContactMessage(contact.getContactMessage());
         contactRepository.insert(contact);
     }
 
-    // campへのご要望画面 TODO
+    // campへのご要望画面
     @RequestMapping(value = "/{user_id}/camp_request", method = {RequestMethod.POST}, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public void camp_request(@RequestBody Request camp_request, @PathVariable String user_id){
-        Request request = new Request();
+    public void camp_request(@RequestBody String json, @PathVariable String user_id)throws IOException{
+        System.err.println("jsonの中身＝"+json);
+        ObjectMapper mapper = new ObjectMapper();
+        Request request = mapper.readValue(json, Request.class);
         request.setRequesterId(user_id);
-        request.setRequestMessage("");
+        request.setRequestMessage(request.getRequestMessage());
         requestRepository.insert(request);
     }
 
-    // ユーザからの評価画面 Todo
+    // ユーザからの評価画面
     @RequestMapping(value = "/{user_id}/review", method = {RequestMethod.POST}, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public void review(@RequestBody UserReview review, @PathVariable String user_id){
-        UserReview userreview = new UserReview();
+    public void review(@RequestBody String json, @PathVariable String user_id)throws IOException{
+        System.err.println("jsonの中身＝"+json);
+        ObjectMapper mapper = new ObjectMapper();
+        UserReview userreview = mapper.readValue(json, UserReview.class);
         userreview.setUserId(user_id);
-        userreview.setCaId("");
-        userreview.setInterview(3);
-        userreview.setReviewCompany(3);
-        userreview.setSelection(3);
-        userreview.setSynthesis(3);
-        userreview.setReviewMessage("");
+        userreview.setCaId(userreview.getCaId());
+        userreview.setInterview(userreview.getInterview());
+        userreview.setReviewCompany(userreview.getReviewCompany());
+        userreview.setSelection(userreview.getSelection());
+        userreview.setSynthesis(userreview.getSynthesis());
+        userreview.setReviewMessage(userreview.getReviewMessage());
         userreviewRepository.insert(userreview);
     }
 
@@ -371,7 +416,7 @@ public class CampController extends AbstractRestHandler {
                          HttpServletRequest request, HttpServletResponse response) throws Exception {
         Chat chat = new Chat();
         chat.setUserId(user_id);
-        List chatLists = chatRepository.selectDetail(chat);
+        List chatLists = chatRepository.selectCaList(chat);
         return chatLists;
     }
 
@@ -402,7 +447,7 @@ public class CampController extends AbstractRestHandler {
     public List chat_list(@PathVariable String user_id) throws Exception{
         Chat chat = new Chat();
         chat.setUserId(user_id);
-        List chatLists = chatRepository.selectDetail(chat);
+        List chatLists = chatRepository.selectCaList(chat);
         return chatLists;
     }
 
@@ -432,7 +477,6 @@ public class CampController extends AbstractRestHandler {
     @ResponseBody
     public List notice_detail(@PathVariable String user_id,@PathVariable String notice_id) throws Exception{
         // noticeDBに接続して値を取得
-        System.err.println(notice_id);
         Notice notice = new Notice();
         notice.setNoticeId(notice_id);
         List noticeDetail = noticeRepository.selectDetail(notice);
@@ -466,84 +510,4 @@ public class CampController extends AbstractRestHandler {
         return pi;
     }
 
-
-   /* @RequestMapping(value = "ここにURL入れる？",
-            method = RequestMethod.POST,
-            consumes = {"application/json", "application/xml"},
-            produces = {"application/json", "application/xml"})
-    // httpステータスコードを返す。ここは201
-    @ResponseStatus(HttpStatus.CREATED)
-
-    // APIの操作や、パスなどの情報を設定
-    @ApiOperation(value = "Create a hotel resource.", notes = "Returns the URL of the new resource in the Location header.")
-    public void createHotel(@RequestBody Hotel hotel,
-                                 HttpServletRequest request, HttpServletResponse response) {
-        Hotel createdHotel = this.campService.createHotel(hotel);
-        response.setHeader("Location", request.getRequestURL().append("/").append(createdHotel.getId()).toString());
-    }*/
-
-    /*@RequestMapping(value = "URL？",
-            method = RequestMethod.GET,
-            produces = {"application/json", "application/xml"})
-    @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Get a paginated list of all hotels.", notes = "The list is paginated. You can provide a page number (default 0) and a page size (default 100)")
-    public
-    @ResponseBody
-    // APIの値に関する情報を設定
-    Page<User> getAllHotel(@ApiParam(value = "The page number (zero-based)", required = true)
-                                      @RequestParam(value = "page", required = true, defaultValue = DEFAULT_PAGE_NUM) Integer page,
-                                      @ApiParam(value = "Tha page size", required = true)
-                                      @RequestParam(value = "size", required = true, defaultValue = DEFAULT_PAGE_SIZE) Integer size,
-                                      HttpServletRequest request, HttpServletResponse response) {
-        return this.campService.getAllHotels(page, size);
-    }*/
-
-    // URLとの紐付けしている？
-//    @RequestMapping(value = "前にURL？/{id}",
-//            method = RequestMethod.POST,
-//            produces = {"application/json", "application/xml"})
-//    @ResponseStatus(HttpStatus.OK)
-//    // APIの操作や、パスなどの情報を設定/該当するIDを渡す
-//    @ApiOperation(value = "Get a single hotel.", notes = "You have to provide a valid hotel ID.")
-//    public
-//    @ResponseBody
-//        // APIの値に関する情報を設定
-//        // @RequestMappingと対応するパラメータを@PathVariableの引数に渡す
-//    User getHotel(@ApiParam(value = "The ID of the hotel.", required = true)
-//                             @PathVariable("id") String user_id,
-//                             HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        User hotel = this.campService.getUser(user_id);
-//        checkResourceFound(hotel);
-//        //todo: http://goo.gl/6iNAkz
-//        return hotel;
-//    }
-
-    /*@RequestMapping(value = "/{id}",
-            method = RequestMethod.PUT,
-            consumes = {"application/json", "application/xml"},
-            produces = {"application/json", "application/xml"})
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    // APIの操作や、パスなどの情報を設定/該当するIDを渡す
-    @ApiOperation(value = "Update a hotel resource.", notes = "You have to provide a valid hotel ID in the URL and in the payload. The ID attribute can not be updated.")
-    // @RequestMappingと対応するパラメータを@PathVariableの引数に渡す
-    public void updateHotel(@ApiParam(value = "The ID of the existing hotel resource.", required = true)
-                                 @PathVariable("id") Long id, @RequestBody Hotel hotel,
-                                 HttpServletRequest request, HttpServletResponse response) {
-        checkResourceFound(this.campService.getHotel(id));
-        if (id != hotel.getId()) throw new DataFormatException("ID doesn't match!");
-        this.campService.updateHotel(hotel);
-    }*/
-
-    //todo: @ApiImplicitParams, @ApiResponses
-//    @RequestMapping(value = "/{id}",
-//            method = RequestMethod.DELETE,
-//            produces = {"application/json", "application/xml"})
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    @ApiOperation(value = "Delete a hotel resource.", notes = "You have to provide a valid hotel ID in the URL. Once deleted the resource can not be recovered.")
-//    public void deleteHotel(@ApiParam(value = "The ID of the existing hotel resource.", required = true)
-//                                 @PathVariable("id") String user_id, HttpServletRequest request,
-//                                 HttpServletResponse response) {
-//        checkResourceFound(this.campService.getUser(user_id));
-//        this.campService.deleteUser(user_id);
-//    }
 }

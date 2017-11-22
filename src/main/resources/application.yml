@@ -11,6 +11,12 @@ spring:
   jmx:
     enabled: false
 
+cloud.aws:
+  credentials:
+    accessKey: AKIAJ7D5XZGL5SZ5XKNA
+    secretKey: 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
+  region:
+    static: ${AWS_DEFAULT_REGION}
 
 server:
   port: 8090

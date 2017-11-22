@@ -4,10 +4,7 @@ package com.khoubyari.example.repository;
 import com.khoubyari.example.annotation.ConfigAutoDefault;
 import com.khoubyari.example.dao.entity.UserHope;
 import com.khoubyari.example.dao.entity.UserPrevious;
-import org.seasar.doma.Dao;
-import org.seasar.doma.Insert;
-import org.seasar.doma.Select;
-import org.seasar.doma.Update;
+import org.seasar.doma.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -29,6 +26,9 @@ public interface UserPreviousRepository {
 
     @Update(sqlFile = true)
     int updateMyprofileUserPrevious(UserPrevious userprevious);
+
+    @Delete(sqlFile = true)
+    int delete(UserPrevious userprevious);
 
 //    @Insert
 //    @Transactional

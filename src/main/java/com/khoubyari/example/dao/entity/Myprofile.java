@@ -1,15 +1,11 @@
 package com.khoubyari.example.dao.entity;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.seasar.doma.Column;
-import org.seasar.doma.Entity;
-import org.seasar.doma.Id;
-import org.seasar.doma.Table;
 
 import java.io.Serializable;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Basic implements Serializable{
+public class Myprofile implements Serializable{
     private static final long serialVersionUID = 1L;
 
     String userId;
@@ -54,6 +50,17 @@ public class Basic implements Serializable{
 
     String mail;
 
+    String companyName;
+
+    String placeId;
+
+    Integer income;
+
+    String scaleNumberId;
+
+    String scaleTypeId;
+
+    String workId;
 
 
     public String getUser() {
@@ -64,11 +71,11 @@ public class Basic implements Serializable{
         this.userId = userId;
     }
 
-    public String getGender() {
+    public String getGenderId() {
         return genderId;
     }
 
-    public void setGender(String gender) {
+    public void setGender(String genderId) {
         this.genderId = genderId;
     }
 
@@ -80,12 +87,12 @@ public class Basic implements Serializable{
         this.age = age;
     }
 
-    public String getAcademic() {
+    public String getAcademicId() {
         return academicId;
     }
 
-    public void setAcademic(String academic) {
-        this.academicId = academic;
+    public void setAcademicId(String academicId) {
+        this.academicId = academicId;
     }
 
     public String getSchool() {
@@ -96,7 +103,7 @@ public class Basic implements Serializable{
         this.school = school;
     }
 
-    public String getMajor() {
+    public String getMajorId() {
         return majorId;
     }
 
@@ -112,11 +119,11 @@ public class Basic implements Serializable{
         this.timesId = timesId;
     }
 
-    public String getEnglish() {
+    public String getEnglishId() {
         return englishId;
     }
 
-    public void setEnglish(String englishId) {
+    public void setEnglishId(String englishId) {
         this.englishId = englishId;
     }
 
@@ -124,7 +131,7 @@ public class Basic implements Serializable{
         return termId;
     }
 
-    public void setTermId(String termId) {
+    public void setTerm(String termId) {
         this.termId = termId;
     }
 
@@ -222,6 +229,54 @@ public class Basic implements Serializable{
 
     public void setPCompanyName(String p_company_name) {
         this.p_company_name = p_company_name;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getPlaceId() {
+        return placeId;
+    }
+
+    public void setPlaceId(String placeId) {
+        this.placeId = placeId;
+    }
+
+    public Integer getIncome() {
+        return income;
+    }
+
+    public void setIncome(Integer income) {
+        this.income = income;
+    }
+
+    public String getScaleNumberId() {
+        return scaleNumberId;
+    }
+
+    public void setScaleNumberId(String scaleNumberId) {
+        this.scaleNumberId = scaleNumberId;
+    }
+
+    public String getScaleTypeId() {
+        return scaleTypeId;
+    }
+
+    public void setScaleTypeId(String scaleTypeId) {
+        this.scaleTypeId = scaleTypeId;
+    }
+
+    public String getWorkId() {
+        return workId;
+    }
+
+    public void setWorkId(String workId) {
+        this.workId = workId;
     }
 
 

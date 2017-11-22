@@ -33,6 +33,23 @@
         </dependencies>
     </dependencyManagement>
 
+    <!-- 11/22追加 -->
+    <repositories>
+        <repository>
+            <id>s3-repos</id>
+            <name>AWS S3 Repository</name>
+            <url>s3://your-bucket/</url>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>aws-snapshot</id>
+            <name>AWS S3 Repository</name>
+            <url>s3://your-bucket/snapshot</url>
+        </repository>
+    </distributionManagement>
+
     <dependencies>
 
         <dependency>
@@ -191,6 +208,18 @@
             <version>2.7.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk</artifactId>
+            <version>1.11.76</version>
+        </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.cloud</groupId>-->
+            <!--<artifactId>spring-cloud-aws-autoconfigure</artifactId>-->
+            <!--<version>1.0.2.RELEASE</version>-->
+        <!--</dependency>-->
+
     </dependencies>
 
     <build>
@@ -210,6 +239,7 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+
             <!-- Spring boot support -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>

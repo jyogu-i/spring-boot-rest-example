@@ -27,5 +27,8 @@ public interface UserHopeRepository {
     int insertOptionUserHope(UserHope userhope);
 
     @Update(sqlFile = true)
+    int updateOptionUserHope(UserHope userhope);
+
+    @Update(sqlFile = true)
     int updateMyprofileUserHope(UserHope userhope);
 }
