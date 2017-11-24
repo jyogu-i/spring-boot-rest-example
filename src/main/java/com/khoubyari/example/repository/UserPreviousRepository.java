@@ -19,6 +19,10 @@ public interface UserPreviousRepository {
     List<UserPrevious> selectUserPrevious(UserPrevious userprevious);
 
     @Insert(sqlFile = true)
+    int insert(UserPrevious userprevious);
+
+
+    @Insert(sqlFile = true)
     int insertBasicUserPrevious(UserPrevious userprevious);
 
     @Insert(sqlFile = true)

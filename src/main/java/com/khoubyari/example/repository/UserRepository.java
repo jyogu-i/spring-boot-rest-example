@@ -21,6 +21,9 @@ public interface UserRepository {
     List<User> selectUser(User user);
 
     @Insert(sqlFile = true)
+    int insert(User user);
+
+    @Insert(sqlFile = true)
     int insertBasicUser(User user);
 
     @Insert(sqlFile = true)

@@ -16,7 +16,7 @@ cloud.aws:
     accessKey: AKIAJ7D5XZGL5SZ5XKNA
     secretKey: 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
   region:
-    static: ${AWS_DEFAULT_REGION}
+    static: ap-northeast-1
 
 server:
   port: 8090

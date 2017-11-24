@@ -21,6 +21,9 @@ public interface UserHopeRepository {
     List<UserHope> selectUserHope(UserHope userhope);
 
     @Insert(sqlFile = true)
+    int insert(UserHope userhope);
+
+    @Insert(sqlFile = true)
     int insertBasicUserHope(UserHope userhope);
 
     @Insert(sqlFile = true)

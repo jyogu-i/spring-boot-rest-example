@@ -54,7 +54,7 @@ public class Myprofile implements Serializable{
 
     String placeId;
 
-    Integer income;
+    String income;
 
     String scaleNumberId;
 
@@ -247,11 +247,11 @@ public class Myprofile implements Serializable{
         this.placeId = placeId;
     }
 
-    public Integer getIncome() {
+    public String getIncome() {
         return income;
     }
 
-    public void setIncome(Integer income) {
+    public void setIncome(String income) {
         this.income = income;
     }
 

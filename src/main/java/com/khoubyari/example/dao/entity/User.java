@@ -76,7 +76,6 @@ public class User {
     String password;
 
 
-
     /** 
      * Returns the userId.
      * 

@@ -26,7 +26,7 @@ public class UserHope {
 
     /** */
     @Column(name = "income")
-    Integer income;
+    String income;
 
     /** */
     @Column(name = "scale_number_id")
@@ -86,11 +86,11 @@ public class UserHope {
         this.placeId = placeId;
     }
 
-    public Integer getIncome() {
+    public String getIncome() {
         return income;
     }
 
-    public void setIncome(Integer income) {
+    public void setIncome(String income) {
         this.income = income;
     }
 

@@ -159,7 +159,7 @@ public class CampController extends AbstractRestHandler {
         return login.toString();
     }
 
-    // ログイン画面 TODO
+    // test画面 TODO
     @RequestMapping(value = "/test", method = {RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseBody
@@ -171,62 +171,31 @@ public class CampController extends AbstractRestHandler {
         System.err.println(hoge.getSchool());
         return hoge;
     }
+    @RequestMapping(value="/s3/{filename}", method=RequestMethod.GET)
+    public void download(@PathVariable String filename) throws IOException {
+        Resource resource = this.resourceLoader.getResource("s3://careerup-camp.jp/assets/img" + filename);
+        InputStream input = resource.getInputStream();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+        String str = new String();
+        StringBuilder builder = new StringBuilder();
+        while ((str = reader.readLine()) != null) {
+            builder.append(str);
+            //System.err.println("キタコレ"+builder.toString());
+        };
 
-    // 初期登録画面
-    @RequestMapping(value = "/{user_id}/question/basic", method = {RequestMethod.POST}, consumes =MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public String basic(@PathVariable String user_id, @RequestBody String json)throws IOException
-    {
-        System.err.println("basicの中身＝"+json);
-        ObjectMapper mapper = new ObjectMapper();
-        Basic basic = mapper.readValue(json, Basic.class);
+        File file = new File("s3://careerup-camp.jp/assets");
+        FileWriter writer = new FileWriter(file);
+        writer.write(builder.toString());
 
+        writer.close();
+        reader.close();
+        input.close();
+    }
+
+    public void python(String user_id,int age,String gender,String times,String big_p_ind,String big_p_jc,String big_h_in,String big_h_jc,String scale_number)throws IOException{
         Chat chat = new Chat();
-        chat.setUserId(user_id);
-        chat.setFlg(1);
-
-        UserHope userhope=new UserHope();
-        userhope.setUserId(user_id);
-        // ToDo
-        userhope.setIndustryId(basic.getHIndustry());
-        userhope.setJobCategoryId("あとで");
-
-        // オプション項目できくけど一旦６にする
-        userhope.setScaleNumberId("6");
-        //userhopeRepository.insertBasicUserHope(userhope);
-
-        UserPrevious userprevious=new UserPrevious();
-        userprevious.setUserId(user_id);
-        userprevious.setCompanyName(basic.getPCompanyName());
-        userprevious.setIndustryId(basic.getPIndustry());
-        // ToDo
-        userprevious.setJobCategoryId("あとで");
-        userprevious.setJoinedYear(basic.getJoinedYear());
-       // userpreviousRepository.insertOptionUserPrevious(userprevious);
-
-        User user=new User();
-        user.setUserId(user_id);
-        user.setAcademicId(basic.getAcademic());
-        user.setAge(basic.getAge());
-        user.setEnglishId(basic.getEnglish());
-        user.setGenderId(basic.getGender());
-        user.setMajorId(basic.getMajor());
-        user.setSchool(basic.getSchool());
-        user.setTimingId(basic.getTimingId());
-        user.setTermId(basic.getTermId());
-        user.setTimesId(basic.getTimesId());
-        //userRepository.insertOptionUser(user);
-
-        String hope_jc=userhope.getJobCategoryId().substring(0);
-        System.err.println("iiiii"+basic.getHIndustry());
-        String hope_in=userhope.getIndustryId().substring(0);
-
-        String pre_jc=userprevious.getJobCategoryId().substring(0);
-        String pre_in=userprevious.getIndustryId().substring(0);
-
-        //AIシステムへ
-        String[] cmd = {"/Users/sekipon/anaconda3/bin/python3","1121_rf_match.py", String.valueOf(user.getAge())
-                ,user.getGenderId(),user.getTimesId(),pre_in,pre_jc,hope_in,hope_jc,userhope.getScaleNumberId()};
+        String[] cmd = {"/Users/sekipon/anaconda3/bin/python3","1121_rf_match.py", String.valueOf(age)
+                ,gender,times,big_p_ind,big_p_jc,big_h_in,big_h_jc,scale_number};
 
         ProcessBuilder pb = new ProcessBuilder(cmd);
         Process proc = pb.start();
@@ -249,17 +218,73 @@ public class CampController extends AbstractRestHandler {
 
             for (String s:fruit) {
                 // "["と"]"を除去
-                s=s.replace("[","");
-                s=s.replace("]","");
-                s=s.replace(" ","");
-                s.trim();
+                trimSpace(s);
+                chat.setUserId(user_id);
                 chat.setCaId(s);
                 chatRepository.insert(chat);
             }
         }
         brstd.close();
+
+    }
+
+    public String trimSpace(String str){
+        str=str.replace("\uFEFF[","");
+        str=str.replace("\uFEFF]","");
+        str=str.replace(" ","");
+        str=str.replace("　","");
+        str=str.replace("\uFEFF","");
+        str.trim();
+        return str;
+    }
+
+    // 初期登録画面
+    @RequestMapping(value = "/{user_id}/question/basic", method = {RequestMethod.POST}, consumes =MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public void basic(@PathVariable String user_id, @RequestBody String json)throws IOException
+    {
+        System.err.println("basicの中身＝"+json);
+        ObjectMapper mapper = new ObjectMapper();
+        Basic basic = mapper.readValue(json, Basic.class);
+
+        Chat chat = new Chat();
+        chat.setUserId(user_id);
+        chat.setFlg(1);
+
+        UserHope userhope=new UserHope();
+        userhope.setUserId(user_id);
+        userhope.setIndustryId(basic.getH_industry()+basic.getH_industry_middle()+basic.getH_industry_small());
+        userhope.setJobCategoryId(basic.getH_job_category()+basic.getH_job_category_middle()+basic.getH_job_category_small());
+
+        // オプション項目できくけど一旦６にする
+        userhope.setScaleNumberId("6");
+        //userhopeRepository.insertBasicUserHope(userhope);
+
+        UserPrevious userprevious=new UserPrevious();
+        userprevious.setUserId(user_id);
+        userprevious.setCompanyName(basic.getP_company_name());
+        userprevious.setIndustryId(trimSpace(basic.getP_industry()));
+        userprevious.setJobCategoryId(trimSpace(basic.getP_job_category()+basic.getP_job_category_middle()+basic.getP_job_category_small()));
+        userprevious.setJoinedYear(basic.getJoined_year());
+       // userpreviousRepository.insertOptionUserPrevious(userprevious);
+        System.err.println("basic.getP_job_category_middle"+basic.getP_job_category_middle());
+
+
+        User user=new User();
+        user.setUserId(user_id);
+        user.setAge(basic.getAge());
+        user.setEnglishId(trimSpace(basic.getEnglish()));
+        user.setGenderId(trimSpace(basic.getGender().trim()));
+        user.setMajorId(trimSpace(basic.getMajor().trim()));
+        user.setSchool(trimSpace(basic.getSchool()));
+        user.setTimesId(trimSpace(basic.getTimesId().trim()));
+        //userRepository.insertOptionUser(user);
+
+        //AIシステムへ
+        python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),basic.getP_industry()
+                ,basic.getP_job_category(),basic.getH_industry(),basic.getH_job_category(),userhope.getScaleNumberId());
+
         System.err.println("キタコレ");
-        return "完了";
     }
 
      // オプション登録画面
@@ -271,24 +296,49 @@ public class CampController extends AbstractRestHandler {
         ObjectMapper mapper = new ObjectMapper();
         Option option = mapper.readValue(json, Option.class);
 
+        System.err.println(option.getPlace()+","+option.getH_company_name()+","+option.getIncome()
+                +","+option.getWork()+","+option.getScaleNumber()+","+option.getScaleType());
+
+        UserPrevious userprevious= new UserPrevious();
+        userprevious.setUserId(user_id);
+        userprevious.setCompanyName(option.getP_company_name());
+        userprevious.setIndustryId(trimSpace(option.getP_industry()));
+        userprevious.setJobCategoryId(trimSpace(option.getP_job_category()+option.getP_job_category_middle()
+                +option.getP_job_category_small()));
+        userprevious.setJoinedYear(option.getJoined_year());
+        userpreviousRepository.insert(userprevious);
+
         UserHope userhope=new UserHope();
         userhope.setUserId(user_id);
-        userhope.setPlaceId(option.getPlaceId());
-        userhope.setCompanyName(option.getCompanyName());
-        userhope.setIncome(option.getIncome());
-        userhope.setWorkId(option.getWorkId());
-        userhope.setScaleNumberId(option.getScaleNumberId());
-        userhope.setScaleTypeId(option.getScaleTypeId());
-        userhopeRepository.updateOptionUserHope(userhope);
+        userhope.setPlaceId(trimSpace(option.getPlace()));
+        userhope.setCompanyName(trimSpace(option.getH_company_name()));
+        userhope.setIncome(trimSpace(option.getIncome()));
+        userhope.setWorkId(trimSpace(option.getWork()));
+        userhope.setScaleNumberId(trimSpace(option.getScaleNumber()));
+        userhope.setScaleTypeId(trimSpace(option.getScaleType()));
+        userhope.setIndustryId(option.getH_industry()+option.getH_industry_middle()+option.getH_industry_small());
+        userhope.setJobCategoryId(option.getH_job_category()+option.getH_job_category_middle()+option.getH_job_category_small());
+        userhopeRepository.insert(userhope);
+
 
         User user=new User();
         user.setUserId(user_id);
-        // ToDo スキル複数どうする
         user.setSkill(option.getSkill());
-        userRepository.updateOptionUser(user);
+        user.setTimingId(trimSpace(option.getTiming()));
+        user.setTermId(trimSpace(option.getTerm()));
+        user.setAge(option.getAge());
+        user.setEnglishId(trimSpace(option.getEnglish()));
+        user.setGenderId(trimSpace(option.getGender().trim()));
+        user.setMajorId(trimSpace(option.getMajor().trim()));
+        user.setSchool(trimSpace(option.getSchool()));
+        user.setTimesId(trimSpace(option.getTimesId().trim()));
+        user.setAcademicId("なし");
+        userRepository.insert(user);
 
-        System.out.println(user);
-        //ToDo Python処理
+        //　AIシステムへ
+        python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),option.getP_industry()
+                ,option.getP_job_category(),option.getH_industry(),option.getH_job_category(),option.getScaleNumber());
+
     }
 
     // マイプロフィール画面 プロフィール一覧をフロントに送信
@@ -414,10 +464,23 @@ public class CampController extends AbstractRestHandler {
     @ResponseBody
     public List ca_list(@PathVariable String user_id,
                          HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Chat chat = new Chat();
-        chat.setUserId(user_id);
-        List chatLists = chatRepository.selectCaList(chat);
-        return chatLists;
+        Ca ca = new Ca();
+        ca.setCaId("C01");
+        CaResultJobCategory caresultjobcategory = new CaResultJobCategory();
+        caresultjobcategory.setCaId("C01");
+        CaResultIndustry caresultindustry = new CaResultIndustry();
+        caresultindustry.setCaId("C01");
+        CaResultCompany caresultcompany = new CaResultCompany();
+        caresultcompany.setCaId("C01");
+        List caDetail = caRepository.selectDetail(ca);
+        caDetail.add(caresultjobcategoryRepository.selectDetail(caresultjobcategory));
+        caDetail.add(caresultindustryRepository.selectDetail(caresultindustry));
+        caDetail.add(caresultcompanyRepository.selectDetail(caresultcompany));
+        return caDetail;
+//        Chat chat = new Chat();
+//        chat.setUserId(user_id);
+//        List chatLists = chatRepository.selectCaList(chat);
+//        return chatLists;
     }
 
     // ca詳細
