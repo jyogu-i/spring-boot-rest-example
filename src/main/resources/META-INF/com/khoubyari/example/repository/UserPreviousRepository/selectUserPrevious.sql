@@ -1,1 +1,1 @@
-select * from public."User_previous" where user_id=/* userprevious.getUserId() */'U1';
+select * from public."User_previous" where user_id=/* user.getUserId() */'U1';

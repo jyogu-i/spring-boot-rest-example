@@ -1,0 +1,1 @@
+select * from public."Ca" where ca_id=/* chat.getCaId() */'N1';

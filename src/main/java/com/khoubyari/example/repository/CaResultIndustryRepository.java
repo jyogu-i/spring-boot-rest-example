@@ -2,8 +2,10 @@ package com.khoubyari.example.repository;
 
 
 import com.khoubyari.example.annotation.ConfigAutoDefault;
+import com.khoubyari.example.dao.entity.Ca;
 import com.khoubyari.example.dao.entity.CaResultCompany;
 import com.khoubyari.example.dao.entity.CaResultIndustry;
+import com.khoubyari.example.dao.entity.Chat;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
@@ -19,6 +21,12 @@ public interface CaResultIndustryRepository {
 
     @Select
     List<CaResultIndustry> selectDetail(CaResultIndustry caresultindustry);
+
+    @Select
+    CaResultIndustry selectCaList(Ca ca);
+
+    @Select
+    CaResultIndustry selectChat(Chat chat);
 
     @Insert
     @Transactional

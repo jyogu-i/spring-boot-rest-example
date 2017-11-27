@@ -1,0 +1,1 @@
+SELECT * FROM public."JobCategory" WHERE job_category_id=/* userhope.getJobCategoryId() */'1101';

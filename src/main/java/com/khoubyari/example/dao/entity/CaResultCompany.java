@@ -37,65 +37,30 @@ public class CaResultCompany {
         return resultCompany;
     }
 
-    /** 
-     * Sets the resultCompany.
-     * 
-     * @param resultCompany the resultCompany
-     */
     public void setResultCompany(Integer resultCompany) {
         this.resultCompany = resultCompany;
     }
 
-    /** 
-     * Returns the companyName.
-     * 
-     * @return the companyName
-     */
     public String getCompanyName() {
         return companyName;
     }
 
-    /** 
-     * Sets the companyName.
-     * 
-     * @param companyName the companyName
-     */
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
 
-    /** 
-     * Returns the caId.
-     * 
-     * @return the caId
-     */
     public String getCaId() {
         return caId;
     }
 
-    /** 
-     * Sets the caId.
-     * 
-     * @param caId the caId
-     */
     public void setCaId(String caId) {
         this.caId = caId;
     }
 
-    /** 
-     * Returns the companyNumber.
-     * 
-     * @return the companyNumber
-     */
     public Integer getCompanyNumber() {
         return companyNumber;
     }
 
-    /** 
-     * Sets the companyNumber.
-     * 
-     * @param companyNumber the companyNumber
-     */
     public void setCompanyNumber(Integer companyNumber) {
         this.companyNumber = companyNumber;
     }

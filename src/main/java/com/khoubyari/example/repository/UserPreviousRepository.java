@@ -2,6 +2,7 @@ package com.khoubyari.example.repository;
 
 
 import com.khoubyari.example.annotation.ConfigAutoDefault;
+import com.khoubyari.example.dao.entity.User;
 import com.khoubyari.example.dao.entity.UserHope;
 import com.khoubyari.example.dao.entity.UserPrevious;
 import org.seasar.doma.*;
@@ -15,12 +16,14 @@ public interface UserPreviousRepository {
     @Select
     List<UserPrevious> selectAll();
 
+//    @Select
+//    List<UserPrevious> selectUserPrevious(UserPrevious userprevious);
+
     @Select
-    List<UserPrevious> selectUserPrevious(UserPrevious userprevious);
+    UserPrevious selectUserPrevious(User user);
 
     @Insert(sqlFile = true)
     int insert(UserPrevious userprevious);
-
 
     @Insert(sqlFile = true)
     int insertBasicUserPrevious(UserPrevious userprevious);

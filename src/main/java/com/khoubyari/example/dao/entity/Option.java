@@ -271,6 +271,15 @@ public class Option {
         this.h_industry_small = h_industry_small;
     }
 
+    public String getP_industry_small() {
+        return p_industry_small;
+    }
+
+    public void setP_industry_small(String p_industry_small) {
+        this.p_industry_small = p_industry_small;
+    }
+
+
     public String getH_job_category() {
         return h_job_category;
     }
@@ -309,14 +318,6 @@ public class Option {
 
     public void setP_industry_middle(String p_industry_middle) {
         this.p_industry_middle = p_industry_middle;
-    }
-
-    public String getP_industry_small() {
-        return p_industry_small;
-    }
-
-    public void setP_industry_small(String P_industry_small) {
-        this.p_industry_small = p_industry_small;
     }
 
     public String getP_job_category() {

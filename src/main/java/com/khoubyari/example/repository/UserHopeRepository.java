@@ -2,6 +2,7 @@ package com.khoubyari.example.repository;
 
 
 import com.khoubyari.example.annotation.ConfigAutoDefault;
+import com.khoubyari.example.dao.entity.User;
 import com.khoubyari.example.dao.entity.UserHope;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
@@ -18,7 +19,10 @@ public interface UserHopeRepository {
     List<UserHope> selectAll();
 
     @Select
-    List<UserHope> selectUserHope(UserHope userhope);
+    UserHope selectUserHope(User user);
+
+//    @Select
+//    List<UserHope> selectUserHope(UserHope userhope);
 
     @Insert(sqlFile = true)
     int insert(UserHope userhope);

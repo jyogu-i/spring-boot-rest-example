@@ -20,6 +20,9 @@ public interface CaResultCompanyRepository {
     @Select
     List<CaResultCompany> selectDetail(CaResultCompany caresultcompany);
 
+    @Select
+    CaResultCompany selectCaList(Ca ca);
+
     @Insert
     @Transactional
     int insert(CaResultCompany caresultcompany);

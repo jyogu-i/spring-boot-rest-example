@@ -1,9 +1,12 @@
 package com.khoubyari.example.api.rest;
 
 import com.khoubyari.example.dao.entity.*;
+import com.khoubyari.example.dao.model.*;
 import com.khoubyari.example.repository.*;
 import io.swagger.annotations.Api;
 import com.khoubyari.example.service.CampService;
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.BeanUtilsBean;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +23,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.*;
 
 
 // コントローラークラスだよっていうおまじない
@@ -160,16 +165,17 @@ public class CampController extends AbstractRestHandler {
     }
 
     // test画面 TODO
-    @RequestMapping(value = "/test", method = {RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @RequestMapping(value = "/test", method = {RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Basic a()throws IOException{
-        String json="{\"gender\":\"女性\",\"age\":\"23\",\"academic\":\"\",\"school\":\"o\",\"major\":\"10\",\"p_company_name\":\"p\",\"joined_year\":\"2017\",\"p_job_category\":\"4\"}\n";
+    public String a()throws IOException{
+        String json="{\"p_industry\":\"9\",\"p_industry_middle\":\"1\",\"p_industry_small\":\"00\",\"joined_year\":\"2017\",\"p_job_category\":\"3\",\"p_job_category_middle\":\"1\"}\n";
         ObjectMapper mapper = new ObjectMapper();
-        Basic hoge = mapper.readValue(json, Basic.class);
-        System.err.println(hoge.getAge());
-        System.err.println(hoge.getSchool());
-        return hoge;
+        Option option = mapper.readValue(json, Option.class);
+        System.err.println(option.getP_industry_middle());
+        System.err.println(option.getP_industry_small());
+
+
+        return json;
     }
     @RequestMapping(value="/s3/{filename}", method=RequestMethod.GET)
     public void download(@PathVariable String filename) throws IOException {
@@ -231,6 +237,8 @@ public class CampController extends AbstractRestHandler {
     public String trimSpace(String str){
         str=str.replace("\uFEFF[","");
         str=str.replace("\uFEFF]","");
+        str=str.replace("[","");
+        str=str.replace("]","");
         str=str.replace(" ","");
         str=str.replace("　","");
         str=str.replace("\uFEFF","");
@@ -258,7 +266,7 @@ public class CampController extends AbstractRestHandler {
 
         // オプション項目できくけど一旦６にする
         userhope.setScaleNumberId("6");
-        //userhopeRepository.insertBasicUserHope(userhope);
+        userhopeRepository.insertBasicUserHope(userhope);
 
         UserPrevious userprevious=new UserPrevious();
         userprevious.setUserId(user_id);
@@ -266,7 +274,7 @@ public class CampController extends AbstractRestHandler {
         userprevious.setIndustryId(trimSpace(basic.getP_industry()));
         userprevious.setJobCategoryId(trimSpace(basic.getP_job_category()+basic.getP_job_category_middle()+basic.getP_job_category_small()));
         userprevious.setJoinedYear(basic.getJoined_year());
-       // userpreviousRepository.insertOptionUserPrevious(userprevious);
+        userpreviousRepository.insertBasicUserPrevious(userprevious);
         System.err.println("basic.getP_job_category_middle"+basic.getP_job_category_middle());
 
 
@@ -278,7 +286,7 @@ public class CampController extends AbstractRestHandler {
         user.setMajorId(trimSpace(basic.getMajor().trim()));
         user.setSchool(trimSpace(basic.getSchool()));
         user.setTimesId(trimSpace(basic.getTimesId().trim()));
-        //userRepository.insertOptionUser(user);
+        userRepository.insertBasicUser(user);
 
         //AIシステムへ
         python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),basic.getP_industry()
@@ -296,13 +304,12 @@ public class CampController extends AbstractRestHandler {
         ObjectMapper mapper = new ObjectMapper();
         Option option = mapper.readValue(json, Option.class);
 
-        System.err.println(option.getPlace()+","+option.getH_company_name()+","+option.getIncome()
-                +","+option.getWork()+","+option.getScaleNumber()+","+option.getScaleType());
+        System.err.println(option.getP_industry_small());
 
         UserPrevious userprevious= new UserPrevious();
         userprevious.setUserId(user_id);
         userprevious.setCompanyName(option.getP_company_name());
-        userprevious.setIndustryId(trimSpace(option.getP_industry()));
+        userprevious.setIndustryId(option.getP_industry()+option.getP_industry_middle()+option.getP_industry_small());
         userprevious.setJobCategoryId(trimSpace(option.getP_job_category()+option.getP_job_category_middle()
                 +option.getP_job_category_small()));
         userprevious.setJoinedYear(option.getJoined_year());
@@ -352,11 +359,45 @@ public class CampController extends AbstractRestHandler {
         user.setUserId(user_id);
         userhope.setUserId(user_id);
         userprevious.setUserId(user_id);
-        List userLists = userRepository.selectUser(user);
-        userLists.add(userhopeRepository.selectUserHope(userhope));
-        userLists.add(userpreviousRepository.selectUserPrevious(userprevious));
 
-        return userLists;
+        List<User> userLists = userRepository.selectUser(user);
+        List<UserModel> userModelLists = new ArrayList<>();
+
+        for(User _user:userLists) {
+            UserModel _userModel = new UserModel();
+            BeanUtils.copyProperties(_userModel, _user);
+
+            // ToDo userHopeのJobCategoryがnullでエラー、DB登録時に入れて居ないのか、登録出来て居ないのか解明する
+            UserHope userHope = userhopeRepository.selectUserHope(_user);
+            //JobCategory HuserJobCategory = jobcategoryRepository.selectHJobCategory(userHope);
+            Industry HuserIndustry = industryRepository.selectHIndustry(userHope);
+            UserPrevious userPrevious = userpreviousRepository.selectUserPrevious(_user);
+            JobCategory userJobCategory = jobcategoryRepository.selectJobCategory(userPrevious);
+            Industry userIndustry = industryRepository.selectIndustry(userPrevious);
+
+
+
+            UserHopeModel _userHopeModel = new UserHopeModel();
+            UserPreviousModel _userPreviousModel = new UserPreviousModel();
+            JobCategoryModel _jobCategoryModel = new JobCategoryModel();
+            IndustryModel _industryModel = new IndustryModel();
+
+            BeanUtils.copyProperties(_userHopeModel, userHope);
+            BeanUtils.copyProperties(_userPreviousModel, userPrevious);
+            //BeanUtils.copyProperties(_jobCategoryModel, HuserJobCategory);
+            BeanUtils.copyProperties(_industryModel, HuserIndustry);
+            BeanUtils.copyProperties(_jobCategoryModel, userJobCategory);
+            BeanUtils.copyProperties(_industryModel, userIndustry);
+            System.err.println("myprofileの中身＝"+userIndustry);
+
+            _userModel.setUserHopeModel(_userHopeModel);
+            _userModel.setUserPreviousModel(_userPreviousModel);
+            _userModel.setJobCategoryModel(_jobCategoryModel);
+            _userModel.setIndustryModel(_industryModel);
+            userModelLists.add(_userModel);
+        }
+
+        return userModelLists;
     }
 
     // プロフィール登録画面　新しく登録し直す
@@ -464,23 +505,35 @@ public class CampController extends AbstractRestHandler {
     @ResponseBody
     public List ca_list(@PathVariable String user_id,
                          HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Ca ca = new Ca();
-        ca.setCaId("C01");
-        CaResultJobCategory caresultjobcategory = new CaResultJobCategory();
-        caresultjobcategory.setCaId("C01");
-        CaResultIndustry caresultindustry = new CaResultIndustry();
-        caresultindustry.setCaId("C01");
-        CaResultCompany caresultcompany = new CaResultCompany();
-        caresultcompany.setCaId("C01");
-        List caDetail = caRepository.selectDetail(ca);
-        caDetail.add(caresultjobcategoryRepository.selectDetail(caresultjobcategory));
-        caDetail.add(caresultindustryRepository.selectDetail(caresultindustry));
-        caDetail.add(caresultcompanyRepository.selectDetail(caresultcompany));
-        return caDetail;
-//        Chat chat = new Chat();
-//        chat.setUserId(user_id);
-//        List chatLists = chatRepository.selectCaList(chat);
-//        return chatLists;
+        Chat chat = new Chat();
+        Ca ca=new Ca();
+        chat.setUserId(user_id);
+
+        // ToDo CA成約が複数の場合どうする
+        List<Chat> chatLists = chatRepository.selectCaList(chat);
+        List<ChatModel> chatModelLists = new ArrayList<>();
+
+        for(Chat _chat:chatLists) {
+            ChatModel _chatModel=new ChatModel();
+            BeanUtils.copyProperties(_chatModel,_chat);
+
+            Ca cA=caRepository.selectChat(_chat);
+            CaResultIndustry caResultIndustry=caresultindustryRepository.selectChat(_chat);
+            //Map<String,List>
+
+            CaModel _caModel=new CaModel();
+            CaResultIndustryModel _caResultModel=new CaResultIndustryModel();
+
+            BeanUtils.copyProperties(_caModel, cA);
+            BeanUtils.copyProperties(_caResultModel, caResultIndustry);
+
+            _chatModel.setCaModel(_caModel);
+            _chatModel.setCaResultIndustryModel(_caResultModel);
+
+            chatModelLists.add(_chatModel);
+        }
+        return chatModelLists;
+
     }
 
     // ca詳細
@@ -488,19 +541,36 @@ public class CampController extends AbstractRestHandler {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List ca_detail(@PathVariable String user_id,@PathVariable String ca_id) throws Exception{
-        Ca ca = new Ca();
-        ca.setCaId(ca_id);
-        CaResultJobCategory caresultjobcategory = new CaResultJobCategory();
-        caresultjobcategory.setCaId(ca_id);
-        CaResultIndustry caresultindustry = new CaResultIndustry();
-        caresultindustry.setCaId(ca_id);
-        CaResultCompany caresultcompany = new CaResultCompany();
-        caresultcompany.setCaId(ca_id);
-        List caDetail = caRepository.selectDetail(ca);
-        caDetail.add(caresultjobcategoryRepository.selectDetail(caresultjobcategory));
-        caDetail.add(caresultindustryRepository.selectDetail(caresultindustry));
-        caDetail.add(caresultcompanyRepository.selectDetail(caresultcompany));
-        return caDetail;
+//        Ca ca=new Ca();
+//        CaResultIndustry caresultindustry = new CaResultIndustry();
+//        CaResultJobCategory caresultjobcategory=new CaResultJobCategory();
+//        CaResultCompany caresultcompany=new CaResultCompany();
+//        ca.setCaId(ca_id);
+//
+//        // ToDo CA成約が複数の場合どうする
+//        Ca cA = caRepository.selectDetail(ca);
+//        List<CaModel> caModelLists = new ArrayList<>();
+//
+//        CaModel _caModel=new CaModel();
+//        BeanUtils.copyProperties(_caModel,cA);
+//
+//        CaResultIndustry caResultIndustry=caresultindustryRepository.selectCaList(cA);
+//        CaResultCompany caResultCompany=caresultcompanyRepository.selectCaList(cA);
+//        CaResultJobCategory caResultJobcategory=caresultjobcategoryRepository.selectCaList(cA);
+//
+//        CaResultIndustryModel _caResultIndustryModel=new CaResultIndustryModel();
+//        CaResultJobCategoryModel _caResultJobCategoryModel=new CaResultJobCategoryModel();
+//
+//        BeanUtils.copyProperties(_caModel, cA);
+//        BeanUtils.copyProperties(_caResultModel, caResultIndustry);
+//
+//            _chatModel.setCaModel(_caModel);
+//            _chatModel.setCaResultIndustryModel(_caResultModel);
+//
+//            caModelLists.add(_chatModel);
+//
+//        return caModelLists;
+        return null;
   }
 
     // チャット一覧 Todo チャットが始まってるのだけ返す?
