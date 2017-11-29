@@ -22,7 +22,7 @@ public class Ca {
 
     /** */
     @Column(name = "gender_id")
-    Integer genderId;
+    String genderId;
 
     /** */
     @Column(name = "ca_company")
@@ -34,7 +34,7 @@ public class Ca {
 
     /** */
     @Column(name = "place_id")
-    Integer placeId;
+    String placeId;
 
     /** */
     @Column(name = "pr_message")
@@ -75,11 +75,11 @@ public class Ca {
         this.caName = caName;
     }
 
-    public Integer getGenderId() {
+    public String getGenderId() {
         return genderId;
     }
 
-    public void setGenderId(Integer genderId) {
+    public void setGenderId(String genderId) {
         this.genderId = genderId;
     }
 
@@ -99,11 +99,11 @@ public class Ca {
         this.caImg = caImg;
     }
 
-    public Integer getPlaceId() {
+    public String getPlaceId() {
         return placeId;
     }
 
-    public void setPlaceId(Integer placeId) {
+    public void setPlaceId(String placeId) {
         this.placeId = placeId;
     }
 
@@ -159,7 +159,7 @@ public class Ca {
         return introMessage;
     }
 
-    public void setIntroMessag(String introMessage) {
+    public void setIntroMessage(String introMessage) {
         this.introMessage = introMessage;
     }
 }

@@ -1,9 +1,6 @@
 package com.khoubyari.example.dao.entity;
 
-import org.seasar.doma.Column;
-import org.seasar.doma.Entity;
-import org.seasar.doma.Id;
-import org.seasar.doma.Table;
+import org.seasar.doma.*;
 
 /**
  */
@@ -12,11 +9,13 @@ import org.seasar.doma.Table;
 public class Request {
 
     /** */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "request_id")
     Integer requestId;
 
     /** */
-    @Id
+
     @Column(name = "requester_id")
     String requesterId;
 

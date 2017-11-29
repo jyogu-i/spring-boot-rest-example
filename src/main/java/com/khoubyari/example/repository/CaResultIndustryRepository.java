@@ -1,6 +1,7 @@
 package com.khoubyari.example.repository;
 
 
+import com.amazonaws.services.dynamodbv2.xspec.L;
 import com.khoubyari.example.annotation.ConfigAutoDefault;
 import com.khoubyari.example.dao.entity.Ca;
 import com.khoubyari.example.dao.entity.CaResultCompany;
@@ -12,6 +13,7 @@ import org.seasar.doma.Select;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @ConfigAutoDefault
 @Dao
@@ -27,6 +29,12 @@ public interface CaResultIndustryRepository {
 
     @Select
     CaResultIndustry selectChat(Chat chat);
+
+    @Select
+   List<CaResultIndustry> selectCaList2(Chat chat);
+
+    @Select
+    List<CaResultIndustry> selectCaListAll(Ca ca);
 
     @Insert
     @Transactional

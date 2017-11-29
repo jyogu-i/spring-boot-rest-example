@@ -1,9 +1,6 @@
 package com.khoubyari.example.dao.entity;
 
-import org.seasar.doma.Column;
-import org.seasar.doma.Entity;
-import org.seasar.doma.Id;
-import org.seasar.doma.Table;
+import org.seasar.doma.*;
 
 /**
  */
@@ -13,6 +10,7 @@ public class Contact {
 
     /** */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "contact_id")
     Integer contactId;
 

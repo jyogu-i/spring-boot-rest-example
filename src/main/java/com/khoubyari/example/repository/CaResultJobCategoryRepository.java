@@ -3,6 +3,7 @@ package com.khoubyari.example.repository;
 
 import com.khoubyari.example.annotation.ConfigAutoDefault;
 import com.khoubyari.example.dao.entity.Ca;
+import com.khoubyari.example.dao.entity.CaResultCompany;
 import com.khoubyari.example.dao.entity.CaResultIndustry;
 import com.khoubyari.example.dao.entity.CaResultJobCategory;
 import org.seasar.doma.Dao;
@@ -23,6 +24,9 @@ public interface CaResultJobCategoryRepository {
 
     @Select
     CaResultJobCategory selectCaList(Ca ca);
+
+    @Select
+    List<CaResultJobCategory> selectCaListAll(Ca ca);
 
     @Insert
     @Transactional

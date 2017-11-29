@@ -20,7 +20,13 @@ public interface JobCategoryRepository {
     JobCategory selectJobCategory(UserPrevious userprevious);
 
     @Select
-    JobCategory selectHJobCategory(UserHope userhope);
+    JobCategory select(UserHope userHope);
+
+    @Select
+    List<JobCategory> selectPMyprofile(UserPrevious userprevious);
+
+    @Select
+    List<JobCategory> selectHMyprofile(UserHope userHope);
 
     @Select
     List<JobCategory> selectBig();

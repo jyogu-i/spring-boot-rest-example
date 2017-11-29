@@ -23,6 +23,9 @@ public interface CaResultCompanyRepository {
     @Select
     CaResultCompany selectCaList(Ca ca);
 
+    @Select
+    List<CaResultCompany> selectCaListAll(Ca ca);
+
     @Insert
     @Transactional
     int insert(CaResultCompany caresultcompany);

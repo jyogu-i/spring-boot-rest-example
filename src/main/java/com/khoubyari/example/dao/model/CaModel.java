@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class CaModel extends Ca {
     private CaResultCompanyModel caResultCompanyModel;
-    private CaResultIndustry caResultIndustry;
+    private CaResultIndustryModel caResultIndustryModel;
     private CaResultJobCategoryModel caResultJobCategoryModel;
 
 }

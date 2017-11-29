@@ -1,20 +1,18 @@
 package com.khoubyari.example.dao.entity;
 
-import org.seasar.doma.Column;
-import org.seasar.doma.Entity;
-import org.seasar.doma.Id;
-import org.seasar.doma.Table;
+import org.seasar.doma.*;
 
 /**
  */
 @Entity
-@Table(name = "ca_result_company")
+@Table(name = "Ca_result_company")
 public class CaResultCompany {
 
     /** */
     @Id
-    @Column(name = "result_company")
-    Integer resultCompany;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "result_company_id")
+    Integer resultCompanyId;
 
     /** */
     @Column(name = "company_name")
@@ -34,11 +32,11 @@ public class CaResultCompany {
      * @return the resultCompany
      */
     public Integer getResultCompany() {
-        return resultCompany;
+        return resultCompanyId;
     }
 
     public void setResultCompany(Integer resultCompany) {
-        this.resultCompany = resultCompany;
+        this.resultCompanyId = resultCompany;
     }
 
     public String getCompanyName() {
