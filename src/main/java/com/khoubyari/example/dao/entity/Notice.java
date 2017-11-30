@@ -27,7 +27,7 @@ public class Notice {
 
     /** */
     @Column(name = "date")
-    LocalDate date;
+    String date;
 
     /** */
     @Column(name = "notice_message")
@@ -96,7 +96,7 @@ public class Notice {
      * 
      * @return the date
      */
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
@@ -105,7 +105,7 @@ public class Notice {
      * 
      * @param date the date
      */
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

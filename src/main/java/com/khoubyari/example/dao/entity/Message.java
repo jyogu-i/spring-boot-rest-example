@@ -46,7 +46,7 @@ public class Message {
 
     /** */
     @Column(name = "date")
-    LocalDate date;
+    String date;
 
     /** 
      * Returns the messageId.
@@ -197,7 +197,7 @@ public class Message {
      * 
      * @return the date
      */
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
@@ -206,7 +206,7 @@ public class Message {
      * 
      * @param date the date
      */
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 }

@@ -165,79 +165,42 @@ public class CampController extends AbstractRestHandler {
     }
 
     // test画面 TODO
-    @RequestMapping(value = "/{user_id}/test", method = {RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{ca_id}/test", method = {RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List a(@PathVariable String user_id) throws Exception{
-        User user = new User();
-        UserPrevious userprevious = new UserPrevious();
-        UserHope userhope = new UserHope();
-        user.setUserId(user_id);
-        userhope.setUserId(user_id);
-        userprevious.setUserId(user_id);
+    public List a(@PathVariable String ca_id) throws Exception{
+        Ca ca = new Ca();
+        ca.setCaId(ca_id);
+        List caList=new ArrayList<>();
+        Ca ca_person = caRepository.selectDetail(ca);
+        Place place = placeRepository.selectCaPlace(ca_person);
+        System.err.println("aaaa"+place.getPlace());
 
-        List<User> userLists = userRepository.selectUser(user);
-        List userModelLists = new ArrayList<>();
-        List userJobCategory = new ArrayList<>();
-        List userIndustry = new ArrayList<>();
+        List<CaResultIndustry> caResultIndustry = caresultindustryRepository.selectCaListAll(ca_person);
+        List caResultCompany = caresultcompanyRepository.selectCaListAll(ca_person);
+        List<CaResultJobCategory> caResultJobCategory = caresultjobcategoryRepository.selectCaListAll(ca_person);
 
-        for(User _user:userLists) {
-            UserModel _userModel = new UserModel();
-            BeanUtils.copyProperties(_userModel, _user);
-
-            UserHope userHope = userhopeRepository.selectUserHope(_user);
-            UserPrevious userPrevious = userpreviousRepository.selectUserPrevious(_user);
-
-
-            userJobCategory.add(jobcategoryRepository.selectPMyprofile(userPrevious));
-            userJobCategory.add(jobcategoryRepository.selectHMyprofile(userHope));
-
-
-            userIndustry.add(industryRepository.selectPMyprofile(userPrevious));
-            userIndustry.add(industryRepository.selectHMyprofile(userHope));
-
-
-            UserHopeModel _userHopeModel = new UserHopeModel();
-            UserPreviousModel _userPreviousModel = new UserPreviousModel();
-
-            BeanUtils.copyProperties(_userHopeModel, userHope);
-            BeanUtils.copyProperties(_userPreviousModel, userPrevious);
-
-            _userModel.setUserHopeModel(_userHopeModel);
-            _userModel.setUserPreviousModel(_userPreviousModel);
-
-            userModelLists.add(_userModel);
-            userModelLists.add(userJobCategory);
-            userModelLists.add(userIndustry);
-
+        List jobLists=new ArrayList<>();
+        for (CaResultJobCategory _crj:caResultJobCategory) {
+            JobCategory job = jobcategoryRepository.selectCaJobCategory(_crj);
+            jobLists.add(job);
         }
 
-        return userModelLists;
-//
-//        // chatListにはマッチングしているCAの情報がはいっている
-//        List<Chat> chatLists = chatRepository.selectCaList(chat);
-//        List caModelLists = new ArrayList<>();
-//
-//        for(Chat _chat:chatLists) {
-//            // CAモデル定義
-//            Chat _caModel=new ChatModel();
-//
-//            // マッチングしていたCAの情報をCAテーブルから取ってくる
-//            Ca cA=caRepository.selectChat(_chat);
-//
-//            BeanUtils.copyProperties(_caModel,cA);
-//
-//            // マッチングしていたCAの得意業界情報をCAテーブルから取ってくる
-//            List caResultIndustry=caresultindustryRepository.selectCaList2(_chat);
-//
-//
-//            //BeanUtils.copyProperties(_caModel, cA);
-//
-//            caModelLists.add(_caModel);
-//            caModelLists.add(caResultIndustry);
-//
-//        }
-//        return caModelLists;
+        List indLists=new ArrayList<>();
+        for (CaResultIndustry _cri:caResultIndustry) {
+            Industry ind = industryRepository.selectCaIndustry(_cri);
+            indLists.add(ind);
+        }
+
+        caList.add(ca_person);
+        caList.add(place);
+        caList.add(caResultCompany);
+        caList.add(caResultIndustry);
+        caList.add(indLists);
+        caList.add(caResultJobCategory);
+        caList.add(jobLists);
+
+        return caList;
     }
     @RequestMapping(value="/s3/{filename}", method=RequestMethod.GET)
     public void download(@PathVariable String filename) throws IOException {
@@ -351,11 +314,10 @@ public class CampController extends AbstractRestHandler {
         user.setTimesId(trimSpace(basic.getTimesId().trim()));
         userRepository.insertBasicUser(user);
 
+
         //AIシステムへ
         python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),basic.getP_industry()
                 ,basic.getP_job_category(),basic.getH_industry(),basic.getH_job_category(),userhope.getScaleNumberId());
-
-        System.err.println("キタコレ");
     }
 
      // オプション登録画面
@@ -508,7 +470,7 @@ public class CampController extends AbstractRestHandler {
         return userModelLists;*/
     }
 
-    // プロフィール登録画面　新しく登録し直す
+    // マイプロフィール登録画面　新しく登録し直す
     @RequestMapping(value = "/{user_id}/myprofile", method = {RequestMethod.POST}, consumes ={"application/json"})
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -519,14 +481,14 @@ public class CampController extends AbstractRestHandler {
 
         UserHope userhope=new UserHope();
         userhope.setUserId(user_id);
-        userhope.setIndustryId(trimSpace(myprofile.getH_industry()+myprofile.getH_industry_middle()+myprofile.getH_industry_small()));
+        userhope.setIndustryId(trimSpace(myprofile.getH_bigIndustry()+myprofile.getH_middleIndustry()+myprofile.getH_smallIndustry()));
         userhope.setPlaceId(trimSpace(myprofile.getPlace()));
-        userhope.setCompanyName(myprofile.getH_company_name());
-        userhope.setIncome(myprofile.getIncome());
+        userhope.setCompanyName(myprofile.getH_company());
+        userhope.setIncome(trimSpace(myprofile.getIncome()));
         userhope.setWorkId(trimSpace(myprofile.getWork()));
         userhope.setScaleTypeId(trimSpace(myprofile.getScaleType()));
         userhope.setScaleNumberId(trimSpace(myprofile.getScaleNumber()));
-        userhope.setJobCategoryId(trimSpace(myprofile.getH_job_category()+myprofile.getH_job_category_middle()+myprofile.getH_job_category_small()));
+        userhope.setJobCategoryId(trimSpace(myprofile.getH_bigCategory()+myprofile.getH_middleCategory()+myprofile.getH_smallCategory()));
         userhopeRepository.updateMyprofileUserHope(userhope);
 
         //会社の数だけ繰り返すfor文
@@ -535,10 +497,12 @@ public class CampController extends AbstractRestHandler {
         userprevious.setUserId(user_id);
         userpreviousRepository.delete(userprevious);
 
-        userprevious.setCompanyName(myprofile.getP_company_name());
-        userprevious.setJobCategoryId(trimSpace(myprofile.getP_job_category()+myprofile.getP_job_category_middle()+myprofile.getP_job_category_small()));
+        userprevious.setIndustryId(trimSpace(myprofile.getBigIndustry()+myprofile.getMiddleIndustry()+myprofile.getSmallIndustry()));
+        userprevious.setCompanyName(myprofile.getP_company());
+        userprevious.setJobCategoryId(trimSpace(myprofile.getBigCategory()+myprofile.getMiddleCategory()+myprofile.getSmallCategory()));
         userprevious.setJoinedYear(myprofile.getJoined_year());
-        userpreviousRepository.updateMyprofileUserPrevious(userprevious);
+        //userpreviousRepository.updateMyprofileUserPrevious(userprevious);
+        userpreviousRepository.insertOptionUserPrevious(userprevious);
 
         User user=new User();
         user.setUserId(user_id);
@@ -550,8 +514,11 @@ public class CampController extends AbstractRestHandler {
         user.setSchool(myprofile.getSchool());
         user.setTimingId(trimSpace(myprofile.getTiming()));
         user.setTermId(trimSpace(myprofile.getTerm()));
-        user.setTimesId(myprofile.getTimesId());
+        user.setTimesId(myprofile.getTimes());
         user.setSkill(myprofile.getSkill());
+        user.setLastName(myprofile.getLastName());
+        user.setFirstName(myprofile.getFirstName());
+
         userRepository.updateMyprofileUser(user);
 
         System.out.println(user);
@@ -663,18 +630,34 @@ public class CampController extends AbstractRestHandler {
 
         Ca ca = new Ca();
         ca.setCaId(ca_id);
-        Ca ca_person = caRepository.selectDetail(ca);
-
         List caList=new ArrayList<>();
-        List caResultIndustry = caresultindustryRepository.selectCaListAll(ca_person);
+        Ca ca_person = caRepository.selectDetail(ca);
+        Place place = placeRepository.selectCaPlace(ca_person);
+        System.err.println("aaaa"+place.getPlace());
+
+        List<CaResultIndustry> caResultIndustry = caresultindustryRepository.selectCaListAll(ca_person);
         List caResultCompany = caresultcompanyRepository.selectCaListAll(ca_person);
-        List caResultJobCategory = caresultjobcategoryRepository.selectCaListAll(ca_person);
+        List<CaResultJobCategory> caResultJobCategory = caresultjobcategoryRepository.selectCaListAll(ca_person);
+
+        List jobLists=new ArrayList<>();
+        for (CaResultJobCategory _crj:caResultJobCategory) {
+            JobCategory job = jobcategoryRepository.selectCaJobCategory(_crj);
+            jobLists.add(job);
+        }
+
+        List indLists=new ArrayList<>();
+        for (CaResultIndustry _cri:caResultIndustry) {
+            Industry ind = industryRepository.selectCaIndustry(_cri);
+            indLists.add(ind);
+        }
 
         caList.add(ca_person);
-        caList.add(caResultIndustry);
+        caList.add(place);
         caList.add(caResultCompany);
+        caList.add(caResultIndustry);
+        caList.add(indLists);
         caList.add(caResultJobCategory);
-
+        caList.add(jobLists);
 
         return caList;
 
@@ -710,15 +693,20 @@ public class CampController extends AbstractRestHandler {
 //        return caModelLists;
   }
 
-    // チャット一覧 Todo チャットが始まってるのだけ返す?
+    // チャット一覧
     @RequestMapping(value = "/{user_id}/chat", method = RequestMethod.GET, produces = {"application/json"})
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List chat_list(@PathVariable String user_id) throws Exception{
         Chat chat = new Chat();
         chat.setUserId(user_id);
-        List chatLists = chatRepository.selectCaList(chat);
-        return chatLists;
+        List<Chat> chatLists = chatRepository.selectCaList(chat);
+        List messageLists=new ArrayList();
+        for(Chat _chat:chatLists) {
+            Message message=messageRepository.selectLast(_chat);
+            messageLists.add(message);
+        }
+        return messageLists;
     }
 
     // チャット詳細

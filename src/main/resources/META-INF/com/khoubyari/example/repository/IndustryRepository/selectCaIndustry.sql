@@ -1,0 +1,1 @@
+SELECT * FROM public."Industry" WHERE industry_id=/* caresultindustry.getIndustryId() */'1101';

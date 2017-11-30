@@ -17,4 +17,7 @@ public interface PlaceRepository {
     @Select
     List<Place> selectAll();
 
+    @Select
+    Place selectCaPlace(Ca ca);
+
 }

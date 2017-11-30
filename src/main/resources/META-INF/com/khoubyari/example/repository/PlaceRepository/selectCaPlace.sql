@@ -1,0 +1,1 @@
+SELECT * FROM public."Place" WHERE place_id=/* ca.getPlaceId() */'1';

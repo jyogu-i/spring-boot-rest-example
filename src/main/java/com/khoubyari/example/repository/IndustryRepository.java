@@ -27,6 +27,9 @@ public interface IndustryRepository {
     List<Industry> selectHMyprofile(UserHope userHope);
 
     @Select
+    Industry selectCaIndustry(CaResultIndustry caresultindustry);
+
+    @Select
     List<Industry> selectBig();
 
     @Select

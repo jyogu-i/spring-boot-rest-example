@@ -15,7 +15,7 @@ import java.util.List;
 @Dao
 public interface MessageRepository {
     @Select
-    List<Message> selectAll();
+    Message selectLast(Chat chat);
 
     @Select
     List<Message> selectDetail(Message message);
