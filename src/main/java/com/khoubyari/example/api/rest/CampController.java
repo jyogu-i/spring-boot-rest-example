@@ -153,6 +153,17 @@ public class CampController extends AbstractRestHandler {
         return welcome;
     }
 
+    // personal画面
+    @RequestMapping(value = "/personal" , method = RequestMethod.GET, produces = {"application/json"})
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List personal()throws Exception{
+        // ToDo:プルダウン要素全て返す
+        List personalLists = personalInfoRepository.selectAll();
+
+        return personalLists;
+    }
+
     // ログイン画面 TODO
     @RequestMapping(value = "/login", method = {RequestMethod.POST}, consumes = MediaType.APPLICATION_JSON_VALUE
     )
@@ -251,6 +262,7 @@ public class CampController extends AbstractRestHandler {
                 trimSpace(s);
                 chat.setUserId(user_id);
                 chat.setCaId(s);
+                System.out.println("マッチングしたCA"+s);
                 chatRepository.insert(chat);
             }
         }
@@ -379,9 +391,10 @@ public class CampController extends AbstractRestHandler {
         python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),option.getP_industry()
                 ,option.getP_job_category(),option.getH_industry(),option.getH_job_category(),option.getScaleNumber());
 
-        chat.setFlg(2);
-        chat.setCaId("C04");
-        chatRepository.insert(chat);
+
+//        chat.setFlg(2);
+//        chat.setCaId("C04");
+//        chatRepository.insert(chat);
     }
 
     // マイプロフィール画面 プロフィール一覧をフロントに送信
@@ -648,17 +661,17 @@ public class CampController extends AbstractRestHandler {
         List caResultCompany = caresultcompanyRepository.selectCaListAll(ca_person);
         List<CaResultJobCategory> caResultJobCategory = caresultjobcategoryRepository.selectCaListAll(ca_person);
 
-        List jobLists=new ArrayList<>();
-        for (CaResultJobCategory _crj:caResultJobCategory) {
-            JobCategory job = jobcategoryRepository.selectCaJobCategory(_crj);
-            jobLists.add(job);
-        }
+//        List jobLists=new ArrayList<>();
+//        for (CaResultJobCategory _crj:caResultJobCategory) {
+//            JobCategory job = jobcategoryRepository.selectCaJobCategory(_crj);
+//            jobLists.add(job);
+//        }
 
-        List indLists=new ArrayList<>();
-        for (CaResultIndustry _cri:caResultIndustry) {
-            Industry ind = industryRepository.selectCaIndustry(_cri);
-            indLists.add(ind);
-        }
+//        List indLists=new ArrayList<>();
+//        for (CaResultIndustry _cri:caResultIndustry) {
+//            Industry ind = industryRepository.selectCaIndustry(_cri);
+//            indLists.add(ind);
+//        }
 
         caList.add(ca_person);
         caList.add(caResultCompany);
@@ -666,8 +679,8 @@ public class CampController extends AbstractRestHandler {
         caList.add(gender);
         caList.add(place);
         caList.add(caResultJobCategory);
-        caList.add(indLists);
-        caList.add(jobLists);
+//        caList.add(indLists);
+       // caList.add(jobLists);
 
         return caList;
 

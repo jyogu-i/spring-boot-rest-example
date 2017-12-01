@@ -66,38 +66,18 @@ public class JobCategory {
         return bigCategory;
     }
 
-    /** 
-     * Sets the bigCategory.
-     * 
-     * @param bigCategory the bigCategory
-     */
     public void setBigCategory(String bigCategory) {
         this.bigCategory = bigCategory;
     }
 
-    /** 
-     * Returns the middleCategory.
-     * 
-     * @return the middleCategory
-     */
     public String getMiddleCategory() {
         return middleCategory;
     }
 
-    /** 
-     * Sets the middleCategory.
-     * 
-     * @param middleCategory the middleCategory
-     */
     public void setMiddleCategory(String middleCategory) {
         this.middleCategory = middleCategory;
     }
 
-    /** 
-     * Returns the smallCategory.
-     * 
-     * @return the smallCategory
-     */
     public String getSmallCategory() {
         return smallCategory;
     }
