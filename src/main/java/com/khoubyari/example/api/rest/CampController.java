@@ -211,7 +211,6 @@ public class CampController extends AbstractRestHandler {
         StringBuilder builder = new StringBuilder();
         while ((str = reader.readLine()) != null) {
             builder.append(str);
-            //System.err.println("キタコレ"+builder.toString());
         };
 
         File file = new File("s3://careerup-camp.jp/assets");
@@ -269,6 +268,8 @@ public class CampController extends AbstractRestHandler {
         str=str.replace("　","");
         str=str.replace("\uFEFF","");
         str.trim();
+
+
         return str;
     }
 
@@ -316,8 +317,11 @@ public class CampController extends AbstractRestHandler {
 
 
         //AIシステムへ
-        python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),basic.getP_industry()
-                ,basic.getP_job_category(),basic.getH_industry(),basic.getH_job_category(),userhope.getScaleNumberId());
+//        python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),basic.getP_industry()
+//                ,basic.getP_job_category(),basic.getH_industry(),basic.getH_job_category(),userhope.getScaleNumberId());
+        chat.setFlg(2);
+        chat.setCaId("C04");
+        chatRepository.insert(chat);
     }
 
      // オプション登録画面
@@ -375,6 +379,9 @@ public class CampController extends AbstractRestHandler {
         python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),option.getP_industry()
                 ,option.getP_job_category(),option.getH_industry(),option.getH_job_category(),option.getScaleNumber());
 
+        chat.setFlg(2);
+        chat.setCaId("C04");
+        chatRepository.insert(chat);
     }
 
     // マイプロフィール画面 プロフィール一覧をフロントに送信
@@ -422,6 +429,9 @@ public class CampController extends AbstractRestHandler {
             userModelLists.add(userIndustry);
 
         }
+        ObjectMapper mapper=new ObjectMapper();
+
+        System.err.println(mapper.writeValueAsString(userModelLists));
 
         return userModelLists;
         /*User user = new User();
@@ -475,7 +485,6 @@ public class CampController extends AbstractRestHandler {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public void myprofile(@RequestBody String json, @PathVariable String user_id)throws IOException{
-        System.err.println("myprofileの中身＝"+json);
         ObjectMapper mapper = new ObjectMapper();
         Myprofile myprofile = mapper.readValue(json, Myprofile.class);
 
@@ -633,7 +642,7 @@ public class CampController extends AbstractRestHandler {
         List caList=new ArrayList<>();
         Ca ca_person = caRepository.selectDetail(ca);
         Place place = placeRepository.selectCaPlace(ca_person);
-        System.err.println("aaaa"+place.getPlace());
+        Gender gender =genderRepository.selectCaGender(ca_person);
 
         List<CaResultIndustry> caResultIndustry = caresultindustryRepository.selectCaListAll(ca_person);
         List caResultCompany = caresultcompanyRepository.selectCaListAll(ca_person);
@@ -652,11 +661,12 @@ public class CampController extends AbstractRestHandler {
         }
 
         caList.add(ca_person);
-        caList.add(place);
         caList.add(caResultCompany);
         caList.add(caResultIndustry);
-        caList.add(indLists);
+        caList.add(gender);
+        caList.add(place);
         caList.add(caResultJobCategory);
+        caList.add(indLists);
         caList.add(jobLists);
 
         return caList;

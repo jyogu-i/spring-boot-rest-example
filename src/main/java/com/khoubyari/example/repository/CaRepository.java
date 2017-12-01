@@ -4,6 +4,7 @@ package com.khoubyari.example.repository;
 import com.khoubyari.example.annotation.ConfigAutoDefault;
 import com.khoubyari.example.dao.entity.Ca;
 import com.khoubyari.example.dao.entity.Chat;
+import com.khoubyari.example.dao.entity.User;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;

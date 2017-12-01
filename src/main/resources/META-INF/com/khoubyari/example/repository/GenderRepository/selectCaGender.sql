@@ -1,0 +1,1 @@
+SELECT * FROM public."Gender" WHERE gender_id=/* ca.getGenderId() */'0';

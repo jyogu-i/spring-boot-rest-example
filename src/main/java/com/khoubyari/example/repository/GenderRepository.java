@@ -16,4 +16,7 @@ import java.util.List;
 public interface GenderRepository {
     @Select
     List<Gender> selectAll();
+
+    @Select
+    Gender selectCaGender(Ca ca);
 }
