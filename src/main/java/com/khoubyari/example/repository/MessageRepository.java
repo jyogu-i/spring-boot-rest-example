@@ -20,7 +20,6 @@ public interface MessageRepository {
     @Select
     List<Message> selectDetail(Message message);
 
-    @Insert
-    @Transactional
+    @Insert(sqlFile = true)
     int insert(Message message);
 }

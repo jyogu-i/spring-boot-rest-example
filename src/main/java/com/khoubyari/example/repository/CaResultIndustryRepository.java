@@ -31,7 +31,7 @@ public interface CaResultIndustryRepository {
     CaResultIndustry selectChat(Chat chat);
 
     @Select
-   List<CaResultIndustry> selectCaList2(Chat chat);
+   List<CaResultIndustry> selectCaChatList(Chat chat);
 
     @Select
     List<CaResultIndustry> selectCaListAll(Ca ca);

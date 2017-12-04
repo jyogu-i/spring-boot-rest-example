@@ -15,7 +15,7 @@ import java.util.List;
 @Dao
 public interface UserRepository {
     @Select
-    List<User> selectAll();
+    List<User> selectAll(User user);
 
     @Select
     List<User> selectUser(User user);

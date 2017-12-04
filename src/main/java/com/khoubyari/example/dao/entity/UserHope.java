@@ -47,29 +47,14 @@ public class UserHope {
     @Column(name = "job_category_id")
     String jobCategoryId;
 
-    /** 
-     * Returns the userId.
-     * 
-     * @return the userId
-     */
     public String getUserId() {
         return userId;
     }
 
-    /** 
-     * Sets the userId.
-     * 
-     * @param userId the userId
-     */
     public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    /** 
-     * Returns the companyName.
-     * 
-     * @return the companyName
-     */
     public String getCompanyName() {
         return companyName;
     }
@@ -106,38 +91,18 @@ public class UserHope {
         return scaleTypeId;
     }
 
-    /**
-     * Sets the scaleId.
-     *
-     * @param scaleTypeId the scaleId
-     */
     public void setScaleTypeId(String scaleTypeId) {
         this.scaleTypeId = scaleTypeId;
     }
 
-    /** 
-     * Returns the workId.
-     * 
-     * @return the workId
-     */
     public String getWorkId() {
         return workId;
     }
 
-    /** 
-     * Sets the workId.
-     * 
-     * @param workId the workId
-     */
     public void setWorkId(String workId) {
         this.workId = workId;
     }
 
-    /** 
-     * Returns the industryId.
-     * 
-     * @return the industryId
-     */
     public String getIndustryId() {
         return industryId;
     }

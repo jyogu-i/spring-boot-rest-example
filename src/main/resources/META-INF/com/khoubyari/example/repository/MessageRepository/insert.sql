@@ -1,0 +1,2 @@
+INSERT INTO public."Message"(chat_id, ca_img, ca_name, user_name, speaker_id, flg, chat_message, date)
+VALUES(/* message.getChatId() */'M1',/* message.getCaImg() */'a',/* message.getCaName() */'a',/* message.getUserName() */'a',/* message.getSpeakerId() */'a',/* message.getFlg() */1,/* message.getChatMessage() */'aa',/* message.getDate() */'2017-11-11 11:11:11');
