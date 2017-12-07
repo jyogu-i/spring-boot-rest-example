@@ -1,7 +1,6 @@
 package com.khoubyari.example.repository;
 
 
-import com.amazonaws.services.dynamodbv2.xspec.L;
 import com.khoubyari.example.annotation.ConfigAutoDefault;
 import com.khoubyari.example.dao.entity.Ca;
 import com.khoubyari.example.dao.entity.CaResultCompany;

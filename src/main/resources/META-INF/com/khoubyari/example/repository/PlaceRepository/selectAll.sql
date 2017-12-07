@@ -1,1 +1,1 @@
-SELECT * FROM public."Place";
+SELECT place_id,place FROM public."Place" ORDER BY place_id ASC;

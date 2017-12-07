@@ -8,6 +8,7 @@ import com.khoubyari.example.dao.entity.Chat;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
+import org.seasar.doma.Update;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -26,4 +27,11 @@ public interface ChatRepository {
 
     @Insert(sqlFile = true)
     int insert(Chat chat);
+
+    @Update(sqlFile = true)
+    int updatePermission(Chat chat);
+
+    @Update(sqlFile = true)
+    int updateDenial(Chat chat);
+
 }

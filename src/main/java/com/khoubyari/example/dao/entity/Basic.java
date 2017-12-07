@@ -239,7 +239,7 @@ public class Basic implements Serializable{
         return p_industry_small;
     }
 
-    public void setP_industry_small(String P_industry_small) {
+    public void setP_industry_small(String p_industry_small) {
         this.p_industry_small = p_industry_small;
     }
 

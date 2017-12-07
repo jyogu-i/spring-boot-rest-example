@@ -130,7 +130,7 @@ public class CampController extends AbstractRestHandler {
 
 
     // welcome画面
-    @RequestMapping(value = "/welcome" , method = RequestMethod.GET, produces = {"application/json"})
+    @RequestMapping(value = "/welcome" , method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List welcome()throws Exception{
@@ -156,7 +156,7 @@ public class CampController extends AbstractRestHandler {
     }
 
     // 個人情報規約画面
-    @RequestMapping(value = "/personal" , method = RequestMethod.GET, produces = {"application/json"})
+    @RequestMapping(value = "/personal" , method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List personal()throws Exception{
@@ -166,9 +166,20 @@ public class CampController extends AbstractRestHandler {
         return personalLists;
     }
 
+    // test
+    @RequestMapping(value = "/{user_id}/test", method = {RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List test(@PathVariable String user_id) throws Exception{
+        Chat chat=new Chat();
+        chat.setUserId(user_id);
+        List caList=caRepository.selectCaLists(chat);
+
+        return caList;
+    }
+
     // ログイン画面 TODO
-    @RequestMapping(value = "/login", method = {RequestMethod.POST}, consumes = MediaType.APPLICATION_JSON_VALUE
-    )
+    @RequestMapping(value = "/login", method = {RequestMethod.POST}, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String login(@RequestBody User login){
         // ToDo:正しいものか確認するところ実装
@@ -177,44 +188,52 @@ public class CampController extends AbstractRestHandler {
         return login.toString();
     }
 
-    // test画面 TODO
-    @RequestMapping(value = "/{user_id}/test", method = {RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_VALUE)
+    // 必要か分からないけど作成。 CAが承認した場合のflg書き換え chatテーブルのflgを2に
+    @RequestMapping(value = "/{ca_id}/{user_id}/permission", method = {RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public String a(@PathVariable String user_id) throws Exception{
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public void permission(@PathVariable String ca_id,@PathVariable String user_id) throws Exception{
+        //承認したときのflgを2に変える
+        Chat chat = new Chat();
+        chat.setCaId(ca_id);
+        chat.setUserId(user_id);
 
-        // 加算される現在時間の取得(Calender型)
-        Calendar calendar = Calendar.getInstance();
+        chatRepository.updatePermission(chat);
 
-        // 日時を加算する
-        calendar.add(Calendar.MONTH, 3);
+    }
+    // 必要か分からないけど作成・ CAが拒否した場合のflg書き換え chatテーブルのflgを0に
+    @RequestMapping(value = "/{ca_id}/{user_id}/denial", method = {RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public void denial(@PathVariable String ca_id,@PathVariable String user_id) throws Exception{
+        //拒否したときのflgを0に変える
+        Chat chat = new Chat();
+        chat.setCaId(ca_id);
+        chat.setUserId(user_id);
 
-        // Calendar型の日時をDate型に変換
-        Date d1 = calendar.getTime();
-        System.out.println(sdf.format(d1));
-        return sdf.toString();
+        chatRepository.updateDenial(chat);
+
     }
 
-    @RequestMapping(value="/s3/{filename}", method=RequestMethod.GET)
-    public void download(@PathVariable String filename) throws IOException {
-        Resource resource = this.resourceLoader.getResource("s3://careerup-camp.jp/assets/img" + filename);
-        InputStream input = resource.getInputStream();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-        String str = new String();
-        StringBuilder builder = new StringBuilder();
-        while ((str = reader.readLine()) != null) {
-            builder.append(str);
-        };
-
-        File file = new File("s3://careerup-camp.jp/assets");
-        FileWriter writer = new FileWriter(file);
-        writer.write(builder.toString());
-
-        writer.close();
-        reader.close();
-        input.close();
-    }
+//    @RequestMapping(value="/s3/{filename}", method=RequestMethod.GET)
+//    public void download(@PathVariable String filename) throws IOException {
+//        Resource resource = this.resourceLoader.getResource("s3://careerup-camp.jp/assets/img" + filename);
+//        InputStream input = resource.getInputStream();
+//        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+//        String str = new String();
+//        StringBuilder builder = new StringBuilder();
+//        while ((str = reader.readLine()) != null) {
+//            builder.append(str);
+//        };
+//
+//        File file = new File("s3://careerup-camp.jp/assets");
+//        FileWriter writer = new FileWriter(file);
+//        writer.write(builder.toString());
+//
+//        writer.close();
+//        reader.close();
+//        input.close();
+//    }
 
     public void python(String user_id,int age,String gender,String times,String big_p_ind,String big_p_jc,String big_h_in,String big_h_jc,String scale_number)throws IOException{
         Chat chat = new Chat();
@@ -245,7 +264,6 @@ public class CampController extends AbstractRestHandler {
                 trimSpace(s);
                 chat.setUserId(user_id);
                 chat.setCaId(s);
-                System.out.println("マッチングしたCA"+s);
                 chatRepository.insert(chat);
             }
         }
@@ -254,9 +272,6 @@ public class CampController extends AbstractRestHandler {
     }
 
     public String trimSpace(String str){
-        str=str.replace("\uFEFF[","");
-        str=str.replace("[\uFEFF","");
-        str=str.replace("]\uFEFF","");
         str=str.replace("[","");
         str=str.replace("]","");
         str=str.replace(" ","");
@@ -292,7 +307,7 @@ public class CampController extends AbstractRestHandler {
         UserPrevious userprevious=new UserPrevious();
         userprevious.setUserId(user_id);
         userprevious.setCompanyName(basic.getP_company_name());
-        userprevious.setIndustryId(trimSpace(basic.getP_industry()));
+        userprevious.setIndustryId(trimSpace(basic.getP_industry()+basic.getP_industry_middle()+basic.getP_industry_small()));
         userprevious.setJobCategoryId(trimSpace(basic.getP_job_category()+basic.getP_job_category_middle()+basic.getP_job_category_small()));
         userprevious.setJoinedYear(basic.getJoined_year());
         userpreviousRepository.insertBasicUserPrevious(userprevious);
@@ -309,16 +324,12 @@ public class CampController extends AbstractRestHandler {
         user.setTimesId(trimSpace(basic.getTimesId().trim()));
         userRepository.insertBasicUser(user);
 
-
+        System.err.println("AIシステム＝"+user_id+","+user.getAge()+","
+                +basic.getP_job_category()+","+basic.getH_industry()+","+userhope.getScaleNumberId());
         //AIシステムへ
-//        python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),basic.getP_industry()
-//                ,basic.getP_job_category(),basic.getH_industry(),basic.getH_job_category(),userhope.getScaleNumberId());
-        chat.setFlg(2);
-        chat.setCaId("C04");
-        chatRepository.insert(chat);
+        python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),basic.getP_industry()
+                ,basic.getP_job_category(),basic.getH_industry(),basic.getH_job_category(),userhope.getScaleNumberId());
 
-        chat.setCaId("C05");
-        chatRepository.insert(chat);
     }
 
      // オプション登録画面
@@ -373,16 +384,8 @@ public class CampController extends AbstractRestHandler {
         userRepository.insertOptionUser(user);
 
         //　AIシステムへ
-//        python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),option.getP_industry()
-//                ,option.getP_job_category(),option.getH_industry(),option.getH_job_category(),option.getScaleNumber());
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-
-        chat.setFlg(2);
-        chat.setCaId("C04");
-        chatRepository.insert(chat);
-
-        chat.setCaId("C05");
-        chatRepository.insert(chat);
+        python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),option.getP_industry()
+                ,option.getP_job_category(),option.getH_industry(),option.getH_job_category(),option.getScaleNumber());
 
     }
 
@@ -392,94 +395,66 @@ public class CampController extends AbstractRestHandler {
     @ResponseBody
     public List user_list(@PathVariable String user_id) throws Exception{
         User user = new User();
-        UserPrevious userprevious = new UserPrevious();
-        UserHope userhope = new UserHope();
         user.setUserId(user_id);
+
+        UserHope userhope = new UserHope();
         userhope.setUserId(user_id);
+        List userhopeList = new ArrayList();
+
+        UserPrevious userprevious = new UserPrevious();
         userprevious.setUserId(user_id);
 
-        List<User> userLists = userRepository.selectUser(user);
-        List userModelLists = new ArrayList<>();
+        List userList=userRepository.selectUser(user);
+        userList.add(userhopeRepository.selectMyprofile(userhope));
+        userList.add(userpreviousRepository.selectMyprofile(userprevious));
 
-        for(User _user:userLists) {
-            UserModel _userModel = new UserModel();
-            BeanUtils.copyProperties(_userModel, _user);
+        return userList;
+//        User user = new User();
+//        UserPrevious userprevious = new UserPrevious();
+//        UserHope userhope = new UserHope();
+//        user.setUserId(user_id);
+//        userhope.setUserId(user_id);
+//        userprevious.setUserId(user_id);
+//
+//        List<User> userLists = userRepository.selectUser(user);
+//        List userModelLists = new ArrayList<>();
+//
+//        for(User _user:userLists) {
+//            UserModel _userModel = new UserModel();
+//            BeanUtils.copyProperties(_userModel, _user);
+//
+//            UserHope userHope = userhopeRepository.selectUserHope(_user);
+//            UserPrevious userPrevious = userpreviousRepository.selectUserPrevious(_user);
+//
+//            List userJobCategory = new ArrayList<>();
+//            userJobCategory.add(jobcategoryRepository.selectPMyprofile(userPrevious));
+//            userJobCategory.add(jobcategoryRepository.selectHMyprofile(userHope));
+//
+//            List userIndustry = new ArrayList<>();
+//            userIndustry.add(industryRepository.selectPMyprofile(userPrevious));
+//            userIndustry.add(industryRepository.selectHMyprofile(userHope));
+//
+//
+//            UserHopeModel _userHopeModel = new UserHopeModel();
+//            UserPreviousModel _userPreviousModel = new UserPreviousModel();
+//
+//            BeanUtils.copyProperties(_userHopeModel, userHope);
+//            BeanUtils.copyProperties(_userPreviousModel, userPrevious);
+//
+//            _userModel.setUserHopeModel(_userHopeModel);
+//            _userModel.setUserPreviousModel(_userPreviousModel);
+//
+//            userModelLists.add(_userModel);
+//            userModelLists.add(userJobCategory);
+//            userModelLists.add(userIndustry);
+//
+//        }
+//        ObjectMapper mapper=new ObjectMapper();
+//
+//        System.err.println(mapper.writeValueAsString(userModelLists));
+//
+//        return userModelLists;
 
-            UserHope userHope = userhopeRepository.selectUserHope(_user);
-            UserPrevious userPrevious = userpreviousRepository.selectUserPrevious(_user);
-
-            List userJobCategory = new ArrayList<>();
-            userJobCategory.add(jobcategoryRepository.selectPMyprofile(userPrevious));
-            userJobCategory.add(jobcategoryRepository.selectHMyprofile(userHope));
-
-            List userIndustry = new ArrayList<>();
-            userIndustry.add(industryRepository.selectPMyprofile(userPrevious));
-            userIndustry.add(industryRepository.selectHMyprofile(userHope));
-
-
-            UserHopeModel _userHopeModel = new UserHopeModel();
-            UserPreviousModel _userPreviousModel = new UserPreviousModel();
-
-            BeanUtils.copyProperties(_userHopeModel, userHope);
-            BeanUtils.copyProperties(_userPreviousModel, userPrevious);
-
-            _userModel.setUserHopeModel(_userHopeModel);
-            _userModel.setUserPreviousModel(_userPreviousModel);
-
-            userModelLists.add(_userModel);
-            userModelLists.add(userJobCategory);
-            userModelLists.add(userIndustry);
-
-        }
-        ObjectMapper mapper=new ObjectMapper();
-
-        System.err.println(mapper.writeValueAsString(userModelLists));
-
-        return userModelLists;
-        /*User user = new User();
-        UserPrevious userprevious = new UserPrevious();
-        UserHope userhope = new UserHope();
-        user.setUserId(user_id);
-        userhope.setUserId(user_id);
-        userprevious.setUserId(user_id);
-
-        List<User> userLists = userRepository.selectUser(user);
-        List<UserModel> userModelLists = new ArrayList<>();
-
-        for(User _user:userLists) {
-            UserModel _userModel = new UserModel();
-            BeanUtils.copyProperties(_userModel, _user);
-
-            UserHope userHope = userhopeRepository.selectUserHope(_user);
-            JobCategory HuserJobCategory = jobcategoryRepository.select(userHope);
-            Industry HuserIndustry = industryRepository.selectHIndustry(userHope);
-
-            UserPrevious userPrevious = userpreviousRepository.selectUserPrevious(_user);
-            JobCategory userJobCategory = jobcategoryRepository.selectJobCategory(userPrevious);
-            Industry userIndustry = industryRepository.selectIndustry(userPrevious);
-
-
-            UserHopeModel _userHopeModel = new UserHopeModel();
-            UserPreviousModel _userPreviousModel = new UserPreviousModel();
-            JobCategoryModel _jobCategoryModel = new JobCategoryModel();
-            IndustryModel _industryModel = new IndustryModel();
-
-            BeanUtils.copyProperties(_userHopeModel, userHope);
-            BeanUtils.copyProperties(_userPreviousModel, userPrevious);
-            BeanUtils.copyProperties(_jobCategoryModel, HuserJobCategory);
-            BeanUtils.copyProperties(_industryModel, HuserIndustry);
-            BeanUtils.copyProperties(_jobCategoryModel, userJobCategory);
-            BeanUtils.copyProperties(_industryModel, userIndustry);
-
-
-            _userModel.setUserHopeModel(_userHopeModel);
-            _userModel.setUserPreviousModel(_userPreviousModel);
-            _userModel.setJobCategoryModel(_jobCategoryModel);
-            _userModel.setIndustryModel(_industryModel);
-            userModelLists.add(_userModel);
-        }
-
-        return userModelLists;*/
     }
 
     // マイプロフィール登録画面　新しく登録し直す
@@ -532,7 +507,6 @@ public class CampController extends AbstractRestHandler {
 
         userRepository.updateMyprofileUser(user);
 
-        System.out.println(user);
     }
 
     // お問い合わせ画面
@@ -584,22 +558,27 @@ public class CampController extends AbstractRestHandler {
     @ResponseBody
     public List ca_list(@PathVariable String user_id,
                          HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Chat chat = new Chat();
+        Chat chat=new Chat();
         chat.setUserId(user_id);
-        List<Chat> chatLists = chatRepository.selectCaList(chat);
+        List caList=caRepository.selectCaLists(chat);
 
-        List lists=new ArrayList<>();
-        for(Chat c : chatLists) {
-            List caList=new ArrayList<>();
-            List caResultIndustry = caresultindustryRepository.selectCaChatList(c);
-            Ca cA=caRepository.selectChat(c);
-            caList.add(cA);
-            caList.add(caResultIndustry);
-
-            lists.add(caList);
-        }
-
-        return lists;
+        return caList;
+//        Chat chat = new Chat();
+//        chat.setUserId(user_id);
+//        List<Chat> chatLists = chatRepository.selectCaList(chat);
+//
+//        List lists=new ArrayList<>();
+//        for(Chat c : chatLists) {
+//            List caList=new ArrayList<>();
+//            List caResultIndustry = caresultindustryRepository.selectCaChatList(c);
+//            Ca cA=caRepository.selectChat(c);
+//            caList.add(cA);
+//            caList.add(caResultIndustry);
+//
+//            lists.add(caList);
+//        }
+//
+//        return lists;
     }
 
     // ca詳細
@@ -646,7 +625,7 @@ public class CampController extends AbstractRestHandler {
         return messageLists;
     }
 
-    // チャット詳細
+    // チャット詳細 TODO
     @RequestMapping(value = "/{user_id}/chat/{chat_id}", method = RequestMethod.GET, produces = {"application/json"})
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -688,9 +667,9 @@ public class CampController extends AbstractRestHandler {
     }
 
     // 利用規約画面
-    @RequestMapping(value="/{user_id}/tos",method = RequestMethod.GET, produces = {"application/json"})
+    @RequestMapping(value="/tos",method = RequestMethod.GET, produces = {"application/json"})
     @ResponseBody
-    public List tos(@PathVariable String user_id) throws Exception{
+    public List tos() throws Exception{
         // TosDBに接続して値を取得
         List tos = tosRepository.selectAll();
         return tos;

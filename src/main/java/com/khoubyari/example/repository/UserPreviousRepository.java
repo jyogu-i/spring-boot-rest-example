@@ -16,8 +16,8 @@ public interface UserPreviousRepository {
     @Select
     List<UserPrevious> selectAll();
 
-//    @Select
-//    List<UserPrevious> selectUserPrevious(UserPrevious userprevious);
+    @Select
+    List<UserPrevious> selectMyprofile(UserPrevious userprevious);
 
     @Select
     UserPrevious selectUserPrevious(User user);

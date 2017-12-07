@@ -14,11 +14,12 @@ import java.util.List;
 @ConfigAutoDefault
 @Dao
 public interface UserRepository {
-    @Select
-    List<User> selectAll(User user);
 
     @Select
     List<User> selectUser(User user);
+
+    @Select
+    List<User> selectMyprofile(User user);
 
     @Insert(sqlFile = true)
     int insert(User user);

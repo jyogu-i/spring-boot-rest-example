@@ -1,1 +1,1 @@
-SELECT big_category_id,middle_category_id,small_category,small_category_id FROM public."Industry" ORDER BY big_category_id ASC;
+SELECT big_industry_id,middle_industry_id,small_industry,small_industry_id FROM public."Industry" ORDER BY big_industry_id ASC;

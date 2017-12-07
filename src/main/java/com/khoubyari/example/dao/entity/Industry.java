@@ -17,28 +17,28 @@ public class Industry {
     String industryId;
 
     /** */
-    @Column(name = "big_category")
-    String bigCategory;
+    @Column(name = "big_industry")
+    String bigIndustry;
 
     /** */
-    @Column(name = "middle_category")
-    String middleCategory;
+    @Column(name = "middle_industry")
+    String middleIndustry;
 
     /** */
-    @Column(name = "small_category")
-    String smallCategory;
+    @Column(name = "small_industry")
+    String smallIndustry;
 
     /** */
-    @Column(name = "big_category_id")
-    String bigCategoryId;
+    @Column(name = "big_industry_id")
+    String bigIndustryId;
 
     /** */
-    @Column(name = "middle_category_id")
-    String middleCategoryId;
+    @Column(name = "middle_industry_id")
+    String middleIndustryId;
 
     /** */
-    @Column(name = "small_category_id")
-    String smallCategoryId;
+    @Column(name = "small_industry_id")
+    String smallIndustryId;
 
     /** 
      * Returns the industryId.
@@ -53,52 +53,52 @@ public class Industry {
         this.industryId = industryId;
     }
 
-    public String getBigCategory() {
-        return bigCategory;
+    public String getBigIndustry() {
+        return bigIndustry;
     }
 
-    public void setBigCategory(String bigCategory) {
-        this.bigCategory = bigCategory;
+    public void setBigIndustry(String bigIndustry) {
+        this.bigIndustry = bigIndustry;
     }
 
-    public String getMiddleCategory() {
-        return middleCategory;
+    public String getMiddleIndustry() {
+        return middleIndustry;
     }
 
-    public void setMiddleCategory(String middleCategory) {
-        this.middleCategory = middleCategory;
+    public void setMiddleIndustry(String middleIndustry) {
+        this.middleIndustry = middleIndustry;
     }
 
-    public String getSmallCategory() {
-        return smallCategory;
+    public String getSmallIndustry() {
+        return smallIndustry;
     }
 
-    public void setSmallCategory(String smallCategory) {
-        this.smallCategory = smallCategory;
+    public void setSmallIndustry(String smallIndustry) {
+        this.smallIndustry = smallIndustry;
     }
 
-    public String getBigCategoryId() {
-        return bigCategoryId;
+    public String getBigIndustryId() {
+        return bigIndustryId;
     }
 
-    public void setBigCategoryId(String bigCategoryId) {
-        this.bigCategoryId = bigCategoryId;
+    public void setBigIndustryId(String bigIndustryId) {
+        this.bigIndustryId = bigIndustryId;
     }
 
-    public String getMiddleCategoryId() {
-        return middleCategoryId;
+    public String getMiddleIndustryId() {
+        return middleIndustryId;
     }
 
-    public void setMiddleCategoryId(String middleCategoryId) {
-        this.middleCategoryId = middleCategoryId;
+    public void setMiddleIndustryId(String middleIndustryId) {
+        this.middleIndustryId = middleIndustryId;
     }
 
-    public String getSmallCategoryId() {
-        return smallCategoryId;
+    public String getSmallIndustryId() {
+        return smallIndustryId;
     }
 
-    public void setSmallCategoryId(String smallCategoryId) {
-        this.smallCategoryId = smallCategoryId;
+    public void setSmallIndustryId(String smallIndustryId) {
+        this.smallIndustryId = smallIndustryId;
     }
 
 }

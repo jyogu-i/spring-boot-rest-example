@@ -19,6 +19,9 @@ public interface UserHopeRepository {
     List<UserHope> selectAll();
 
     @Select
+    List<UserHope> selectMyprofile(UserHope userhope);
+
+    @Select
     UserHope selectUserHope(User user);
 
 //    @Select

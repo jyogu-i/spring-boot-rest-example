@@ -1,1 +1,1 @@
-SELECT DISTINCT big_category_id,middle_category_id,middle_category FROM public."Industry" ORDER BY big_category_id ASC;
+SELECT DISTINCT big_industry_id,middle_industry_id,middle_industry FROM public."Industry" ORDER BY big_industry_id ASC;

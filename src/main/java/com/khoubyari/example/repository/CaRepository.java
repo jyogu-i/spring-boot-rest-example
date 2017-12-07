@@ -24,6 +24,9 @@ public interface CaRepository {
     @Select
     Ca selectChat(Chat chat);
 
+    @Select
+    List<Ca> selectCaLists(Chat chat);
+
     @Insert
     @Transactional
     int insert(Ca ca);
