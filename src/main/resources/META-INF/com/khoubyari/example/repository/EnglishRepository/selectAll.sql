@@ -1,1 +1,1 @@
-SELECT english_id,english FROM public."English" ORDER BY english_id ASC;
+SELECT english_id,english FROM public."English";

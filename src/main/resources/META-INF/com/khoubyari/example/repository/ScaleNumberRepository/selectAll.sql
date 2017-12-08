@@ -1,1 +1,1 @@
-SELECT scale_number_id,scale_number FROM public."Scale_number" ORDER BY scale_number_id ASC;
+SELECT scale_number_id,scale_number FROM public."Scale_number";

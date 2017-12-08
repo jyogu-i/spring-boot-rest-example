@@ -1,1 +1,1 @@
-SELECT work_id,work FROM public."Work" ORDER BY work_id ASC;
+SELECT work_id,work FROM public."Work";

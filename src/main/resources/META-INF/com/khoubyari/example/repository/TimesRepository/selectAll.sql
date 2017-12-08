@@ -1,1 +1,1 @@
-SELECT times_id,times FROM public."Times" ORDER BY times_id ASC;
+SELECT times_id,times FROM public."Times";

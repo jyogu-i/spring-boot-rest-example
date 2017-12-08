@@ -10,8 +10,12 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
@@ -35,6 +39,8 @@ import java.util.*;
 @RequestMapping(value = "/v1/api/camp")
 @Api(tags = {"camp"})
 public class CampController extends AbstractRestHandler {
+//    private final JavaMailSender javaMailSender;
+
     @Autowired
     private ResourceLoader resourceLoader;
 
@@ -128,6 +134,27 @@ public class CampController extends AbstractRestHandler {
     @Autowired
     private PersonalInfoRepository personalInfoRepository;
 
+//    @Autowired
+//    CampController(JavaMailSender javaMailSender) {
+//        this.javaMailSender = javaMailSender;
+//    }
+//
+//    // test
+//    @RequestMapping(value = "/mail/send", method = {RequestMethod.POST} )
+//    public String send() {
+//        SimpleMailMessage mailMessage = new SimpleMailMessage();
+//
+//        mailMessage.setTo("m.sekine@mybrainlab.net");
+//        //mailMessage.setReplyTo("リプライのメールアドレス");
+//        mailMessage.setFrom("Fromのメールアドレス");
+//        mailMessage.setSubject("テストメール");
+//        mailMessage.setText("テストメールです、\nここから次の行\nおわりです\n");
+//
+//        javaMailSender.send(mailMessage);
+//
+//        return "ok";
+//    }
+
 
     // welcome画面
     @RequestMapping(value = "/welcome" , method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -164,18 +191,6 @@ public class CampController extends AbstractRestHandler {
         List personalLists = personalInfoRepository.selectAll();
 
         return personalLists;
-    }
-
-    // test
-    @RequestMapping(value = "/{user_id}/test", method = {RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public List test(@PathVariable String user_id) throws Exception{
-        Chat chat=new Chat();
-        chat.setUserId(user_id);
-        List caList=caRepository.selectCaLists(chat);
-
-        return caList;
     }
 
     // ログイン画面 TODO
@@ -311,8 +326,6 @@ public class CampController extends AbstractRestHandler {
         userprevious.setJobCategoryId(trimSpace(basic.getP_job_category()+basic.getP_job_category_middle()+basic.getP_job_category_small()));
         userprevious.setJoinedYear(basic.getJoined_year());
         userpreviousRepository.insertBasicUserPrevious(userprevious);
-        System.err.println("basic.getP_job_category_middle"+basic.getP_job_category_middle());
-
 
         User user=new User();
         user.setUserId(user_id);
@@ -322,6 +335,7 @@ public class CampController extends AbstractRestHandler {
         user.setMajorId(trimSpace(basic.getMajor().trim()));
         user.setSchool(trimSpace(basic.getSchool()));
         user.setTimesId(trimSpace(basic.getTimesId().trim()));
+        user.setAcademicId("なし");
         userRepository.insertBasicUser(user);
 
         System.err.println("AIシステム＝"+user_id+","+user.getAge()+","
@@ -674,6 +688,5 @@ public class CampController extends AbstractRestHandler {
         List tos = tosRepository.selectAll();
         return tos;
     }
-
 
 }

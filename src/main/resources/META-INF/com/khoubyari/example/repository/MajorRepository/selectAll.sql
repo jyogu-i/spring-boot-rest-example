@@ -1,1 +1,1 @@
-SELECT major_id,major FROM public."Major" ORDER BY major_id ASC;
+SELECT major_id,major FROM public."Major";
