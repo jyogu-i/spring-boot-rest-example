@@ -21,12 +21,6 @@ public interface UserHopeRepository {
     @Select
     List<UserHope> selectMyprofile(UserHope userhope);
 
-    @Select
-    UserHope selectUserHope(User user);
-
-//    @Select
-//    List<UserHope> selectUserHope(UserHope userhope);
-
     @Insert(sqlFile = true)
     int insert(UserHope userhope);
 
@@ -35,9 +29,6 @@ public interface UserHopeRepository {
 
     @Insert(sqlFile = true)
     int insertOptionUserHope(UserHope userhope);
-
-    @Update(sqlFile = true)
-    int updateOptionUserHope(UserHope userhope);
 
     @Update(sqlFile = true)
     int updateMyprofileUserHope(UserHope userhope);

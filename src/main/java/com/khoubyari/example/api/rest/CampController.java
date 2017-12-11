@@ -107,9 +107,6 @@ public class CampController extends AbstractRestHandler {
     private ScaleTypeRepository scaletypeRepository;
 
     @Autowired
-    private ContactRepository contactRepository;
-
-    @Autowired
     private RequestRepository requestRepository;
 
     @Autowired
@@ -196,7 +193,7 @@ public class CampController extends AbstractRestHandler {
 
     }
     // 必要か分からないけど作成・ CAが拒否した場合のflg書き換え chatテーブルのflgを0に
-    @RequestMapping(value = "/{ca_id}/{user_id}/denial", method = {RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{ca_id}/{user_id}/denial", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public void denial(@PathVariable String ca_id,@PathVariable String user_id) throws Exception{
@@ -206,6 +203,15 @@ public class CampController extends AbstractRestHandler {
         chat.setUserId(user_id);
 
         chatRepository.updateDenial(chat);
+
+    }
+
+    // 必要か分からないけど作成・ 通知のオンオフを受け取る
+    @RequestMapping(value = "/{user_id}/notification", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public void notification(@PathVariable String user_id) throws Exception{
+        //通知のオンオフを受け取る
 
     }
 
@@ -320,8 +326,8 @@ public class CampController extends AbstractRestHandler {
         System.err.println("AIシステム＝"+user_id+","+user.getAge()+","
                 +basic.getP_job_category()+","+basic.getH_industry()+","+userhope.getScaleNumberId());
         //AIシステムへ
-//        python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),basic.getP_industry()
-//                ,basic.getP_job_category(),basic.getH_industry(),basic.getH_job_category(),userhope.getScaleNumberId());
+        python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),basic.getP_industry()
+                ,basic.getP_job_category(),basic.getH_industry(),basic.getH_job_category(),userhope.getScaleNumberId());
 
     }
 
@@ -377,13 +383,13 @@ public class CampController extends AbstractRestHandler {
         userRepository.insertOptionUser(user);
 
         //　AIシステムへ
-//        python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),option.getP_industry()
-//                ,option.getP_job_category(),option.getH_industry(),option.getH_job_category(),option.getScaleNumber());
+        python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),option.getP_industry()
+                ,option.getP_job_category(),option.getH_industry(),option.getH_job_category(),option.getScaleNumber());
 
     }
 
     // マイプロフィール画面 プロフィール一覧をフロントに送信
-    @RequestMapping(value="/{user_id}/myprofile", method = RequestMethod.GET, produces = {"application/json"})
+    @RequestMapping(value="/{user_id}/myprofile", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List user_list(@PathVariable String user_id) throws Exception{
@@ -406,7 +412,7 @@ public class CampController extends AbstractRestHandler {
     }
 
     // マイプロフィール登録画面　新しく登録し直す
-    @RequestMapping(value = "/{user_id}/myprofile", method = {RequestMethod.POST}, consumes ={"application/json"})
+    @RequestMapping(value = "/{user_id}/myprofile", method = {RequestMethod.POST}, consumes =MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public void myprofile(@RequestBody String json, @PathVariable String user_id)throws IOException{
@@ -435,7 +441,6 @@ public class CampController extends AbstractRestHandler {
         userprevious.setCompanyName(myprofile.getP_company());
         userprevious.setJobCategoryId(trimSpace(myprofile.getBigCategory()+myprofile.getMiddleCategory()+myprofile.getSmallCategory()));
         userprevious.setJoinedYear(myprofile.getJoined_year());
-        //userpreviousRepository.updateMyprofileUserPrevious(userprevious);
         userpreviousRepository.insertOptionUserPrevious(userprevious);
 
         User user=new User();
@@ -452,21 +457,48 @@ public class CampController extends AbstractRestHandler {
         user.setSkill(myprofile.getSkill());
         user.setLastName(myprofile.getLastName());
         user.setFirstName(myprofile.getFirstName());
-
         userRepository.updateMyprofileUser(user);
 
+        python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),myprofile.getBigIndustry()
+                ,myprofile.getBigCategory(),myprofile.getBigIndustry(),myprofile.getH_bigCategory(),myprofile.getScaleNumber());
+
     }
+
+    // アカウント画面
+    @RequestMapping(value = "/{user_id}/account", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public User account(@PathVariable String user_id)throws IOException{
+        User user=new User();
+        user.setUserId(user_id);
+        return userRepository.selectAccount(user);
+    }
+
+    // アカウント画面
+    @RequestMapping(value = "/{user_id}/account", method = RequestMethod.POST, consumes =MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public void account(@RequestBody String json, @PathVariable String user_id)throws IOException{
+        ObjectMapper mapper = new ObjectMapper();
+        User account = mapper.readValue(json, User.class);
+
+        account.setUserId(user_id);
+        account.setPassword(account.getPassword());
+        account.setCellphone(account.getCellphone());
+        userRepository.updateAccount(account);
+
+    }
+
     // お問い合わせメール
     @RequestMapping(value = "/{user_id}/contact", method = RequestMethod.POST
            // , consumes = MediaType.APPLICATION_JSON_VALUE
             )
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public String contact(
-           // @RequestBody String json,
-            @PathVariable String user_id)throws IOException{
-//        ObjectMapper mapper = new ObjectMapper();
-//        Contact contact = mapper.readValue(json, Contact.class);
+    public String contact(@RequestBody String json, @PathVariable String user_id)throws IOException{
+        ObjectMapper mapper = new ObjectMapper();
+        System.err.println("jsonの中身＝"+json);
+        Contact contact = mapper.readValue(json, Contact.class);
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
 
@@ -475,11 +507,11 @@ public class CampController extends AbstractRestHandler {
         mailMessage.setFrom("m.sekine@mybrainlab.net");//Todo campのメアド入れる
         mailMessage.setSubject(user_id+"様からのお問い合わせ");
         mailMessage.setText("ユーザID："+user_id+"様からのお問い合わせを頂きました。\n以下本文" +
-                "\n#################################\n\n本文だよ");
+                "\n#################################\n\n"+contact.getContactMessage());
 
         javaMailSender.send(mailMessage);
 
-        return "お問い合わせありがとうございます。事務局からの返信をお待ちください。";
+        return "お問い合わせが完了しました。事務局からの返信をお待ちくださいませ。";
     }
 
 //    // お問い合わせ画面
@@ -592,7 +624,6 @@ public class CampController extends AbstractRestHandler {
         List messageLists = messageRepository.selectDetail(message);
         return messageLists;
     }
-
 
     // お知らせ一覧
     @RequestMapping(value="/{user_id}/notice",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

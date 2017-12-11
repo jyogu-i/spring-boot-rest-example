@@ -19,7 +19,7 @@ public interface UserRepository {
     List<User> selectUser(User user);
 
     @Select
-    List<User> selectMyprofile(User user);
+    User selectAccount(User user);
 
     @Insert(sqlFile = true)
     int insert(User user);
@@ -34,5 +34,5 @@ public interface UserRepository {
     int updateMyprofileUser(User user);
 
     @Update(sqlFile = true)
-    int updateOptionUser(User user);
+    int updateAccount(User user);
 }

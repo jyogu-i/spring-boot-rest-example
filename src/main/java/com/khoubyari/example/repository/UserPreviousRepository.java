@@ -19,9 +19,6 @@ public interface UserPreviousRepository {
     @Select
     List<UserPrevious> selectMyprofile(UserPrevious userprevious);
 
-    @Select
-    UserPrevious selectUserPrevious(User user);
-
     @Insert(sqlFile = true)
     int insert(UserPrevious userprevious);
 
@@ -31,13 +28,7 @@ public interface UserPreviousRepository {
     @Insert(sqlFile = true)
     int insertOptionUserPrevious(UserPrevious userprevious);
 
-    @Update(sqlFile = true)
-    int updateMyprofileUserPrevious(UserPrevious userprevious);
-
     @Delete(sqlFile = true)
     int delete(UserPrevious userprevious);
 
-//    @Insert
-//    @Transactional
-//    int insertBasicUserPrevious(UserPrevious userprevious);
 }
