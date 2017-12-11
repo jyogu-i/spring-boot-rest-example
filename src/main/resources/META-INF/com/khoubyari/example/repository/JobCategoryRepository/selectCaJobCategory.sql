@@ -1,1 +1,0 @@
-SELECT * FROM public."JobCategory" WHERE job_category_id=/* caresultjobcategory.getJobCategoryId() */'1101';

@@ -23,9 +23,6 @@ public interface CaResultJobCategoryRepository {
     List<CaResultJobCategory> selectDetail(CaResultJobCategory caresultjobcategory);
 
     @Select
-    CaResultJobCategory selectCaList(Ca ca);
-
-    @Select
     List<CaResultJobCategory> selectCaListAll(Ca ca);
 
     @Insert

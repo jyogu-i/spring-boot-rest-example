@@ -14,19 +14,7 @@ import java.util.List;
 @Dao
 public interface JobCategoryRepository {
     @Select
-    JobCategory selectJobCategory(UserPrevious userprevious);
-
-    @Select
     JobCategory select(UserHope userHope);
-
-    @Select
-    JobCategory selectCaJobCategory(CaResultJobCategory caresultjobcategory);
-
-    @Select
-    List<JobCategory> selectPMyprofile(UserPrevious userprevious);
-
-    @Select
-    List<JobCategory> selectHMyprofile(UserHope userHope);
 
     @Select
     List<JobCategory> selectBig();

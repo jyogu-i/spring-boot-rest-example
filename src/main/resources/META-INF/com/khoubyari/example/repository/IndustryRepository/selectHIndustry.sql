@@ -1,1 +1,0 @@
-SELECT * FROM public."Industry" WHERE industry_id=/* userhope.getIndustryId() */'1101';

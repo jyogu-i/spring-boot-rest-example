@@ -24,15 +24,6 @@ public interface CaResultIndustryRepository {
     List<CaResultIndustry> selectDetail(CaResultIndustry caresultindustry);
 
     @Select
-    CaResultIndustry selectCaList(Ca ca);
-
-    @Select
-    CaResultIndustry selectChat(Chat chat);
-
-    @Select
-   List<CaResultIndustry> selectCaChatList(Chat chat);
-
-    @Select
     List<CaResultIndustry> selectCaListAll(Ca ca);
 
     @Insert

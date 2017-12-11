@@ -164,7 +164,7 @@ public class CampController extends AbstractRestHandler {
         return personalLists;
     }
     // 利用規約画面
-    @RequestMapping(value="/tos",method = RequestMethod.GET, produces = {"application/json"})
+    @RequestMapping(value="/tos",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List tos() throws Exception{
         // TosDBに接続して値を取得
@@ -320,8 +320,8 @@ public class CampController extends AbstractRestHandler {
         System.err.println("AIシステム＝"+user_id+","+user.getAge()+","
                 +basic.getP_job_category()+","+basic.getH_industry()+","+userhope.getScaleNumberId());
         //AIシステムへ
-        python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),basic.getP_industry()
-                ,basic.getP_job_category(),basic.getH_industry(),basic.getH_job_category(),userhope.getScaleNumberId());
+//        python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),basic.getP_industry()
+//                ,basic.getP_job_category(),basic.getH_industry(),basic.getH_job_category(),userhope.getScaleNumberId());
 
     }
 
@@ -377,8 +377,8 @@ public class CampController extends AbstractRestHandler {
         userRepository.insertOptionUser(user);
 
         //　AIシステムへ
-        python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),option.getP_industry()
-                ,option.getP_job_category(),option.getH_industry(),option.getH_job_category(),option.getScaleNumber());
+//        python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),option.getP_industry()
+//                ,option.getP_job_category(),option.getH_industry(),option.getH_job_category(),option.getScaleNumber());
 
     }
 
@@ -457,8 +457,8 @@ public class CampController extends AbstractRestHandler {
 
     }
     // お問い合わせメール
-    @RequestMapping(value = "/{user_id}/contact", method = RequestMethod.GET
-           // , consumes = MediaType.APPLICATION_JSON_VALU
+    @RequestMapping(value = "/{user_id}/contact", method = RequestMethod.POST
+           // , consumes = MediaType.APPLICATION_JSON_VALUE
             )
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody

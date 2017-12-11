@@ -15,21 +15,6 @@ import java.util.List;
 public interface IndustryRepository {
 
     @Select
-    Industry selectIndustry(UserPrevious userprevious);
-
-    @Select
-    Industry selectHIndustry(UserHope userhope);
-
-    @Select
-    List<Industry> selectPMyprofile(UserPrevious userprevious);
-
-    @Select
-    List<Industry> selectHMyprofile(UserHope userHope);
-
-    @Select
-    Industry selectCaIndustry(CaResultIndustry caresultindustry);
-
-    @Select
     List<Industry> selectBig();
 
     @Select

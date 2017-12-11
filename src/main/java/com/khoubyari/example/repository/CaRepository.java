@@ -16,13 +16,7 @@ import java.util.List;
 @Dao
 public interface CaRepository {
     @Select
-    List<Ca> selectAll();
-
-    @Select
     Ca selectDetail(Ca ca);
-
-    @Select
-    Ca selectChat(Chat chat);
 
     @Select
     List<Ca> selectCaLists(Chat chat);

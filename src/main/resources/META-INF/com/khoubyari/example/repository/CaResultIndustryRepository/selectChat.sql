@@ -1,1 +1,0 @@
-select * from public."Ca_result_industry" where ca_id=/* chat.getCaId() */'N1';

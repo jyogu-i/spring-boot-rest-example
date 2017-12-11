@@ -14,14 +14,9 @@ import java.util.List;
 @ConfigAutoDefault
 @Dao
 public interface CaResultCompanyRepository {
-    @Select
-    List<CaResultCompany> selectAll();
 
     @Select
     List<CaResultCompany> selectDetail(CaResultCompany caresultcompany);
-
-    @Select
-    CaResultCompany selectCaList(Ca ca);
 
     @Select
     List<CaResultCompany> selectCaListAll(Ca ca);
