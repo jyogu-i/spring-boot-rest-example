@@ -1,40 +1,26 @@
 package com.khoubyari.example.api.rest;
 
 import com.khoubyari.example.dao.entity.*;
-import com.khoubyari.example.dao.model.*;
 import com.khoubyari.example.repository.*;
-import com.sun.jmx.snmp.Timestamp;
 import io.swagger.annotations.Api;
 import com.khoubyari.example.service.CampService;
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.BeanUtilsBean;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
 import java.io.*;
-import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.List;
 import java.util.*;
-import java.util.logging.Logger;
-
 
 // コントローラークラスだよっていうおまじない
 @RestController
@@ -135,36 +121,19 @@ public class CampController extends AbstractRestHandler {
     @Autowired
     private PersonalInfoRepository personalInfoRepository;
 
-//    private final JavaMailSender javaMailSender;
-//
-//    @Autowired
-//    CampController(JavaMailSender javaMailSender) {
-//        this.javaMailSender = javaMailSender;
-//    }
-//
-//    @RequestMapping(value = "/mail/send", method = {RequestMethod.POST} )
-//    public String send() {
-//
-//        SimpleMailMessage mailMessage = new SimpleMailMessage();
-//
-//        mailMessage.setTo("m.sekine@mybrainlab.net");
-//        //mailMessage.setReplyTo("リプライのメールアドレス");
-//        mailMessage.setFrom("mayu.0110.cola@gmail.com");
-//        mailMessage.setSubject("テストメール");
-//        mailMessage.setText("テストメールです、\nここから次の行\nおわりです\n");
-//
-//        javaMailSender.send(mailMessage);
-//
-//        return "ok";
-//    }
+    // お問い合わせメール用の設定
+    private final JavaMailSender javaMailSender;
 
+    @Autowired
+    CampController(JavaMailSender javaMailSender) {
+        this.javaMailSender = javaMailSender;
+    }
 
     // welcome画面
     @RequestMapping(value = "/welcome" , method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List welcome()throws Exception{
-        // ToDo:プルダウン要素全て返す
         List welcome = genderRepository.selectAll();
         welcome.add(academicRepository.selectAll());
         welcome.add(englishRepository.selectAll());
@@ -190,10 +159,17 @@ public class CampController extends AbstractRestHandler {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List personal()throws Exception{
-        // ToDo:プルダウン要素全て返す
         List personalLists = personalInfoRepository.selectAll();
 
         return personalLists;
+    }
+    // 利用規約画面
+    @RequestMapping(value="/tos",method = RequestMethod.GET, produces = {"application/json"})
+    @ResponseBody
+    public List tos() throws Exception{
+        // TosDBに接続して値を取得
+        List tos = tosRepository.selectAll();
+        return tos;
     }
 
     // ログイン画面 TODO
@@ -426,51 +402,6 @@ public class CampController extends AbstractRestHandler {
         userList.add(userpreviousRepository.selectMyprofile(userprevious));
 
         return userList;
-//        User user = new User();
-//        UserPrevious userprevious = new UserPrevious();
-//        UserHope userhope = new UserHope();
-//        user.setUserId(user_id);
-//        userhope.setUserId(user_id);
-//        userprevious.setUserId(user_id);
-//
-//        List<User> userLists = userRepository.selectUser(user);
-//        List userModelLists = new ArrayList<>();
-//
-//        for(User _user:userLists) {
-//            UserModel _userModel = new UserModel();
-//            BeanUtils.copyProperties(_userModel, _user);
-//
-//            UserHope userHope = userhopeRepository.selectUserHope(_user);
-//            UserPrevious userPrevious = userpreviousRepository.selectUserPrevious(_user);
-//
-//            List userJobCategory = new ArrayList<>();
-//            userJobCategory.add(jobcategoryRepository.selectPMyprofile(userPrevious));
-//            userJobCategory.add(jobcategoryRepository.selectHMyprofile(userHope));
-//
-//            List userIndustry = new ArrayList<>();
-//            userIndustry.add(industryRepository.selectPMyprofile(userPrevious));
-//            userIndustry.add(industryRepository.selectHMyprofile(userHope));
-//
-//
-//            UserHopeModel _userHopeModel = new UserHopeModel();
-//            UserPreviousModel _userPreviousModel = new UserPreviousModel();
-//
-//            BeanUtils.copyProperties(_userHopeModel, userHope);
-//            BeanUtils.copyProperties(_userPreviousModel, userPrevious);
-//
-//            _userModel.setUserHopeModel(_userHopeModel);
-//            _userModel.setUserPreviousModel(_userPreviousModel);
-//
-//            userModelLists.add(_userModel);
-//            userModelLists.add(userJobCategory);
-//            userModelLists.add(userIndustry);
-//
-//        }
-//        ObjectMapper mapper=new ObjectMapper();
-//
-//        System.err.println(mapper.writeValueAsString(userModelLists));
-//
-//        return userModelLists;
 
     }
 
@@ -525,20 +456,45 @@ public class CampController extends AbstractRestHandler {
         userRepository.updateMyprofileUser(user);
 
     }
-
-    // お問い合わせ画面
-    @RequestMapping(value = "/{user_id}/contact", method = {RequestMethod.POST}, consumes = MediaType.APPLICATION_JSON_VALUE)
+    // お問い合わせメール
+    @RequestMapping(value = "/{user_id}/contact", method = RequestMethod.GET
+           // , consumes = MediaType.APPLICATION_JSON_VALU
+            )
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public void contact(@RequestBody String json,@PathVariable String user_id)throws IOException{
-        // IDはクエリから取得
-        System.err.println("jsonの中身＝"+json);
-        ObjectMapper mapper = new ObjectMapper();
-        Contact contact = mapper.readValue(json, Contact.class);
-        contact.setRequesterId(user_id);
-        contact.setContactMessage(contact.getContactMessage());
-        contactRepository.insert(contact);
+    public String contact(
+           // @RequestBody String json,
+            @PathVariable String user_id)throws IOException{
+//        ObjectMapper mapper = new ObjectMapper();
+//        Contact contact = mapper.readValue(json, Contact.class);
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+
+        mailMessage.setTo("mayu.0110.cola@gmail.com");//Todo campのメアド入れる
+        //mailMessage.setReplyTo("リプライのメールアドレス");
+        mailMessage.setFrom("m.sekine@mybrainlab.net");//Todo campのメアド入れる
+        mailMessage.setSubject(user_id+"様からのお問い合わせ");
+        mailMessage.setText("ユーザID："+user_id+"様からのお問い合わせを頂きました。\n以下本文" +
+                "\n#################################\n\n本文だよ");
+
+        javaMailSender.send(mailMessage);
+
+        return "お問い合わせありがとうございます。事務局からの返信をお待ちください。";
     }
+
+//    // お問い合わせ画面
+//    @RequestMapping(value = "/{user_id}/contact", method = {RequestMethod.POST}, consumes = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseStatus(HttpStatus.OK)
+//    @ResponseBody
+//    public void contact(@RequestBody String json,@PathVariable String user_id)throws IOException{
+//        // IDはクエリから取得
+//        System.err.println("jsonの中身＝"+json);
+//        ObjectMapper mapper = new ObjectMapper();
+//        Contact contact = mapper.readValue(json, Contact.class);
+//        contact.setRequesterId(user_id);
+//        contact.setContactMessage(contact.getContactMessage());
+//        contactRepository.insert(contact);
+//    }
 
     // campへのご要望画面
     @RequestMapping(value = "/{user_id}/camp_request", method = {RequestMethod.POST}, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -570,7 +526,7 @@ public class CampController extends AbstractRestHandler {
     }
 
     // ca一覧 chatテーブルにいるCAさんの一覧情報を全て返す(flg=2)
-    @RequestMapping(value="/{user_id}/ca",method=RequestMethod.GET,produces = {"application/json"})
+    @RequestMapping(value="/{user_id}/ca",method=RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List ca_list(@PathVariable String user_id,
@@ -583,7 +539,7 @@ public class CampController extends AbstractRestHandler {
     }
 
     // ca詳細
-    @RequestMapping(value = "/{user_id}/ca/{ca_id}", method = RequestMethod.GET, produces = {"application/json"})
+    @RequestMapping(value = "/{user_id}/ca/{ca_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List ca_detail(@PathVariable String user_id,@PathVariable String ca_id) throws Exception{
@@ -611,7 +567,7 @@ public class CampController extends AbstractRestHandler {
   }
 
     // チャット一覧
-    @RequestMapping(value = "/{user_id}/chat", method = RequestMethod.GET, produces = {"application/json"})
+    @RequestMapping(value = "/{user_id}/chat", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List chat_list(@PathVariable String user_id) throws Exception{
@@ -627,7 +583,7 @@ public class CampController extends AbstractRestHandler {
     }
 
     // チャット詳細 TODO
-    @RequestMapping(value = "/{user_id}/chat/{chat_id}", method = RequestMethod.GET, produces = {"application/json"})
+    @RequestMapping(value = "/{user_id}/chat/{chat_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List chat_detail(@PathVariable String user_id, @PathVariable int chat_id) throws Exception{
@@ -639,7 +595,7 @@ public class CampController extends AbstractRestHandler {
 
 
     // お知らせ一覧
-    @RequestMapping(value="/{user_id}/notice",method = RequestMethod.GET, produces = {"application/json"})
+    @RequestMapping(value="/{user_id}/notice",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List notice_list(@PathVariable String user_id) throws Exception{
         // noticeDBに接続して値を取得
@@ -648,7 +604,7 @@ public class CampController extends AbstractRestHandler {
     }
 
     // お知らせ詳細
-    @RequestMapping(value="/{user_id}/notice/{notice_id}",method = RequestMethod.GET, produces = {"application/json"})
+    @RequestMapping(value="/{user_id}/notice/{notice_id}",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List notice_detail(@PathVariable String user_id,@PathVariable String notice_id) throws Exception{
         // noticeDBに接続して値を取得
@@ -659,21 +615,12 @@ public class CampController extends AbstractRestHandler {
     }
 
     // Q&A画面
-    @RequestMapping(value="/{user_id}/Q&A",method = RequestMethod.GET, produces = {"application/json"})
+    @RequestMapping(value="/{user_id}/Q&A",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List q_a() throws Exception{
         // Q&ADBに接続して値を取得
         List qaLists = qaRepository.selectAll();
         return qaLists;
-    }
-
-    // 利用規約画面
-    @RequestMapping(value="/tos",method = RequestMethod.GET, produces = {"application/json"})
-    @ResponseBody
-    public List tos() throws Exception{
-        // TosDBに接続して値を取得
-        List tos = tosRepository.selectAll();
-        return tos;
     }
 
 }

@@ -12,27 +12,27 @@ spring:
   jmx:
     enabled: false
 
-mail:
-  default-encoding: UTF-8
-  protocol: smtp
-  host: smtp.gmail.com
-  port: 587
-  username: mayu.0110.cola@gmail.com
-  password: Mayutooth05
-  jndi-name: mail/Session
-  properties:
-    mail:
-      smtp:
-        auth: true
-        starttls:
+  mail:
+    default-encoding: UTF-8
+    protocol: smtp
+    host: smtp.gmail.com
+    port: 587
+    username: m.sekine@mybrainlab.net
+    password: Sm1100505
+    jndi-name: mail/Session
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
           #enable: false
-          enable: true
-        socketFactory:
+            enable: true
+          socketFactory:
           #port: 2525
-          port: 587
-          class: javax.net.ssl.SSLSocketFactory
-          fallback: false
-      debug: true
+            port: 587
+            class: javax.net.ssl.SSLSocketFactory
+            fallback: false
+        debug: true
   test-connection: false
 
 server:
