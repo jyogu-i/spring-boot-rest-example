@@ -13,12 +13,27 @@ spring:
     enabled: false
 
 mail:
-    host: smtp.gmail.com
-    port: 587
-    username: mayu.0110.cola@gmail.com
-    password: Mayutooth05
-    properties.mail.smtp.auth: true
-    properties.mail.smtp.starttls.enable: true
+  default-encoding: UTF-8
+  protocol: smtp
+  host: smtp.gmail.com
+  port: 587
+  username: mayu.0110.cola@gmail.com
+  password: Mayutooth05
+  jndi-name: mail/Session
+  properties:
+    mail:
+      smtp:
+        auth: true
+        starttls:
+          #enable: false
+          enable: true
+        socketFactory:
+          #port: 2525
+          port: 587
+          class: javax.net.ssl.SSLSocketFactory
+          fallback: false
+      debug: true
+  test-connection: false
 
 server:
   port: 8090

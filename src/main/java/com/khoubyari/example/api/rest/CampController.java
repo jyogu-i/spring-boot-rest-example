@@ -9,6 +9,7 @@ import com.khoubyari.example.service.CampService;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.*;
+import java.util.logging.Logger;
 
 
 // コントローラークラスだよっていうおまじない
@@ -39,7 +41,6 @@ import java.util.*;
 @RequestMapping(value = "/v1/api/camp")
 @Api(tags = {"camp"})
 public class CampController extends AbstractRestHandler {
-//    private final JavaMailSender javaMailSender;
 
     @Autowired
     private ResourceLoader resourceLoader;
@@ -134,19 +135,21 @@ public class CampController extends AbstractRestHandler {
     @Autowired
     private PersonalInfoRepository personalInfoRepository;
 
+//    private final JavaMailSender javaMailSender;
+//
 //    @Autowired
 //    CampController(JavaMailSender javaMailSender) {
 //        this.javaMailSender = javaMailSender;
 //    }
 //
-//    // test
 //    @RequestMapping(value = "/mail/send", method = {RequestMethod.POST} )
 //    public String send() {
+//
 //        SimpleMailMessage mailMessage = new SimpleMailMessage();
 //
 //        mailMessage.setTo("m.sekine@mybrainlab.net");
 //        //mailMessage.setReplyTo("リプライのメールアドレス");
-//        mailMessage.setFrom("Fromのメールアドレス");
+//        mailMessage.setFrom("mayu.0110.cola@gmail.com");
 //        mailMessage.setSubject("テストメール");
 //        mailMessage.setText("テストメールです、\nここから次の行\nおわりです\n");
 //
@@ -577,22 +580,6 @@ public class CampController extends AbstractRestHandler {
         List caList=caRepository.selectCaLists(chat);
 
         return caList;
-//        Chat chat = new Chat();
-//        chat.setUserId(user_id);
-//        List<Chat> chatLists = chatRepository.selectCaList(chat);
-//
-//        List lists=new ArrayList<>();
-//        for(Chat c : chatLists) {
-//            List caList=new ArrayList<>();
-//            List caResultIndustry = caresultindustryRepository.selectCaChatList(c);
-//            Ca cA=caRepository.selectChat(c);
-//            caList.add(cA);
-//            caList.add(caResultIndustry);
-//
-//            lists.add(caList);
-//        }
-//
-//        return lists;
     }
 
     // ca詳細

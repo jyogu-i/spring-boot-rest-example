@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 @AnnotateWith(annotations = {
         @Annotation(target = AnnotationTarget.CLASS, type = Repository.class),
         @Annotation(target = AnnotationTarget.CONSTRUCTOR_PARAMETER, type = Qualifier.class , elements = "\"default\""),
-        @Annotation(target = AnnotationTarget.CONSTRUCTOR, type = Autowired.class)})
+        @Annotation(target = AnnotationTarget.CONSTRUCTOR, type = Autowired.class)
+})
 public @interface ConfigAutoDefault {
 }
