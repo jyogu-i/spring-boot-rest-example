@@ -11,6 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.WritableResource;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,8 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.core.io.ResourceLoader;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.*;
+
+import java.util.Base64;
 
 // コントローラークラスだよっていうおまじない
 @RestController
@@ -169,8 +175,19 @@ public class CampController extends AbstractRestHandler {
         return tos;
     }
 
+    // テスト画面 TODO
+    @RequestMapping(value = "/test", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String test(){
+        String Path = "/usr/share/tomcat7/webapps/sample_app/resources/images/";
+        String encoded = Base64.getEncoder().encodeToString(Path.getBytes(StandardCharsets.UTF_8));
+        String decoded = new String(Base64.getDecoder().decode(encoded));
+        System.err.println(decoded);
+        return encoded;
+    }
+
     // ログイン画面 TODO
-    @RequestMapping(value = "/login", method = {RequestMethod.POST}, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String login(@RequestBody User login){
         // ToDo:正しいものか確認するところ実装
@@ -180,7 +197,7 @@ public class CampController extends AbstractRestHandler {
     }
 
     // 必要か分からないけど作成。 CAが承認した場合のflg書き換え chatテーブルのflgを2に
-    @RequestMapping(value = "/{ca_id}/{user_id}/permission", method = {RequestMethod.GET}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{ca_id}/{user_id}/permission", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public void permission(@PathVariable String ca_id,@PathVariable String user_id) throws Exception{
@@ -203,37 +220,61 @@ public class CampController extends AbstractRestHandler {
         chat.setUserId(user_id);
 
         chatRepository.updateDenial(chat);
-
     }
 
-    // 必要か分からないけど作成・ 通知のオンオフを受け取る
+    // 必要か分からないけど作成・ 通知のオンオフを渡す
     @RequestMapping(value = "/{user_id}/notification", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public void notification(@PathVariable String user_id) throws Exception{
+    public String notification() throws Exception{
         //通知のオンオフを受け取る
-
+        return "{\"agent\":0,\"notice\":1,\"chat\":1}";
     }
 
-//    @RequestMapping(value="/s3/{filename}", method=RequestMethod.GET)
-//    public void download(@PathVariable String filename) throws IOException {
-//        Resource resource = this.resourceLoader.getResource("s3://careerup-camp.jp/assets/img" + filename);
-//        InputStream input = resource.getInputStream();
-//        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-//        String str = new String();
-//        StringBuilder builder = new StringBuilder();
-//        while ((str = reader.readLine()) != null) {
-//            builder.append(str);
-//        };
-//
-//        File file = new File("s3://careerup-camp.jp/assets");
-//        FileWriter writer = new FileWriter(file);
-//        writer.write(builder.toString());
-//
-//        writer.close();
-//        reader.close();
-//        input.close();
+    // 必要か分からないけど作成・ 通知のオンオフを受け取る
+    @RequestMapping(value = "/{user_id}/notification", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public void notification(@PathVariable String user_id, @RequestBody String json) throws Exception{
+        //通知のオンオフを受け取る
+        ObjectMapper mapper = new ObjectMapper();
+        Notification notification = mapper.readValue(json, Notification.class);
+        System.err.println(notification.getAgent()+","+notification.getChat()+","+notification.getNotice());
+    }
+
+//    // 必要ないけど作れちゃったのさ・画像のアップロード
+//    @RequestMapping(value = "/s3/upload", method = RequestMethod.PUT)
+//    public void put(InputStream req) throws Exception {
+//        WritableResource resource = getResource();
+//        try (OutputStream out = resource.getOutputStream()) {
+//            copy(req, out);
+//        }
 //    }
+//
+//    // 必要ないけど作れちゃったのさ・画像の読み込み
+//    @RequestMapping(value = "/s3/read", method = RequestMethod.GET)
+//    public void get(@PathVariable String ca_id,OutputStream res) throws Exception {
+//        Ca ca =new Ca();
+//        ca.setCaId(ca_id);
+//        Ca img=caRepository.selectDetail(ca);
+//        System.err.println(img.getCaImg());
+//        Resource resource = getResource();
+//        try (InputStream in = resource.getInputStream()) {
+//            copy(in, res);
+//        }
+//    }
+//    // 上2つのメソッドを実行するための命令たち・きっと消される運命
+//    private WritableResource getResource() {
+//        return (WritableResource)
+//                resourceLoader.getResource("s3://careerup-camp.jp/assets/CA_img/");
+//    }
+//    private void copy(InputStream in, OutputStream out) throws IOException {
+//        byte[] buff = new byte[1024];
+//        for (int len = in.read(buff); len > 0; len = in.read(buff)) {
+//            out.write(buff, 0, len);
+//        }
+//    }
+
 
     public void python(String user_id,int age,String gender,String times,String big_p_ind,String big_p_jc,String big_h_in,String big_h_jc,String scale_number)throws IOException{
         Chat chat = new Chat();
@@ -326,8 +367,8 @@ public class CampController extends AbstractRestHandler {
         System.err.println("AIシステム＝"+user_id+","+user.getAge()+","
                 +basic.getP_job_category()+","+basic.getH_industry()+","+userhope.getScaleNumberId());
         //AIシステムへ
-        python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),basic.getP_industry()
-                ,basic.getP_job_category(),basic.getH_industry(),basic.getH_job_category(),userhope.getScaleNumberId());
+//        python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),basic.getP_industry()
+//                ,basic.getP_job_category(),basic.getH_industry(),basic.getH_job_category(),userhope.getScaleNumberId());
 
     }
 
@@ -367,7 +408,6 @@ public class CampController extends AbstractRestHandler {
         userhope.setJobCategoryId(option.getH_job_category()+option.getH_job_category_middle()+option.getH_job_category_small());
         userhopeRepository.insertOptionUserHope(userhope);
 
-
         User user=new User();
         user.setUserId(user_id);
         user.setSkill(option.getSkill());
@@ -383,8 +423,8 @@ public class CampController extends AbstractRestHandler {
         userRepository.insertOptionUser(user);
 
         //　AIシステムへ
-        python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),option.getP_industry()
-                ,option.getP_job_category(),option.getH_industry(),option.getH_job_category(),option.getScaleNumber());
+//        python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),option.getP_industry()
+//                ,option.getP_job_category(),option.getH_industry(),option.getH_job_category(),option.getScaleNumber());
 
     }
 
@@ -490,9 +530,7 @@ public class CampController extends AbstractRestHandler {
     }
 
     // お問い合わせメール
-    @RequestMapping(value = "/{user_id}/contact", method = RequestMethod.POST
-           // , consumes = MediaType.APPLICATION_JSON_VALUE
-            )
+    @RequestMapping(value = "/{user_id}/contact", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public String contact(@RequestBody String json, @PathVariable String user_id)throws IOException{
@@ -511,10 +549,10 @@ public class CampController extends AbstractRestHandler {
 
         javaMailSender.send(mailMessage);
 
-        return "お問い合わせが完了しました。事務局からの返信をお待ちくださいませ。";
+        return "お問い合わせが完了しました。\n事務局からの返信をお待ちくださいませ。";
     }
 
-//    // お問い合わせ画面
+    // お問い合わせ画面
 //    @RequestMapping(value = "/{user_id}/contact", method = {RequestMethod.POST}, consumes = MediaType.APPLICATION_JSON_VALUE)
 //    @ResponseStatus(HttpStatus.OK)
 //    @ResponseBody
@@ -565,7 +603,14 @@ public class CampController extends AbstractRestHandler {
                          HttpServletRequest request, HttpServletResponse response) throws Exception {
         Chat chat=new Chat();
         chat.setUserId(user_id);
-        List caList=caRepository.selectCaLists(chat);
+        List<Ca> caList=caRepository.selectCaLists(chat);
+
+        for(Ca _ca:caList){
+            // caの写真をbase64で変換
+            String path="http://careerup-camp.jp.s3.amazonaws.com/assets/CA_img/"+_ca.getCaImg();
+            String encoded = Base64.getEncoder().encodeToString(path.getBytes(StandardCharsets.UTF_8));
+            _ca.setCaImg("data:image/png;base64,"+encoded);
+        }
 
         return caList;
     }
@@ -580,6 +625,12 @@ public class CampController extends AbstractRestHandler {
         ca.setCaId(ca_id);
         List caList=new ArrayList<>();
         Ca ca_person = caRepository.selectDetail(ca);
+
+        // caの写真をbase64で変換
+        String path="http://careerup-camp.jp.s3.amazonaws.com/assets/CA_img/"+ca_person.getCaImg();
+        String encoded = Base64.getEncoder().encodeToString(path.getBytes(StandardCharsets.UTF_8));
+        ca_person.setCaImg("data:image/png;base64,"+encoded);
+
         Place place = placeRepository.selectCaPlace(ca_person);
         Gender gender =genderRepository.selectCaGender(ca_person);
 
@@ -609,6 +660,12 @@ public class CampController extends AbstractRestHandler {
         List messageLists=new ArrayList();
         for(Chat _chat:chatLists) {
             Message message=messageRepository.selectLast(_chat);
+
+            // caの写真をbase64で変換
+            String path="http://careerup-camp.jp.s3.amazonaws.com/assets/CA_img/"+message.getCaImg();
+            String encoded = Base64.getEncoder().encodeToString(path.getBytes(StandardCharsets.UTF_8));
+            message.setCaImg("data:image/png;base64,"+encoded);
+
             messageLists.add(message);
         }
         return messageLists;
