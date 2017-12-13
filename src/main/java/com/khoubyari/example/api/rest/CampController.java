@@ -1,10 +1,12 @@
 package com.khoubyari.example.api.rest;
 
+import com.google.common.base.Utf8;
 import com.khoubyari.example.dao.entity.*;
 import com.khoubyari.example.repository.*;
 import io.swagger.annotations.Api;
 import com.khoubyari.example.service.CampService;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.python.apache.commons.compress.utils.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,11 +24,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.core.io.ResourceLoader;
 
 import java.io.*;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.*;
 
-import java.util.Base64;
+import org.apache.commons.codec.binary.Base64;
+//import java.util.Base64;
 
 // コントローラークラスだよっていうおまじない
 @RestController
@@ -154,6 +158,25 @@ public class CampController extends AbstractRestHandler {
         welcome.add(workRepository.selectAll());
         welcome.add(scalenumberRepository.selectAll());
         welcome.add(scaletypeRepository.selectAll());
+        BufferedInputStream bis = null;
+        try {
+            final URL url =
+                    new URL("http://careerup-camp.jp.s3.amazonaws.com/assets/tutorial/"+"Top.jpg");
+            final URL url2 =
+                    new URL("http://careerup-camp.jp.s3.amazonaws.com/assets/tutorial/"+"camp_char.png");
+
+            bis = new BufferedInputStream(url.openStream());
+            final String base64 =
+                    new String(Base64.encodeBase64(IOUtils.toByteArray(bis)));
+            welcome.add("data:image/jpg;base64,"+base64);
+
+            bis = new BufferedInputStream(url2.openStream());
+            final String base642 =
+                    new String(Base64.encodeBase64(IOUtils.toByteArray(bis)));
+            welcome.add("data:image/png;base64,"+base642);
+        } finally {
+            bis.close();
+        }
         return welcome;
     }
 
@@ -176,15 +199,15 @@ public class CampController extends AbstractRestHandler {
     }
 
     // テスト画面 TODO
-    @RequestMapping(value = "/test", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public String test(){
-        String Path = "/usr/share/tomcat7/webapps/sample_app/resources/images/";
-        String encoded = Base64.getEncoder().encodeToString(Path.getBytes(StandardCharsets.UTF_8));
-        String decoded = new String(Base64.getDecoder().decode(encoded));
-        System.err.println(decoded);
-        return encoded;
-    }
+//    @RequestMapping(value = "/test", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseBody
+//    public String test(){
+//        String Path = "/usr/share/tomcat7/webapps/sample_app/resources/images/";
+//        String encoded = Base64.getEncoder().encodeToString(Path.getBytes(StandardCharsets.UTF_8));
+//        String decoded = new String(Base64.getDecoder().decode(encoded));
+//        System.err.println(decoded);
+//        return encoded;
+//    }
 
     // ログイン画面 TODO
     @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -367,8 +390,8 @@ public class CampController extends AbstractRestHandler {
         System.err.println("AIシステム＝"+user_id+","+user.getAge()+","
                 +basic.getP_job_category()+","+basic.getH_industry()+","+userhope.getScaleNumberId());
         //AIシステムへ
-//        python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),basic.getP_industry()
-//                ,basic.getP_job_category(),basic.getH_industry(),basic.getH_job_category(),userhope.getScaleNumberId());
+        python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),basic.getP_industry()
+                ,basic.getP_job_category(),basic.getH_industry(),basic.getH_job_category(),userhope.getScaleNumberId());
 
     }
 
@@ -423,8 +446,8 @@ public class CampController extends AbstractRestHandler {
         userRepository.insertOptionUser(user);
 
         //　AIシステムへ
-//        python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),option.getP_industry()
-//                ,option.getP_job_category(),option.getH_industry(),option.getH_job_category(),option.getScaleNumber());
+        python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),option.getP_industry()
+                ,option.getP_job_category(),option.getH_industry(),option.getH_job_category(),option.getScaleNumber());
 
     }
 
@@ -452,10 +475,11 @@ public class CampController extends AbstractRestHandler {
     }
 
     // マイプロフィール登録画面　新しく登録し直す
-    @RequestMapping(value = "/{user_id}/myprofile", method = {RequestMethod.POST}, consumes =MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{user_id}/myprofile", method = RequestMethod.POST, consumes =MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public void myprofile(@RequestBody String json, @PathVariable String user_id)throws IOException{
+        System.err.println("jsonの中身"+json);
         ObjectMapper mapper = new ObjectMapper();
         Myprofile myprofile = mapper.readValue(json, Myprofile.class);
 
@@ -480,7 +504,7 @@ public class CampController extends AbstractRestHandler {
         userprevious.setIndustryId(trimSpace(myprofile.getBigIndustry()+myprofile.getMiddleIndustry()+myprofile.getSmallIndustry()));
         userprevious.setCompanyName(myprofile.getP_company());
         userprevious.setJobCategoryId(trimSpace(myprofile.getBigCategory()+myprofile.getMiddleCategory()+myprofile.getSmallCategory()));
-        userprevious.setJoinedYear(myprofile.getJoined_year());
+        userprevious.setJoinedYear(myprofile.getJoinedYear());
         userpreviousRepository.insertOptionUserPrevious(userprevious);
 
         User user=new User();
@@ -540,9 +564,9 @@ public class CampController extends AbstractRestHandler {
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
 
-        mailMessage.setTo("mayu.0110.cola@gmail.com");//Todo campのメアド入れる
+        mailMessage.setTo("user-info@careerup-camp.jp");
         //mailMessage.setReplyTo("リプライのメールアドレス");
-        mailMessage.setFrom("m.sekine@mybrainlab.net");//Todo campのメアド入れる
+        mailMessage.setFrom("noreply@careerup-camp.jp");
         mailMessage.setSubject(user_id+"様からのお問い合わせ");
         mailMessage.setText("ユーザID："+user_id+"様からのお問い合わせを頂きました。\n以下本文" +
                 "\n#################################\n\n"+contact.getContactMessage());
@@ -605,13 +629,33 @@ public class CampController extends AbstractRestHandler {
         chat.setUserId(user_id);
         List<Ca> caList=caRepository.selectCaLists(chat);
 
+        // caの写真をbase64で変換
         for(Ca _ca:caList){
-            // caの写真をbase64で変換
-            String path="http://careerup-camp.jp.s3.amazonaws.com/assets/CA_img/"+_ca.getCaImg();
-            String encoded = Base64.getEncoder().encodeToString(path.getBytes(StandardCharsets.UTF_8));
-            _ca.setCaImg("data:image/png;base64,"+encoded);
-        }
+            BufferedInputStream bis = null;
+            try {
+                final URL url =
+                        new URL("http://careerup-camp.jp.s3.amazonaws.com/assets/CA_img/"+_ca.getCaImg());
+                String type = null;
+                if(_ca.getCaImg().matches(".*png.*")){
+                    type="png";
+                }
+                else if(_ca.getCaImg().matches(".*jpg.*")){
+                    type="jpg";
+                }
+                else if(_ca.getCaImg().matches(".*gif.*")){
+                    type="gif";
+                }
 
+                bis = new BufferedInputStream(url.openStream());
+
+                final String base64 =
+                        new String(Base64.encodeBase64(IOUtils.toByteArray(bis)));
+                System.err.println(type);
+                _ca.setCaImg("data:image/"+type+";base64,"+base64);
+            } finally {
+                bis.close();
+            }
+        }
         return caList;
     }
 
@@ -627,9 +671,29 @@ public class CampController extends AbstractRestHandler {
         Ca ca_person = caRepository.selectDetail(ca);
 
         // caの写真をbase64で変換
-        String path="http://careerup-camp.jp.s3.amazonaws.com/assets/CA_img/"+ca_person.getCaImg();
-        String encoded = Base64.getEncoder().encodeToString(path.getBytes(StandardCharsets.UTF_8));
-        ca_person.setCaImg("data:image/png;base64,"+encoded);
+        BufferedInputStream bis = null;
+        try {
+            final URL url =
+                    new URL("http://careerup-camp.jp.s3.amazonaws.com/assets/CA_img/"+ca_person.getCaImg());
+            String type = null;
+            if(ca_person.getCaImg().matches(".*png.*")){
+                type="png";
+            }
+            else if(ca_person.getCaImg().matches(".*jpg.*")){
+                type="jpg";
+            }
+            else if(ca_person.getCaImg().matches(".*gif.*")){
+                type="gif";
+            }
+
+            bis = new BufferedInputStream(url.openStream());
+
+            final String base64 =
+                    new String(Base64.encodeBase64(IOUtils.toByteArray(bis)));
+            ca_person.setCaImg("data:image/"+type+";base64,"+base64);
+        } finally {
+            bis.close();
+        }
 
         Place place = placeRepository.selectCaPlace(ca_person);
         Gender gender =genderRepository.selectCaGender(ca_person);
@@ -659,15 +723,35 @@ public class CampController extends AbstractRestHandler {
         List<Chat> chatLists = chatRepository.selectCaList(chat);
         List messageLists=new ArrayList();
         for(Chat _chat:chatLists) {
-            Message message=messageRepository.selectLast(_chat);
+                Message message = messageRepository.selectLast(_chat);
+                // caの写真をbase64で変換
+            if(message!=null) {
+                BufferedInputStream bis = null;
+                try {
+                    final URL url =
+                            new URL("http://careerup-camp.jp.s3.amazonaws.com/assets/CA_img/" + message.getCaImg());
+                    String type = null;
+                    if (message.getCaImg().matches(".*png.*")) {
+                        type = "png";
+                    } else if (message.getCaImg().matches(".*jpg.*")) {
+                        type = "jpg";
+                    } else if (message.getCaImg().matches(".*gif.*")) {
+                        type = "gif";
+                    }
 
-            // caの写真をbase64で変換
-            String path="http://careerup-camp.jp.s3.amazonaws.com/assets/CA_img/"+message.getCaImg();
-            String encoded = Base64.getEncoder().encodeToString(path.getBytes(StandardCharsets.UTF_8));
-            message.setCaImg("data:image/png;base64,"+encoded);
+                    bis = new BufferedInputStream(url.openStream());
 
-            messageLists.add(message);
-        }
+                    final String base64 =
+                            new String(Base64.encodeBase64(IOUtils.toByteArray(bis)));
+                    message.setCaImg("data:image/" + type + ";base64," + base64);
+                } finally {
+                    if (bis != null) {
+                        bis.close();
+                    }
+                }
+                messageLists.add(message);
+            }
+            }
         return messageLists;
     }
 

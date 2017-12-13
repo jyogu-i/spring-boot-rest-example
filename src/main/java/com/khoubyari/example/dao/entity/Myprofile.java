@@ -54,7 +54,7 @@ public class Myprofile implements Serializable{
 
     String p_company_name;
 
-    int joined_year;
+    int joinedYear;
 
     String password;
 
@@ -351,12 +351,12 @@ public class Myprofile implements Serializable{
         this.p_job_category_small = p_job_category_small;
     }
 
-    public Integer getJoined_year() {
-        return joined_year;
+    public Integer getJoinedYear() {
+        return joinedYear;
     }
 
-    public void setJoined_year(Integer joinedYear) {
-        this.joined_year = joined_year;
+    public void setJoinedYear(Integer joinedYear) {
+        this.joinedYear = joinedYear;
     }
 
     public String getP_company() {

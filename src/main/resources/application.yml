@@ -15,10 +15,10 @@ spring:
   mail:
     default-encoding: UTF-8
     protocol: smtp
-    host: smtp.gmail.com
+    host: mail.careerup-camp.jp
     port: 587
-    username: m.sekine@mybrainlab.net
-    password: Sm1100505
+    username: noreply@careerup-camp.jp
+    password: V9CnPLBm
     jndi-name: mail/Session
     properties:
       mail:
