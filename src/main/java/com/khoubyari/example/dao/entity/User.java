@@ -75,6 +75,11 @@ public class User {
     @Column(name = "password")
     String password;
 
+    @Column(name = "leave")
+    int leave;
+
+    @Column(name = "update")
+    String update;
 
 
     public String getUserId() {
@@ -195,6 +200,22 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getLeave() {
+        return leave;
+    }
+
+    public void setLeave(int leave) {
+        this.leave = leave;
+    }
+
+    public String getUpdate() {
+        return update;
+    }
+
+    public void setUpdate(String update) {
+        this.update = update;
     }
 
 

@@ -19,6 +19,7 @@ import org.springframework.core.io.WritableResource;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.core.io.ResourceLoader;
@@ -137,10 +138,10 @@ public class CampController extends AbstractRestHandler {
     }
 
     // welcome画面
-    @RequestMapping(value = "/welcome" , method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/welcome", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List welcome()throws Exception{
+    public List welcome() throws Exception {
         List welcome = genderRepository.selectAll();
         welcome.add(academicRepository.selectAll());
         welcome.add(englishRepository.selectAll());
@@ -161,19 +162,19 @@ public class CampController extends AbstractRestHandler {
         BufferedInputStream bis = null;
         try {
             final URL url =
-                    new URL("http://careerup-camp.jp.s3.amazonaws.com/assets/tutorial/"+"Top.jpg");
+                    new URL("http://careerup-camp.jp.s3.amazonaws.com/assets/tutorial/" + "Top.jpg");
             final URL url2 =
-                    new URL("http://careerup-camp.jp.s3.amazonaws.com/assets/tutorial/"+"camp_char.png");
+                    new URL("http://careerup-camp.jp.s3.amazonaws.com/assets/tutorial/" + "camp_char.png");
 
             bis = new BufferedInputStream(url.openStream());
             final String base64 =
                     new String(Base64.encodeBase64(IOUtils.toByteArray(bis)));
-            welcome.add("data:image/jpg;base64,"+base64);
+            welcome.add("data:image/jpg;base64," + base64);
 
             bis = new BufferedInputStream(url2.openStream());
             final String base642 =
                     new String(Base64.encodeBase64(IOUtils.toByteArray(bis)));
-            welcome.add("data:image/png;base64,"+base642);
+            welcome.add("data:image/png;base64," + base642);
         } finally {
             bis.close();
         }
@@ -181,18 +182,19 @@ public class CampController extends AbstractRestHandler {
     }
 
     // 個人情報規約画面
-    @RequestMapping(value = "/personal" , method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/personal", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List personal()throws Exception{
+    public List personal() throws Exception {
         List personalLists = personalInfoRepository.selectAll();
 
         return personalLists;
     }
+
     // 利用規約画面
-    @RequestMapping(value="/tos",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/tos", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List tos() throws Exception{
+    public List tos() throws Exception {
         // TosDBに接続して値を取得
         List tos = tosRepository.selectAll();
         return tos;
@@ -212,7 +214,7 @@ public class CampController extends AbstractRestHandler {
     // ログイン画面 TODO
     @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String login(@RequestBody User login){
+    public String login(@RequestBody User login) {
         // ToDo:正しいものか確認するところ実装
         System.err.println(login);
         System.err.println(login.getAge());
@@ -223,7 +225,7 @@ public class CampController extends AbstractRestHandler {
     @RequestMapping(value = "/{ca_id}/{user_id}/permission", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public void permission(@PathVariable String ca_id,@PathVariable String user_id) throws Exception{
+    public void permission(@PathVariable String ca_id, @PathVariable String user_id) throws Exception {
         //承認したときのflgを2に変える
         Chat chat = new Chat();
         chat.setCaId(ca_id);
@@ -232,11 +234,12 @@ public class CampController extends AbstractRestHandler {
         chatRepository.updatePermission(chat);
 
     }
+
     // 必要か分からないけど作成・ CAが拒否した場合のflg書き換え chatテーブルのflgを0に
     @RequestMapping(value = "/{ca_id}/{user_id}/denial", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public void denial(@PathVariable String ca_id,@PathVariable String user_id) throws Exception{
+    public void denial(@PathVariable String ca_id, @PathVariable String user_id) throws Exception {
         //拒否したときのflgを0に変える
         Chat chat = new Chat();
         chat.setCaId(ca_id);
@@ -249,7 +252,7 @@ public class CampController extends AbstractRestHandler {
     @RequestMapping(value = "/{user_id}/notification", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public String notification() throws Exception{
+    public String notification() throws Exception {
         //通知のオンオフを受け取る
         return "{\"agent\":0,\"notice\":1,\"chat\":1}";
     }
@@ -258,11 +261,11 @@ public class CampController extends AbstractRestHandler {
     @RequestMapping(value = "/{user_id}/notification", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public void notification(@PathVariable String user_id, @RequestBody String json) throws Exception{
+    public void notification(@PathVariable String user_id, @RequestBody String json) throws Exception {
         //通知のオンオフを受け取る
         ObjectMapper mapper = new ObjectMapper();
         Notification notification = mapper.readValue(json, Notification.class);
-        System.err.println(notification.getAgent()+","+notification.getChat()+","+notification.getNotice());
+
     }
 
 //    // 必要ないけど作れちゃったのさ・画像のアップロード
@@ -299,10 +302,10 @@ public class CampController extends AbstractRestHandler {
 //    }
 
 
-    public void python(String user_id,int age,String gender,String times,String big_p_ind,String big_p_jc,String big_h_in,String big_h_jc,String scale_number)throws IOException{
+    public void python(String user_id, int age, String gender, String times, String big_p_ind, String big_p_jc, String big_h_in, String big_h_jc, String scale_number) throws IOException {
         Chat chat = new Chat();
-        String[] cmd = {"/Users/sekipon/anaconda3/bin/python3","1121_rf_match.py", String.valueOf(age)
-                ,gender,times,big_p_ind,big_p_jc,big_h_in,big_h_jc,scale_number};
+        String[] cmd = {"/Users/sekipon/anaconda3/bin/python3", "1121_rf_match.py", String.valueOf(age)
+                , gender, times, big_p_ind, big_p_jc, big_h_in, big_h_jc, scale_number};
 
         ProcessBuilder pb = new ProcessBuilder(cmd);
         Process proc = pb.start();
@@ -311,19 +314,19 @@ public class CampController extends AbstractRestHandler {
 
         //　エラーの場合
         BufferedReader brerr = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
-        while((str = brerr.readLine()) != null) {
+        while ((str = brerr.readLine()) != null) {
             System.err.println(str);
         }
         brerr.close();
 
         BufferedReader brstd = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 
-        while((str = brstd.readLine()) != null) {
+        while ((str = brstd.readLine()) != null) {
             // 配列を分解
             String[] fruit = str.split(",", 0);
             System.err.println(str);
 
-            for (String s:fruit) {
+            for (String s : fruit) {
                 // "["と"]"を除去
                 trimSpace(s);
                 chat.setUserId(user_id);
@@ -335,23 +338,21 @@ public class CampController extends AbstractRestHandler {
 
     }
 
-    public String trimSpace(String str){
-        str=str.replace("[","");
-        str=str.replace("]","");
-        str=str.replace(" ","");
-        str=str.replace("　","");
-        str=str.replace("\uFEFF","");
+    public String trimSpace(String str) {
+        str = str.replace("[", "");
+        str = str.replace("]", "");
+        str = str.replace(" ", "");
+        str = str.replace("　", "");
+        str = str.replace("\uFEFF", "");
         str.trim();
 
         return str;
     }
 
     // 初期登録画面
-    @RequestMapping(value = "/{user_id}/question/basic", method = {RequestMethod.POST}, consumes =MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{user_id}/question/basic", method = {RequestMethod.POST}, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public void basic(@PathVariable String user_id, @RequestBody String json)throws IOException
-    {
-        System.err.println("basicの中身＝"+json);
+    public void basic(@PathVariable String user_id, @RequestBody String json) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         Basic basic = mapper.readValue(json, Basic.class);
 
@@ -359,24 +360,24 @@ public class CampController extends AbstractRestHandler {
         chat.setUserId(user_id);
         chat.setFlg(1);
 
-        UserHope userhope=new UserHope();
+        UserHope userhope = new UserHope();
         userhope.setUserId(user_id);
-        userhope.setIndustryId(basic.getH_industry()+basic.getH_industry_middle()+basic.getH_industry_small());
-        userhope.setJobCategoryId(basic.getH_job_category()+basic.getH_job_category_middle()+basic.getH_job_category_small());
+        userhope.setIndustryId(basic.getH_industry() + basic.getH_industry_middle() + basic.getH_industry_small());
+        userhope.setJobCategoryId(basic.getH_job_category() + basic.getH_job_category_middle() + basic.getH_job_category_small());
 
         // オプション項目できくけど一旦６にする
         userhope.setScaleNumberId("6");
         userhopeRepository.insertBasicUserHope(userhope);
 
-        UserPrevious userprevious=new UserPrevious();
+        UserPrevious userprevious = new UserPrevious();
         userprevious.setUserId(user_id);
         userprevious.setCompanyName(basic.getP_company_name());
-        userprevious.setIndustryId(trimSpace(basic.getP_industry()+basic.getP_industry_middle()+basic.getP_industry_small()));
-        userprevious.setJobCategoryId(trimSpace(basic.getP_job_category()+basic.getP_job_category_middle()+basic.getP_job_category_small()));
+        userprevious.setIndustryId(trimSpace(basic.getP_industry() + basic.getP_industry_middle() + basic.getP_industry_small()));
+        userprevious.setJobCategoryId(trimSpace(basic.getP_job_category() + basic.getP_job_category_middle() + basic.getP_job_category_small()));
         userprevious.setJoinedYear(basic.getJoined_year());
         userpreviousRepository.insertBasicUserPrevious(userprevious);
 
-        User user=new User();
+        User user = new User();
         user.setUserId(user_id);
         user.setAge(basic.getAge());
         user.setEnglishId(trimSpace(basic.getEnglish()));
@@ -387,20 +388,19 @@ public class CampController extends AbstractRestHandler {
         user.setAcademicId("なし");
         userRepository.insertBasicUser(user);
 
-        System.err.println("AIシステム＝"+user_id+","+user.getAge()+","
-                +basic.getP_job_category()+","+basic.getH_industry()+","+userhope.getScaleNumberId());
+//        System.err.println("AIシステム＝" + user_id + "," + user.getAge() + ","
+//                + basic.getP_job_category() + "," + basic.getH_industry() + "," + userhope.getScaleNumberId());
         //AIシステムへ
-        python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),basic.getP_industry()
-                ,basic.getP_job_category(),basic.getH_industry(),basic.getH_job_category(),userhope.getScaleNumberId());
+        python(user_id, user.getAge(), user.getGenderId(), user.getTimesId(), basic.getP_industry()
+                , basic.getP_job_category(), basic.getH_industry(), basic.getH_job_category(), userhope.getScaleNumberId());
 
     }
 
-     // オプション登録画面
+    // オプション登録画面
     @RequestMapping(value = "/{user_id}/question/option", method = {RequestMethod.POST}, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public void option(@RequestBody String json,@PathVariable String user_id)throws IOException{
-        System.err.println("optionの中身＝"+json);
+    public void option(@RequestBody String json, @PathVariable String user_id) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         Option option = mapper.readValue(json, Option.class);
 
@@ -408,18 +408,16 @@ public class CampController extends AbstractRestHandler {
         chat.setUserId(user_id);
         chat.setFlg(1);
 
-        System.err.println(option.getP_industry_small());
-
-        UserPrevious userprevious= new UserPrevious();
+        UserPrevious userprevious = new UserPrevious();
         userprevious.setUserId(user_id);
         userprevious.setCompanyName(option.getP_company_name());
-        userprevious.setIndustryId(trimSpace(option.getP_industry()+option.getP_industry_middle()+option.getP_industry_small()));
-        userprevious.setJobCategoryId(trimSpace(option.getP_job_category()+option.getP_job_category_middle()
-                +option.getP_job_category_small()));
+        userprevious.setIndustryId(trimSpace(option.getP_industry() + option.getP_industry_middle() + option.getP_industry_small()));
+        userprevious.setJobCategoryId(trimSpace(option.getP_job_category() + option.getP_job_category_middle()
+                + option.getP_job_category_small()));
         userprevious.setJoinedYear(option.getJoined_year());
         userpreviousRepository.insertOptionUserPrevious(userprevious);
 
-        UserHope userhope=new UserHope();
+        UserHope userhope = new UserHope();
         userhope.setUserId(user_id);
         userhope.setPlaceId(trimSpace(option.getPlace()));
         userhope.setCompanyName(trimSpace(option.getH_company_name()));
@@ -427,11 +425,11 @@ public class CampController extends AbstractRestHandler {
         userhope.setWorkId(trimSpace(option.getWork()));
         userhope.setScaleNumberId(trimSpace(option.getScaleNumber()));
         userhope.setScaleTypeId(trimSpace(option.getScaleType()));
-        userhope.setIndustryId(option.getH_industry()+option.getH_industry_middle()+option.getH_industry_small());
-        userhope.setJobCategoryId(option.getH_job_category()+option.getH_job_category_middle()+option.getH_job_category_small());
+        userhope.setIndustryId(option.getH_industry() + option.getH_industry_middle() + option.getH_industry_small());
+        userhope.setJobCategoryId(option.getH_job_category() + option.getH_job_category_middle() + option.getH_job_category_small());
         userhopeRepository.insertOptionUserHope(userhope);
 
-        User user=new User();
+        User user = new User();
         user.setUserId(user_id);
         user.setSkill(option.getSkill());
         user.setTimingId(trimSpace(option.getTiming()));
@@ -446,16 +444,16 @@ public class CampController extends AbstractRestHandler {
         userRepository.insertOptionUser(user);
 
         //　AIシステムへ
-        python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),option.getP_industry()
-                ,option.getP_job_category(),option.getH_industry(),option.getH_job_category(),option.getScaleNumber());
+        python(user_id, user.getAge(), user.getGenderId(), user.getTimesId(), option.getP_industry()
+                , option.getP_job_category(), option.getH_industry(), option.getH_job_category(), option.getScaleNumber());
 
     }
 
     // マイプロフィール画面 プロフィール一覧をフロントに送信
-    @RequestMapping(value="/{user_id}/myprofile", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{user_id}/myprofile", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List user_list(@PathVariable String user_id) throws Exception{
+    public List user_list(@PathVariable String user_id) throws Exception {
         User user = new User();
         user.setUserId(user_id);
 
@@ -466,7 +464,7 @@ public class CampController extends AbstractRestHandler {
         UserPrevious userprevious = new UserPrevious();
         userprevious.setUserId(user_id);
 
-        List userList=userRepository.selectUser(user);
+        List userList = userRepository.selectUser(user);
         userList.add(userhopeRepository.selectMyprofile(userhope));
         userList.add(userpreviousRepository.selectMyprofile(userprevious));
 
@@ -475,39 +473,47 @@ public class CampController extends AbstractRestHandler {
     }
 
     // マイプロフィール登録画面　新しく登録し直す
-    @RequestMapping(value = "/{user_id}/myprofile", method = RequestMethod.POST, consumes =MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{user_id}/myprofile", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public void myprofile(@RequestBody String json, @PathVariable String user_id)throws IOException{
-        System.err.println("jsonの中身"+json);
+    public void myprofile(@RequestBody String json, @PathVariable String user_id) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         Myprofile myprofile = mapper.readValue(json, Myprofile.class);
 
-        UserHope userhope=new UserHope();
+
+        UserHope userhope = new UserHope();
         userhope.setUserId(user_id);
-        userhope.setIndustryId(trimSpace(myprofile.getH_bigIndustry()+myprofile.getH_middleIndustry()+myprofile.getH_smallIndustry()));
-        userhope.setPlaceId(trimSpace(myprofile.getPlace()));
+        userhope.setIndustryId(trimSpace(myprofile.getH_bigIndustry() + myprofile.getH_middleIndustry() + myprofile.getH_smallIndustry()));
+        if (myprofile.getPlace() != null) {
+            userhope.setPlaceId(trimSpace(myprofile.getPlace()));
+        }
         userhope.setCompanyName(myprofile.getH_company());
-        userhope.setIncome(trimSpace(myprofile.getIncome()));
-        userhope.setWorkId(trimSpace(myprofile.getWork()));
-        userhope.setScaleTypeId(trimSpace(myprofile.getScaleType()));
+        if (myprofile.getIncome() != null) {
+            userhope.setIncome(trimSpace(myprofile.getIncome()));
+        }
+        if (myprofile.getWork() != null) {
+            userhope.setWorkId(trimSpace(myprofile.getWork()));
+        }
+        if (myprofile.getScaleType() != null) {
+            userhope.setScaleTypeId(trimSpace(myprofile.getScaleType()));
+        }
         userhope.setScaleNumberId(trimSpace(myprofile.getScaleNumber()));
-        userhope.setJobCategoryId(trimSpace(myprofile.getH_bigCategory()+myprofile.getH_middleCategory()+myprofile.getH_smallCategory()));
+        userhope.setJobCategoryId(trimSpace(myprofile.getH_bigCategory() + myprofile.getH_middleCategory() + myprofile.getH_smallCategory()));
         userhopeRepository.updateMyprofileUserHope(userhope);
 
         //会社の数だけ繰り返すfor文
         //previous_idだけはAutoIncrementで生成しているので、更新時は前のものは全てDeleteし、新しくinsertする
-        UserPrevious userprevious=new UserPrevious();
+        UserPrevious userprevious = new UserPrevious();
         userprevious.setUserId(user_id);
         userpreviousRepository.delete(userprevious);
 
-        userprevious.setIndustryId(trimSpace(myprofile.getBigIndustry()+myprofile.getMiddleIndustry()+myprofile.getSmallIndustry()));
+        userprevious.setIndustryId(trimSpace(myprofile.getBigIndustry() + myprofile.getMiddleIndustry() + myprofile.getSmallIndustry()));
         userprevious.setCompanyName(myprofile.getP_company());
-        userprevious.setJobCategoryId(trimSpace(myprofile.getBigCategory()+myprofile.getMiddleCategory()+myprofile.getSmallCategory()));
+        userprevious.setJobCategoryId(trimSpace(myprofile.getBigCategory() + myprofile.getMiddleCategory() + myprofile.getSmallCategory()));
         userprevious.setJoinedYear(myprofile.getJoinedYear());
         userpreviousRepository.insertOptionUserPrevious(userprevious);
 
-        User user=new User();
+        User user = new User();
         user.setUserId(user_id);
         user.setAcademicId("なし");
         user.setAge(myprofile.getAge());
@@ -516,15 +522,17 @@ public class CampController extends AbstractRestHandler {
         user.setMajorId(trimSpace(myprofile.getMajor()));
         user.setSchool(myprofile.getSchool());
         user.setTimingId(trimSpace(myprofile.getTiming()));
-        user.setTermId(trimSpace(myprofile.getTerm()));
+        if (myprofile.getTerm() != null) {
+            user.setTermId(trimSpace(myprofile.getTerm()));
+        }
         user.setTimesId(myprofile.getTimes());
         user.setSkill(myprofile.getSkill());
         user.setLastName(myprofile.getLastName());
         user.setFirstName(myprofile.getFirstName());
         userRepository.updateMyprofileUser(user);
 
-        python(user_id,user.getAge(),user.getGenderId(),user.getTimesId(),myprofile.getBigIndustry()
-                ,myprofile.getBigCategory(),myprofile.getBigIndustry(),myprofile.getH_bigCategory(),myprofile.getScaleNumber());
+        python(user_id, user.getAge(), user.getGenderId(), user.getTimesId(), myprofile.getBigIndustry()
+                , myprofile.getBigCategory(), myprofile.getBigIndustry(), myprofile.getH_bigCategory(), myprofile.getScaleNumber());
 
     }
 
@@ -532,17 +540,17 @@ public class CampController extends AbstractRestHandler {
     @RequestMapping(value = "/{user_id}/account", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public User account(@PathVariable String user_id)throws IOException{
-        User user=new User();
+    public User account(@PathVariable String user_id) throws IOException {
+        User user = new User();
         user.setUserId(user_id);
         return userRepository.selectAccount(user);
     }
 
     // アカウント画面
-    @RequestMapping(value = "/{user_id}/account", method = RequestMethod.POST, consumes =MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{user_id}/account", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public void account(@RequestBody String json, @PathVariable String user_id)throws IOException{
+    public void account(@RequestBody String json, @PathVariable String user_id) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         User account = mapper.readValue(json, User.class);
 
@@ -557,9 +565,8 @@ public class CampController extends AbstractRestHandler {
     @RequestMapping(value = "/{user_id}/contact", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public String contact(@RequestBody String json, @PathVariable String user_id)throws IOException{
+    public String contact(@RequestBody String json, @PathVariable String user_id) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        System.err.println("jsonの中身＝"+json);
         Contact contact = mapper.readValue(json, Contact.class);
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
@@ -567,9 +574,9 @@ public class CampController extends AbstractRestHandler {
         mailMessage.setTo("user-info@careerup-camp.jp");
         //mailMessage.setReplyTo("リプライのメールアドレス");
         mailMessage.setFrom("noreply@careerup-camp.jp");
-        mailMessage.setSubject(user_id+"様からのお問い合わせ");
-        mailMessage.setText("ユーザID："+user_id+"様からのお問い合わせを頂きました。\n以下本文" +
-                "\n#################################\n\n"+contact.getContactMessage());
+        mailMessage.setSubject(user_id + "様からのお問い合わせ");
+        mailMessage.setText("ユーザID：" + user_id + "様からのお問い合わせを頂きました。\n以下本文" +
+                "\n#################################\n\n" + contact.getContactMessage());
 
         javaMailSender.send(mailMessage);
 
@@ -594,7 +601,7 @@ public class CampController extends AbstractRestHandler {
     @RequestMapping(value = "/{user_id}/camp_request", method = {RequestMethod.POST}, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public void camp_request(@RequestBody String json, @PathVariable String user_id)throws IOException{
+    public void camp_request(@RequestBody String json, @PathVariable String user_id) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         Request request = mapper.readValue(json, Request.class);
         request.setRequesterId(user_id);
@@ -606,7 +613,7 @@ public class CampController extends AbstractRestHandler {
     @RequestMapping(value = "/{user_id}/review", method = {RequestMethod.POST}, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public void review(@RequestBody String json, @PathVariable String user_id)throws IOException{
+    public void review(@RequestBody String json, @PathVariable String user_id) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         UserReview userreview = mapper.readValue(json, UserReview.class);
         userreview.setUserId(user_id);
@@ -620,38 +627,35 @@ public class CampController extends AbstractRestHandler {
     }
 
     // ca一覧 chatテーブルにいるCAさんの一覧情報を全て返す(flg=2)
-    @RequestMapping(value="/{user_id}/ca",method=RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{user_id}/ca", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List ca_list(@PathVariable String user_id,
-                         HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Chat chat=new Chat();
+                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Chat chat = new Chat();
         chat.setUserId(user_id);
-        List<Ca> caList=caRepository.selectCaLists(chat);
+        List<Ca> caList = caRepository.selectCaLists(chat);
 
         // caの写真をbase64で変換
-        for(Ca _ca:caList){
+        for (Ca _ca : caList) {
             BufferedInputStream bis = null;
             try {
                 final URL url =
-                        new URL("http://careerup-camp.jp.s3.amazonaws.com/assets/CA_img/"+_ca.getCaImg());
+                        new URL("http://careerup-camp.jp.s3.amazonaws.com/assets/CA_img/" + _ca.getCaImg());
                 String type = null;
-                if(_ca.getCaImg().matches(".*png.*")){
-                    type="png";
-                }
-                else if(_ca.getCaImg().matches(".*jpg.*")){
-                    type="jpg";
-                }
-                else if(_ca.getCaImg().matches(".*gif.*")){
-                    type="gif";
+                if (_ca.getCaImg().matches(".*png.*")) {
+                    type = "png";
+                } else if (_ca.getCaImg().matches(".*jpg.*")) {
+                    type = "jpg";
+                } else if (_ca.getCaImg().matches(".*gif.*")) {
+                    type = "gif";
                 }
 
                 bis = new BufferedInputStream(url.openStream());
 
                 final String base64 =
                         new String(Base64.encodeBase64(IOUtils.toByteArray(bis)));
-                System.err.println(type);
-                _ca.setCaImg("data:image/"+type+";base64,"+base64);
+                _ca.setCaImg("data:image/" + type + ";base64," + base64);
             } finally {
                 bis.close();
             }
@@ -663,40 +667,38 @@ public class CampController extends AbstractRestHandler {
     @RequestMapping(value = "/{user_id}/ca/{ca_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List ca_detail(@PathVariable String user_id,@PathVariable String ca_id) throws Exception{
+    public List ca_detail(@PathVariable String user_id, @PathVariable String ca_id) throws Exception {
 
         Ca ca = new Ca();
         ca.setCaId(ca_id);
-        List caList=new ArrayList<>();
+        List caList = new ArrayList<>();
         Ca ca_person = caRepository.selectDetail(ca);
 
         // caの写真をbase64で変換
         BufferedInputStream bis = null;
         try {
             final URL url =
-                    new URL("http://careerup-camp.jp.s3.amazonaws.com/assets/CA_img/"+ca_person.getCaImg());
+                    new URL("http://careerup-camp.jp.s3.amazonaws.com/assets/CA_img/" + ca_person.getCaImg());
             String type = null;
-            if(ca_person.getCaImg().matches(".*png.*")){
-                type="png";
-            }
-            else if(ca_person.getCaImg().matches(".*jpg.*")){
-                type="jpg";
-            }
-            else if(ca_person.getCaImg().matches(".*gif.*")){
-                type="gif";
+            if (ca_person.getCaImg().matches(".*png.*")) {
+                type = "png";
+            } else if (ca_person.getCaImg().matches(".*jpg.*")) {
+                type = "jpg";
+            } else if (ca_person.getCaImg().matches(".*gif.*")) {
+                type = "gif";
             }
 
             bis = new BufferedInputStream(url.openStream());
 
             final String base64 =
                     new String(Base64.encodeBase64(IOUtils.toByteArray(bis)));
-            ca_person.setCaImg("data:image/"+type+";base64,"+base64);
+            ca_person.setCaImg("data:image/" + type + ";base64," + base64);
         } finally {
             bis.close();
         }
 
         Place place = placeRepository.selectCaPlace(ca_person);
-        Gender gender =genderRepository.selectCaGender(ca_person);
+        Gender gender = genderRepository.selectCaGender(ca_person);
 
         List<CaResultIndustry> caResultIndustry = caresultindustryRepository.selectCaListAll(ca_person);
         List caResultCompany = caresultcompanyRepository.selectCaListAll(ca_person);
@@ -711,21 +713,21 @@ public class CampController extends AbstractRestHandler {
 
         return caList;
 
-  }
+    }
 
     // チャット一覧
     @RequestMapping(value = "/{user_id}/chat", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List chat_list(@PathVariable String user_id) throws Exception{
+    public List chat_list(@PathVariable String user_id) throws Exception {
         Chat chat = new Chat();
         chat.setUserId(user_id);
         List<Chat> chatLists = chatRepository.selectCaList(chat);
-        List messageLists=new ArrayList();
-        for(Chat _chat:chatLists) {
-                Message message = messageRepository.selectLast(_chat);
-                // caの写真をbase64で変換
-            if(message!=null) {
+        List messageLists = new ArrayList();
+        for (Chat _chat : chatLists) {
+            Message message = messageRepository.selectLast(_chat);
+            // caの写真をbase64で変換
+            if (message != null) {
                 BufferedInputStream bis = null;
                 try {
                     final URL url =
@@ -751,7 +753,7 @@ public class CampController extends AbstractRestHandler {
                 }
                 messageLists.add(message);
             }
-            }
+        }
         return messageLists;
     }
 
@@ -759,7 +761,7 @@ public class CampController extends AbstractRestHandler {
     @RequestMapping(value = "/{user_id}/chat/{chat_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List chat_detail(@PathVariable String user_id, @PathVariable int chat_id) throws Exception{
+    public List chat_detail(@PathVariable String user_id, @PathVariable int chat_id) throws Exception {
         Message message = new Message();
         message.setChatId(chat_id);
         List messageLists = messageRepository.selectDetail(message);
@@ -767,18 +769,18 @@ public class CampController extends AbstractRestHandler {
     }
 
     // お知らせ一覧
-    @RequestMapping(value="/{user_id}/notice",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{user_id}/notice", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List notice_list(@PathVariable String user_id) throws Exception{
+    public List notice_list(@PathVariable String user_id) throws Exception {
         // noticeDBに接続して値を取得
         List noticeLists = noticeRepository.selectAll();
         return noticeLists;
     }
 
     // お知らせ詳細
-    @RequestMapping(value="/{user_id}/notice/{notice_id}",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{user_id}/notice/{notice_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List notice_detail(@PathVariable String user_id,@PathVariable String notice_id) throws Exception{
+    public List notice_detail(@PathVariable String user_id, @PathVariable String notice_id) throws Exception {
         // noticeDBに接続して値を取得
         Notice notice = new Notice();
         notice.setNoticeId(notice_id);
@@ -787,12 +789,22 @@ public class CampController extends AbstractRestHandler {
     }
 
     // Q&A画面
-    @RequestMapping(value="/{user_id}/Q&A",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{user_id}/Q&A", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List q_a() throws Exception{
+    public List q_a() throws Exception {
         // Q&ADBに接続して値を取得
         List qaLists = qaRepository.selectAll();
         return qaLists;
+    }
+
+    // 退会画面
+    @RequestMapping(value = "/{user_id}/leave", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public void leave(@PathVariable String user_id) throws Exception {
+        // ユーザの退会
+        User user = new User();
+        user.setUserId(user_id);
+        userRepository.updateLeave(user);
     }
 
 }

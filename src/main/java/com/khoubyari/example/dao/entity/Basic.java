@@ -271,7 +271,7 @@ public class Basic implements Serializable{
         return joined_year;
     }
 
-    public void setJoinedYear(Integer joinedYear) {
+    public void setJoined_year(Integer joined_year) {
         this.joined_year = joined_year;
     }
 

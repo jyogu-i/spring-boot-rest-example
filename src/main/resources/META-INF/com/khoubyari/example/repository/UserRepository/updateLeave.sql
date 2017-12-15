@@ -1,0 +1,1 @@
+UPDATE public."User" SET leave=1 WHERE user_id=/* user.getUserId() */'U1';

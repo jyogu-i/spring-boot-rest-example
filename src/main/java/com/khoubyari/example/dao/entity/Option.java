@@ -344,11 +344,11 @@ public class Option {
         this.p_job_category_small = p_job_category_small;
     }
 
-    public Integer getJoined_year() {
+    public int getJoined_year() {
         return joined_year;
     }
 
-    public void setJoined_year(Integer joinedYear) {
+    public void setJoined_year(int joined_year) {
         this.joined_year = joined_year;
     }
 

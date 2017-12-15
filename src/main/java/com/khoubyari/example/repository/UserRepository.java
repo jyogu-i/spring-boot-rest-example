@@ -35,4 +35,7 @@ public interface UserRepository {
 
     @Update(sqlFile = true)
     int updateAccount(User user);
+
+    @Update(sqlFile = true)
+    int updateLeave(User user);
 }

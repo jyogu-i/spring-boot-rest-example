@@ -28,6 +28,9 @@ public class Chat {
     @Column(name = "count")
     int count;
 
+    @Column(name = "update")
+    String update;
+
     /** 
      * Returns the chatId.
      * 
@@ -86,5 +89,13 @@ public class Chat {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public String getUpdate() {
+        return update;
+    }
+
+    public void setUpdate(String update) {
+        this.update = update;
     }
 }
