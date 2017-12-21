@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -131,10 +132,12 @@ public class CampController extends AbstractRestHandler {
 
     // お問い合わせメール用の設定
     private final JavaMailSender javaMailSender;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    CampController(JavaMailSender javaMailSender) {
+    CampController(JavaMailSender javaMailSender,PasswordEncoder passwordEncoder) {
         this.javaMailSender = javaMailSender;
+        this.passwordEncoder=passwordEncoder;
     }
 
     // welcome画面
@@ -180,7 +183,7 @@ public class CampController extends AbstractRestHandler {
         }
         return welcome;
     }
-
+    
     // 個人情報規約画面
     @RequestMapping(value = "/personal", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -555,7 +558,7 @@ public class CampController extends AbstractRestHandler {
         User account = mapper.readValue(json, User.class);
 
         account.setUserId(user_id);
-        account.setPassword(account.getPassword());
+        account.setPassword(passwordEncoder.encode(account.getPassword()));
         account.setCellphone(account.getCellphone());
         userRepository.updateAccount(account);
 
@@ -660,6 +663,7 @@ public class CampController extends AbstractRestHandler {
                 bis.close();
             }
         }
+
         return caList;
     }
 

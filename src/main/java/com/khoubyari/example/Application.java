@@ -19,6 +19,8 @@ import org.springframework.context.annotation.Primary;
 
 //import org.springframework.orm.jpa.JpaTransactionManager;
 //import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.sql.DataSource;
@@ -50,5 +52,8 @@ public class Application extends SpringBootServletInitializer {
     @Primary
     public DataSource dataSourceForDefault() {
         return DataSourceBuilder.create().build();
+    }
+    @Bean PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

@@ -59,6 +59,9 @@ public class Ca {
     @Column(name = "intro_message")
     String introMessage;
 
+    @Column(name = "update")
+    String update;
+
     public String getCaId() {
         return caId;
     }
@@ -161,5 +164,13 @@ public class Ca {
 
     public void setIntroMessage(String introMessage) {
         this.introMessage = introMessage;
+    }
+
+    public String getUpdate() {
+        return update;
+    }
+
+    public void setUpdate(String update) {
+        this.update = update;
     }
 }
