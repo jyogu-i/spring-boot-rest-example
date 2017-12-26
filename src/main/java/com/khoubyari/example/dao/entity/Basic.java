@@ -64,7 +64,7 @@ public class Basic implements Serializable{
 
     String password;
 
-    String mail;
+    String cellphone;
 
 
     public String getUser() {
@@ -155,12 +155,12 @@ public class Basic implements Serializable{
         this.firstName = firstName;
     }
 
-    public String getMail() {
-        return mail;
+    public String getCellphone() {
+        return cellphone;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setCellphone(String cellphone) {
+        this.cellphone = cellphone;
     }
 
     public String getPassword() {

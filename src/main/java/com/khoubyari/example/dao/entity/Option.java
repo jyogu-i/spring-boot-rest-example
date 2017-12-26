@@ -57,10 +57,6 @@ public class Option {
 
     int joined_year;
 
-    String password;
-
-    String mail;
-
     String companyName;
 
     String placeId;
@@ -78,6 +74,10 @@ public class Option {
     String timingId;
 
     String termId;
+
+    String password;
+
+    String cellphone;
 
 
     public String getUserId() {
@@ -231,14 +231,6 @@ public class Option {
         this.firstName = firstName;
     }
 
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -358,6 +350,14 @@ public class Option {
 
     public void setP_company_name(String p_company_name) {
         this.p_company_name = p_company_name;
+    }
+
+    public String getCellphone() {
+        return cellphone;
+    }
+
+    public void setCellphone(String cellphone) {
+        this.cellphone= cellphone;
     }
 
 }

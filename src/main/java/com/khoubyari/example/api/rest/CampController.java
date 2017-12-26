@@ -1,6 +1,5 @@
 package com.khoubyari.example.api.rest;
 
-import com.google.common.base.Utf8;
 import com.khoubyari.example.dao.entity.*;
 import com.khoubyari.example.repository.*;
 import io.swagger.annotations.Api;
@@ -14,7 +13,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.WritableResource;
 
@@ -23,11 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.core.io.ResourceLoader;
 
 import java.io.*;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.*;
 
@@ -271,15 +267,15 @@ public class CampController extends AbstractRestHandler {
 
     }
 
-//    // 必要ないけど作れちゃったのさ・画像のアップロード
-//    @RequestMapping(value = "/s3/upload", method = RequestMethod.PUT)
-//    public void put(InputStream req) throws Exception {
-//        WritableResource resource = getResource();
-//        try (OutputStream out = resource.getOutputStream()) {
-//            copy(req, out);
-//        }
-//    }
-//
+    // 必要ないけど作れちゃったのさ・画像のアップロード
+    @RequestMapping(value = "/s3/upload", method = RequestMethod.PUT)
+    public void put(InputStream req) throws Exception {
+        WritableResource resource = getResource();
+        try (OutputStream out = resource.getOutputStream()) {
+            copy(req, out);
+        }
+    }
+
 //    // 必要ないけど作れちゃったのさ・画像の読み込み
 //    @RequestMapping(value = "/s3/read", method = RequestMethod.GET)
 //    public void get(@PathVariable String ca_id,OutputStream res) throws Exception {
@@ -292,23 +288,24 @@ public class CampController extends AbstractRestHandler {
 //            copy(in, res);
 //        }
 //    }
-//    // 上2つのメソッドを実行するための命令たち・きっと消される運命
-//    private WritableResource getResource() {
-//        return (WritableResource)
-//                resourceLoader.getResource("s3://careerup-camp.jp/assets/CA_img/");
-//    }
-//    private void copy(InputStream in, OutputStream out) throws IOException {
-//        byte[] buff = new byte[1024];
-//        for (int len = in.read(buff); len > 0; len = in.read(buff)) {
-//            out.write(buff, 0, len);
-//        }
-//    }
+    // 上2つのメソッドを実行するための命令たち・きっと消される運命
+    private WritableResource getResource() {
+        return (WritableResource)
+                resourceLoader.getResource("s3://careerup-camp.jp/assets/CA_img/");
+    }
+    private void copy(InputStream in, OutputStream out) throws IOException {
+        byte[] buff = new byte[1024];
+        for (int len = in.read(buff); len > 0; len = in.read(buff)) {
+            out.write(buff, 0, len);
+        }
+    }
 
 
-    public void python(String user_id, int age, String gender, String times, String big_p_ind, String big_p_jc, String big_h_in, String big_h_jc, String scale_number) throws IOException {
+    public void python(String user_id, String industry,String job_category,String company) throws IOException {
         Chat chat = new Chat();
-        String[] cmd = {"/Users/sekipon/anaconda3/bin/python3", "1121_rf_match.py", String.valueOf(age)
-                , gender, times, big_p_ind, big_p_jc, big_h_in, big_h_jc, scale_number};
+        String[] cmd = {"/Users/sekipon/anaconda3/bin/python3", "match.py", industry, job_category, company};
+
+      //  python3 match.py（ファイル名、ファイルのある場所） ‘E000’（ユーザーの希望業種ID） ‘1101’（ユーザーの希望職種ID） ‘株式会社リクルートコミュニケーションズ’（ユーザーの希望企業名）
 
         ProcessBuilder pb = new ProcessBuilder(cmd);
         Process proc = pb.start();
@@ -389,13 +386,19 @@ public class CampController extends AbstractRestHandler {
         user.setSchool(trimSpace(basic.getSchool()));
         user.setTimesId(trimSpace(basic.getTimesId().trim()));
         user.setAcademicId("なし");
+        if(basic.getPassword()==null){
+            user.setPassword("");
+            user.setCellphone("");
+        }else {
+            user.setCellphone(basic.getCellphone());
+            user.setPassword(passwordEncoder.encode(basic.getPassword()));
+        }
         userRepository.insertBasicUser(user);
 
-//        System.err.println("AIシステム＝" + user_id + "," + user.getAge() + ","
-//                + basic.getP_job_category() + "," + basic.getH_industry() + "," + userhope.getScaleNumberId());
+        System.err.println("AIシステム＝" + user_id + "," + userhope.getIndustryId() + ","
+                + userhope.getJobCategoryId());
         //AIシステムへ
-        python(user_id, user.getAge(), user.getGenderId(), user.getTimesId(), basic.getP_industry()
-                , basic.getP_job_category(), basic.getH_industry(), basic.getH_job_category(), userhope.getScaleNumberId());
+        python(user_id,userhope.getIndustryId(),userhope.getJobCategoryId(),"");
 
     }
 
@@ -423,7 +426,11 @@ public class CampController extends AbstractRestHandler {
         UserHope userhope = new UserHope();
         userhope.setUserId(user_id);
         userhope.setPlaceId(trimSpace(option.getPlace()));
-        userhope.setCompanyName(trimSpace(option.getH_company_name()));
+        if(option.getH_company_name()==null){
+            userhope.setCompanyName("");
+        } else {
+            userhope.setCompanyName(trimSpace(option.getH_company_name()));
+        }
         userhope.setIncome(trimSpace(option.getIncome()));
         userhope.setWorkId(trimSpace(option.getWork()));
         userhope.setScaleNumberId(trimSpace(option.getScaleNumber()));
@@ -434,7 +441,11 @@ public class CampController extends AbstractRestHandler {
 
         User user = new User();
         user.setUserId(user_id);
-        user.setSkill(option.getSkill());
+        if(option.getSkill()==null){
+            user.setSkill("");
+        } else {
+            user.setSkill(option.getSkill());
+        }
         user.setTimingId(trimSpace(option.getTiming()));
         user.setTermId(trimSpace(option.getTerm()));
         user.setAge(option.getAge());
@@ -444,11 +455,17 @@ public class CampController extends AbstractRestHandler {
         user.setSchool(trimSpace(option.getSchool()));
         user.setTimesId(trimSpace(option.getTimesId().trim()));
         user.setAcademicId("なし");
+        if(option.getPassword()==null){
+            user.setPassword("");
+            user.setCellphone("");
+        } else {
+            user.setCellphone(option.getCellphone());
+            user.setPassword(passwordEncoder.encode(option.getPassword()));
+        }
         userRepository.insertOptionUser(user);
 
         //　AIシステムへ
-        python(user_id, user.getAge(), user.getGenderId(), user.getTimesId(), option.getP_industry()
-                , option.getP_job_category(), option.getH_industry(), option.getH_job_category(), option.getScaleNumber());
+        python(user_id,userhope.getIndustryId(),userhope.getJobCategoryId(),userhope.getCompanyName());
 
     }
 
@@ -483,14 +500,17 @@ public class CampController extends AbstractRestHandler {
         ObjectMapper mapper = new ObjectMapper();
         Myprofile myprofile = mapper.readValue(json, Myprofile.class);
 
-
         UserHope userhope = new UserHope();
         userhope.setUserId(user_id);
-        userhope.setIndustryId(trimSpace(myprofile.getH_bigIndustry() + myprofile.getH_middleIndustry() + myprofile.getH_smallIndustry()));
+        userhope.setIndustryId(trimSpace(myprofile.getH_industry() + myprofile.getH_industry_middle() + myprofile.getH_industry_small()));
         if (myprofile.getPlace() != null) {
             userhope.setPlaceId(trimSpace(myprofile.getPlace()));
         }
-        userhope.setCompanyName(myprofile.getH_company());
+        if(myprofile.getH_company_name()==null){
+            userhope.setCompanyName("");
+        } else {
+            userhope.setCompanyName(myprofile.getH_company_name());
+        }
         if (myprofile.getIncome() != null) {
             userhope.setIncome(trimSpace(myprofile.getIncome()));
         }
@@ -501,7 +521,7 @@ public class CampController extends AbstractRestHandler {
             userhope.setScaleTypeId(trimSpace(myprofile.getScaleType()));
         }
         userhope.setScaleNumberId(trimSpace(myprofile.getScaleNumber()));
-        userhope.setJobCategoryId(trimSpace(myprofile.getH_bigCategory() + myprofile.getH_middleCategory() + myprofile.getH_smallCategory()));
+        userhope.setJobCategoryId(trimSpace(myprofile.getH_job_category() + myprofile.getH_job_category_middle() + myprofile.getH_job_category_small()));
         userhopeRepository.updateMyprofileUserHope(userhope);
 
         //会社の数だけ繰り返すfor文
@@ -510,10 +530,10 @@ public class CampController extends AbstractRestHandler {
         userprevious.setUserId(user_id);
         userpreviousRepository.delete(userprevious);
 
-        userprevious.setIndustryId(trimSpace(myprofile.getBigIndustry() + myprofile.getMiddleIndustry() + myprofile.getSmallIndustry()));
-        userprevious.setCompanyName(myprofile.getP_company());
-        userprevious.setJobCategoryId(trimSpace(myprofile.getBigCategory() + myprofile.getMiddleCategory() + myprofile.getSmallCategory()));
-        userprevious.setJoinedYear(myprofile.getJoinedYear());
+        userprevious.setIndustryId(trimSpace(myprofile.getP_industry() + myprofile.getP_industry_middle() + myprofile.getP_industry_small()));
+        userprevious.setCompanyName(myprofile.getP_company_name());
+        userprevious.setJobCategoryId(trimSpace(myprofile.getP_job_category() + myprofile.getP_job_category_middle() + myprofile.getP_job_category_small()));
+        userprevious.setJoinedYear(myprofile.getJoined_year());
         userpreviousRepository.insertOptionUserPrevious(userprevious);
 
         User user = new User();
@@ -528,14 +548,19 @@ public class CampController extends AbstractRestHandler {
         if (myprofile.getTerm() != null) {
             user.setTermId(trimSpace(myprofile.getTerm()));
         }
-        user.setTimesId(myprofile.getTimes());
-        user.setSkill(myprofile.getSkill());
+        user.setTimesId(myprofile.getTimesId());
+        if(myprofile.getSkill()==null){
+            user.setSkill("");
+        } else {
+            user.setSkill(myprofile.getSkill());
+        }
         user.setLastName(myprofile.getLastName());
         user.setFirstName(myprofile.getFirstName());
         userRepository.updateMyprofileUser(user);
 
-        python(user_id, user.getAge(), user.getGenderId(), user.getTimesId(), myprofile.getBigIndustry()
-                , myprofile.getBigCategory(), myprofile.getBigIndustry(), myprofile.getH_bigCategory(), myprofile.getScaleNumber());
+        System.err.println("===================="+myprofile.getH_company_name());
+        System.err.println("===================="+userhope.getCompanyName());
+        python(user_id,userhope.getIndustryId(),userhope.getJobCategoryId(),userhope.getCompanyName());
 
     }
 
@@ -641,26 +666,28 @@ public class CampController extends AbstractRestHandler {
 
         // caの写真をbase64で変換
         for (Ca _ca : caList) {
-            BufferedInputStream bis = null;
-            try {
-                final URL url =
-                        new URL("http://careerup-camp.jp.s3.amazonaws.com/assets/CA_img/" + _ca.getCaImg());
-                String type = null;
-                if (_ca.getCaImg().matches(".*png.*")) {
-                    type = "png";
-                } else if (_ca.getCaImg().matches(".*jpg.*")) {
-                    type = "jpg";
-                } else if (_ca.getCaImg().matches(".*gif.*")) {
-                    type = "gif";
+            if(_ca.getCaImg()!=null) {
+                BufferedInputStream bis = null;
+                try {
+                    final URL url =
+                            new URL("http://careerup-camp.jp.s3.amazonaws.com/assets/CA_img/" + _ca.getCaImg());
+                    String type = null;
+                    if (_ca.getCaImg().matches(".*png.*")) {
+                        type = "png";
+                    } else if (_ca.getCaImg().matches(".*jpg.*")) {
+                        type = "jpg";
+                    } else if (_ca.getCaImg().matches(".*gif.*")) {
+                        type = "gif";
+                    }
+
+                    bis = new BufferedInputStream(url.openStream());
+
+                    final String base64 =
+                            new String(Base64.encodeBase64(IOUtils.toByteArray(bis)));
+                    _ca.setCaImg("data:image/" + type + ";base64," + base64);
+                } finally {
+                    bis.close();
                 }
-
-                bis = new BufferedInputStream(url.openStream());
-
-                final String base64 =
-                        new String(Base64.encodeBase64(IOUtils.toByteArray(bis)));
-                _ca.setCaImg("data:image/" + type + ";base64," + base64);
-            } finally {
-                bis.close();
             }
         }
 
@@ -679,26 +706,28 @@ public class CampController extends AbstractRestHandler {
         Ca ca_person = caRepository.selectDetail(ca);
 
         // caの写真をbase64で変換
-        BufferedInputStream bis = null;
-        try {
-            final URL url =
-                    new URL("http://careerup-camp.jp.s3.amazonaws.com/assets/CA_img/" + ca_person.getCaImg());
-            String type = null;
-            if (ca_person.getCaImg().matches(".*png.*")) {
-                type = "png";
-            } else if (ca_person.getCaImg().matches(".*jpg.*")) {
-                type = "jpg";
-            } else if (ca_person.getCaImg().matches(".*gif.*")) {
-                type = "gif";
+        if(ca_person.getCaImg()!=null) {
+            BufferedInputStream bis = null;
+            try {
+                final URL url =
+                        new URL("http://careerup-camp.jp.s3.amazonaws.com/assets/CA_img/" + ca_person.getCaImg());
+                String type = null;
+                if (ca_person.getCaImg().matches(".*png.*")) {
+                    type = "png";
+                } else if (ca_person.getCaImg().matches(".*jpg.*")) {
+                    type = "jpg";
+                } else if (ca_person.getCaImg().matches(".*gif.*")) {
+                    type = "gif";
+                }
+
+                bis = new BufferedInputStream(url.openStream());
+
+                final String base64 =
+                        new String(Base64.encodeBase64(IOUtils.toByteArray(bis)));
+                ca_person.setCaImg("data:image/" + type + ";base64," + base64);
+            } finally {
+                bis.close();
             }
-
-            bis = new BufferedInputStream(url.openStream());
-
-            final String base64 =
-                    new String(Base64.encodeBase64(IOUtils.toByteArray(bis)));
-            ca_person.setCaImg("data:image/" + type + ";base64," + base64);
-        } finally {
-            bis.close();
         }
 
         Place place = placeRepository.selectCaPlace(ca_person);
@@ -731,7 +760,7 @@ public class CampController extends AbstractRestHandler {
         for (Chat _chat : chatLists) {
             Message message = messageRepository.selectLast(_chat);
             // caの写真をbase64で変換
-            if (message != null) {
+            if (message != null && message.getCaImg()!=null) {
                 BufferedInputStream bis = null;
                 try {
                     final URL url =

@@ -10,7 +10,5 @@ UPDATE public."User" SET
 	skill=/* user.getSkill() */'hge',
 	timing_id=/* user.getTimingId() */'1',
 	last_name=/* user.getLastName() */'sekine',
-    first_name=/* user.getFirstName() */'sekine',
-    cellphone=/* user.getCellphone() */'090888888',
-    password=/* user.getPassword() */'chdwufidw'
+    first_name=/* user.getFirstName() */'sekine'
     WHERE user_id=/* user.getUserId() */'U1';

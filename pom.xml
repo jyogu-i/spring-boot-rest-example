@@ -33,23 +33,6 @@
         </dependencies>
     </dependencyManagement>
 
-    <!-- 11/22追加 -->
-    <!--<repositories>-->
-        <!--<repository>-->
-            <!--<id>s3-repos</id>-->
-            <!--<name>AWS S3 Repository</name>-->
-            <!--<url>s3://careerup-camp.jp/assets/img/</url>-->
-        <!--</repository>-->
-    <!--</repositories>-->
-
-    <!--<distributionManagement>-->
-        <!--<repository>-->
-            <!--<id>aws-snapshot</id>-->
-            <!--<name>AWS S3 Repository</name>-->
-            <!--<url>s3://careerup-camp.jp/assets/img/</url>-->
-        <!--</repository>-->
-    <!--</distributionManagement>-->
-
     <dependencies>
 
         <dependency>
@@ -215,19 +198,19 @@
         </dependency>
 
         <!--<S3やるときはコメント外す>-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-thymeleaf</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-web</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.cloud</groupId>-->
-            <!--<artifactId>spring-cloud-aws-autoconfigure</artifactId>-->
-            <!--<version>1.2.1.RELEASE</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-aws-autoconfigure</artifactId>
+            <version>1.2.1.RELEASE</version>
+        </dependency>
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>

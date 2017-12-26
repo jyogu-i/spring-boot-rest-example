@@ -60,7 +60,7 @@ public class Myprofile implements Serializable{
 
     String mail;
 
-    String companyName;
+    String h_company_name;
 
     String placeId;
 
@@ -87,12 +87,12 @@ public class Myprofile implements Serializable{
         this.userId = userId;
     }
 
-    public String getH_company() {
-        return companyName;
+    public String getH_company_name() {
+        return h_company_name;
     }
 
-    public void setH_company(String companyName) {
-        this.companyName = companyName;
+    public void setH_company_name(String h_company_name) {
+        this.h_company_name = h_company_name;
     }
 
     public String getPlace() {
@@ -198,11 +198,11 @@ public class Myprofile implements Serializable{
         this.major = majorId;
     }
 
-    public String getTimes() {
+    public String getTimesId() {
         return timesId;
     }
 
-    public void setTimes(String timesId) {
+    public void setTimesId(String timesId) {
         this.timesId = timesId;
     }
 
@@ -246,28 +246,68 @@ public class Myprofile implements Serializable{
         this.password = password;
     }
 
-    public String getH_bigIndustry() {
+    public String getH_industry() {
         return h_industry;
     }
 
-    public void setH_bigIndustry(String h_industry) {
+    public void setH_industry(String h_industry) {
         this.h_industry = h_industry;
     }
 
-    public String getH_middleIndustry() {
+    public String getH_industry_middle() {
         return h_industry_middle;
     }
 
-    public void setH_middleIndustry(String h_industry_middle) {
+    public void setH_industry_middle(String h_industry_middle) {
         this.h_industry_middle = h_industry_middle;
     }
 
-    public String getH_smallIndustry() {
+    public String getH_industry_small() {
         return h_industry_small;
     }
 
-    public void setH_smallIndustry(String h_industry_small) {
+    public void setH_industry_small(String h_industry_small) {
         this.h_industry_small = h_industry_small;
+    }
+
+    public String getH_job_category() {
+        return h_job_category;
+    }
+
+    public void setH_job_category(String h_job_category) {
+        this.h_job_category = h_job_category;
+    }
+
+    public String getH_job_category_middle() {
+        return h_job_category_middle;
+    }
+
+    public void setH_job_category_middle(String h_job_category_middle) {
+        this.h_job_category_middle = h_job_category_middle;
+    }
+
+    public String getH_job_category_small() {
+        return h_job_category_small;
+    }
+
+    public void setH_job_category_small(String h_job_category_small) {
+        this.h_job_category_small = h_job_category_small;
+    }
+
+    public String getP_industry() {
+        return p_industry;
+    }
+
+    public void setP_industry(String p_industry) {
+        this.p_industry = p_industry;
+    }
+
+    public String getP_industry_middle() {
+        return p_industry_middle;
+    }
+
+    public void setP_industry_middle(String p_industry_middle) {
+        this.p_industry_middle = p_industry_middle;
     }
 
     public String getP_industry_small() {
@@ -278,92 +318,44 @@ public class Myprofile implements Serializable{
         this.p_industry_small = p_industry_small;
     }
 
-
-    public String getH_bigCategory() {
-        return h_job_category;
-    }
-
-    public void setH_bigCategory(String h_job_category) {
-        this.h_job_category = h_job_category;
-    }
-
-    public String getH_middleCategory() {
-        return h_job_category_middle;
-    }
-
-    public void setH_middleCategory(String h_job_category_middle) {
-        this.h_job_category_middle = h_job_category_middle;
-    }
-
-    public String getH_smallCategory() {
-        return h_job_category_small;
-    }
-
-    public void setH_smallCategory(String h_job_category_small) {
-        this.h_job_category_small = h_job_category_small;
-    }
-
-    public String getBigIndustry() {
-        return p_industry;
-    }
-
-    public void setBigIndustry(String p_industry) {
-        this.p_industry = p_industry;
-    }
-
-    public String getMiddleIndustry() {
-        return p_industry_middle;
-    }
-
-    public void setMiddleIndustry(String p_industry_middle) {
-        this.p_industry_middle = p_industry_middle;
-    }
-
-    public String getSmallIndustry() {
-        return p_industry_small;
-    }
-
-    public void setSmallIndustry(String p_industry_small) {
-        this.p_industry_small = p_industry_small;
-    }
-
-    public String getBigCategory() {
+    public String getP_job_category() {
         return p_job_category;
     }
 
-    public void setBigCategory(String p_job_category) {
+    public void setP_job_category(String p_job_category) {
         this.p_job_category = p_job_category;
     }
 
-    public String getMiddleCategory() {
+    public String getP_job_category_middle() {
         return p_job_category_middle;
     }
 
-    public void setMiddleCategory(String p_job_category_middle) {
+    public void setP_job_category_middle(String p_job_category_middle) {
         this.p_job_category_middle = p_job_category_middle;
     }
 
-    public String getSmallCategory() {
+    public String getP_job_category_small() {
         return p_job_category_small;
     }
 
-    public void setSmallCategory(String p_job_category_small) {
+    public void setP_job_category_small(String p_job_category_small) {
         this.p_job_category_small = p_job_category_small;
     }
 
-    public Integer getJoinedYear() {
+
+    public Integer getJoined_year() {
         return joinedYear;
     }
 
-    public void setJoinedYear(Integer joinedYear) {
+    public void setJoined_year(Integer joinedYear) {
         this.joinedYear = joinedYear;
     }
 
-    public String getP_company() {
+    public String getP_company_name() {
         return p_company_name;
     }
 
-    public void setP_company(String p_company_name) {
+    public void setP_company_name(String p_company_name) {
         this.p_company_name = p_company_name;
     }
 
