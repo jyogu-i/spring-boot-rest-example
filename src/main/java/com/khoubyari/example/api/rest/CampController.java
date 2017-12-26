@@ -268,13 +268,13 @@ public class CampController extends AbstractRestHandler {
     }
 
     // 必要ないけど作れちゃったのさ・画像のアップロード
-    @RequestMapping(value = "/s3/upload", method = RequestMethod.PUT)
-    public void put(InputStream req) throws Exception {
-        WritableResource resource = getResource();
-        try (OutputStream out = resource.getOutputStream()) {
-            copy(req, out);
-        }
-    }
+//    @RequestMapping(value = "/s3/upload", method = RequestMethod.PUT)
+//    public void put(InputStream req) throws Exception {
+//        WritableResource resource = getResource();
+//        try (OutputStream out = resource.getOutputStream()) {
+//            copy(req, out);
+//        }
+//    }
 
 //    // 必要ないけど作れちゃったのさ・画像の読み込み
 //    @RequestMapping(value = "/s3/read", method = RequestMethod.GET)
@@ -398,7 +398,7 @@ public class CampController extends AbstractRestHandler {
         System.err.println("AIシステム＝" + user_id + "," + userhope.getIndustryId() + ","
                 + userhope.getJobCategoryId());
         //AIシステムへ
-        python(user_id,userhope.getIndustryId(),userhope.getJobCategoryId(),"");
+//        python(user_id,userhope.getIndustryId(),userhope.getJobCategoryId(),"");
 
     }
 
@@ -465,7 +465,7 @@ public class CampController extends AbstractRestHandler {
         userRepository.insertOptionUser(user);
 
         //　AIシステムへ
-        python(user_id,userhope.getIndustryId(),userhope.getJobCategoryId(),userhope.getCompanyName());
+//        python(user_id,userhope.getIndustryId(),userhope.getJobCategoryId(),userhope.getCompanyName());
 
     }
 
@@ -558,9 +558,7 @@ public class CampController extends AbstractRestHandler {
         user.setFirstName(myprofile.getFirstName());
         userRepository.updateMyprofileUser(user);
 
-        System.err.println("===================="+myprofile.getH_company_name());
-        System.err.println("===================="+userhope.getCompanyName());
-        python(user_id,userhope.getIndustryId(),userhope.getJobCategoryId(),userhope.getCompanyName());
+//        python(user_id,userhope.getIndustryId(),userhope.getJobCategoryId(),userhope.getCompanyName());
 
     }
 
