@@ -305,8 +305,6 @@ public class CampController extends AbstractRestHandler {
         Chat chat = new Chat();
         String[] cmd = {"/Users/sekipon/anaconda3/bin/python3", "match.py", industry, job_category, company};
 
-      //  python3 match.py（ファイル名、ファイルのある場所） ‘E000’（ユーザーの希望業種ID） ‘1101’（ユーザーの希望職種ID） ‘株式会社リクルートコミュニケーションズ’（ユーザーの希望企業名）
-
         ProcessBuilder pb = new ProcessBuilder(cmd);
         Process proc = pb.start();
 
@@ -398,7 +396,7 @@ public class CampController extends AbstractRestHandler {
         System.err.println("AIシステム＝" + user_id + "," + userhope.getIndustryId() + ","
                 + userhope.getJobCategoryId());
         //AIシステムへ
-//        python(user_id,userhope.getIndustryId(),userhope.getJobCategoryId(),"");
+        python(user_id,userhope.getIndustryId(),userhope.getJobCategoryId(),"");
 
     }
 
@@ -465,7 +463,7 @@ public class CampController extends AbstractRestHandler {
         userRepository.insertOptionUser(user);
 
         //　AIシステムへ
-//        python(user_id,userhope.getIndustryId(),userhope.getJobCategoryId(),userhope.getCompanyName());
+        python(user_id,userhope.getIndustryId(),userhope.getJobCategoryId(),userhope.getCompanyName());
 
     }
 
@@ -544,6 +542,9 @@ public class CampController extends AbstractRestHandler {
         user.setGenderId(trimSpace(myprofile.getGender()));
         user.setMajorId(trimSpace(myprofile.getMajor()));
         user.setSchool(myprofile.getSchool());
+        if(myprofile.getTiming()==null){
+            myprofile.setTiming("");
+        }
         user.setTimingId(trimSpace(myprofile.getTiming()));
         if (myprofile.getTerm() != null) {
             user.setTermId(trimSpace(myprofile.getTerm()));
@@ -558,7 +559,7 @@ public class CampController extends AbstractRestHandler {
         user.setFirstName(myprofile.getFirstName());
         userRepository.updateMyprofileUser(user);
 
-//        python(user_id,userhope.getIndustryId(),userhope.getJobCategoryId(),userhope.getCompanyName());
+        python(user_id,userhope.getIndustryId(),userhope.getJobCategoryId(),userhope.getCompanyName());
 
     }
 

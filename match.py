@@ -6,7 +6,9 @@ import warnings
 warnings.filterwarnings('ignore')
 
 args = sys.argv
-
+# scoreを無差別に割り振った結果を格納
+ca_score_id= []
+ca_score = []
 # ユーザーにマッチングされたCAのIDを格納
 match_pair = []
 # ユーザーにマッチングされたCAのscoreを格納
@@ -14,6 +16,7 @@ match_score = []
 
 def main():
     ca_scoring()
+    match_ca_decision()
     print_match_pair()
 
 def ca_scoring():
@@ -29,8 +32,6 @@ def ca_scoring():
     middle_ind = str(wish_ind)[:2]
     big_occ = str(wish_occ)[:1]
     middle_occ = str(wish_occ)[:2]
-    
-    
     for ca in ca_list:
         score = 0
         if  len(df_ind[df_ind.ca_id == ca][df_ind.big_industry_id == big_ind]) != 0:
@@ -49,9 +50,78 @@ def ca_scoring():
             if  len(df_com[df_com.ca_id == ca][df_com.company_name == wish_com]) != 0:
                 score += 6
         if score >= 6:
-            match_pair.append(ca)
-            match_score.append(score)
-    
+            ca_score_id.append(ca)
+            ca_score.append(score)
+
+#CAのscoreを元に、マッチングさせるCAを決める
+#MAXを10人とする
+#scoreが一定以上の人・・・(1)が10人以下の場合、そのままマッチングさせる
+#(1)が10人より多いの場合、会社ごとに一番scoreの高い人を無作為に1人選出する・・・（2）
+#（2）が10人に満たない場合、(1)にいて、(2)にいない人をscoreの高い順で無作為に10人になるまで追加し、マッチングさせる
+#(2)が10人の場合、(2)をマッチングさせる
+#(2)が10人以上の場合、(2)の中から特典の高い順に無作為に10人になるように抽出し、マッチングさせる
+            
+def match_ca_decision():
+    global ca_score_id
+    global ca_score
+    global match_pair
+    global match_score
+    MAX_CA = 10
+    if len(ca_score_id) > MAX_CA:
+        select_ca_id = []
+        select_ca_score = []
+        df_ca, df_ind, df_occ, df_com = get_storage_data()
+        df_ca = df_ca.loc[:,['ca_id','ca_company']]
+        df_select_ca = df_ca.query('ca_id in {}'.format(ca_score_id))
+        # scoreが一定以上のCAの会社のリストを作成する
+        company_name = df_select_ca['ca_company'].drop_duplicates()
+        df_select_ca['score'] = ca_score
+        #会社ごとに一人選択する
+        for company in company_name:
+            df_select_com = df_select_ca[df_select_ca.ca_company == company]
+            max_score = max(df_select_com['score'])
+            df_max_select_com = df_select_com.query('score == {}'.format(max_score))
+            df_choice = df_max_select_com.sample(n=1)
+            select_ca_id.append(df_choice.ca_id.values[0])
+            select_ca_score.append(df_choice.score.values[0])
+        if len(select_ca_id) > MAX_CA:
+            df_over_ca = df_select_ca.query('ca_id in {}'.format(select_ca_id))
+            selected_ca_id = []
+            selected_ca_score = []
+            while len(selected_ca_id) < MAX_CA:
+                max_selected_score = max(df_over_ca['score'])
+                df_max_selected_ca = df_over_ca.query('score == {}'.format(max_selected_score))
+                df_choice_selected_ca = df_max_selected_ca.sample(n=1)
+                selected_ca = df_choice_selected_ca.ca_id.values[0]
+                selected_ca_id.append(selected_ca)
+                selected_score = df_choice_selected_ca.score.values[0]
+                selected_ca_score.append(selected_score)
+                df_over_ca = df_over_ca[df_over_ca.ca_id != selected_ca]
+            match_pair = selected_ca_id
+            match_score = selected_ca_score
+        elif len(select_ca_id) == MAX_CA:
+            match_pair = select_ca_id
+            match_score = select_ca_score
+        else:
+            matched_list = []
+            for ca_id_check in ca_score_id:
+                if ca_id_check not in select_ca_id:
+                    matched_list.append(ca_id_check)
+            df_selected_ca = df_select_ca.query('ca_id in {}'.format(matched_list))
+            while len(select_ca_id) < MAX_CA:
+                max_selected_score = max(df_selected_ca['score'])
+                df_max_selected_ca = df_selected_ca.query('score == {}'.format(max_selected_score))
+                df_choice_selected_ca = df_max_selected_ca.sample(n=1)
+                selected_ca = df_choice_selected_ca.ca_id.values[0]
+                selected_score = df_choice_selected_ca.score.values[0]
+                select_ca_id.append(selected_ca)
+                select_ca_score.append(selected_score)
+                df_selected_ca = df_selected_ca[df_selected_ca.ca_id != selected_ca]
+            match_pair = select_ca_id
+            match_score = select_ca_score
+    else:
+        match_pair = ca_score_id
+        match_score = ca_score
 def get_ca_data():
     df_ca, df_ind, df_occ, df_com = get_storage_data()
     ca_list = df_ca['ca_id']
