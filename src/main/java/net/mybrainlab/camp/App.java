@@ -25,11 +25,11 @@ import javax.sql.DataSource;
 @SpringBootApplication
 @Configuration
 @EnableAutoConfiguration  // Sprint Boot Auto Configuration
-@ComponentScan(basePackages = "net.khoubyari.example") // コンポーネントを使えるようにしてくれるいいやつ
+@ComponentScan(basePackages = "net.mybrainlab.camp") // コンポーネントを使えるようにしてくれるいいやつ
 //@EnableJpaRepositories("com.khoubyari.example.dao.jpa") // To segregate MongoDB and JPA repositories. Otherwise not needed.
-public class Application extends SpringBootServletInitializer {
+public class App extends SpringBootServletInitializer {
 
-    private static final Class<Application> applicationClass = Application.class;
+    private static final Class<App> applicationClass = App.class;
     private static final Logger log = LoggerFactory.getLogger(applicationClass);
 
 	public static void main(String[] args) {

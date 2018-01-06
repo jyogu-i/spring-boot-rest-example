@@ -9,7 +9,7 @@ import com.khoubyari.example.Application;
 import com.khoubyari.example.api.rest.CampController;
 import com.khoubyari.example.domain.User;
 
-import net.mybrainlab.camp.Application;
+import net.mybrainlab.camp.App;
 import net.mybrainlab.camp.api.rest.CampController;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = Application.class)
+@SpringBootTest(classes = App.class)
 @ActiveProfiles("test")
 public class HotelControllerTest {
 
