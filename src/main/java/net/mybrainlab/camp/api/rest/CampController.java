@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.*;
 
 import org.apache.commons.codec.binary.Base64;
-//import java.util.Base64;
 
 // コントローラークラスだよっていうおまじない
 @RestController

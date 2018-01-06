@@ -396,7 +396,7 @@
                 <configuration>
                     <imageName>camp/service</imageName>
                     <baseImage>tesla/java</baseImage>
-                    <dockerDirectory>docker/office</dockerDirectory>
+                    <dockerDirectory>docker/camp</dockerDirectory>
                     <entryPoint>["java", "-Xms256m", "-Xmx512m", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
                     <!-- copy the service's jar file from target into the root directory of the image -->
                     <resources>

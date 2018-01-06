@@ -1,5 +1,5 @@
 queueService:
-  image: 316263240806.dkr.ecr.ap-northeast-1.amazonaws.com/tesla/queueservice:${VERSION}
+  image: 316263240806.dkr.ecr.ap-northeast-1.amazonaws.com/camp/service:${VERSION}
   mem_limit: 536870912
   ports:
-    - "8080:80"
+    - "80:80"

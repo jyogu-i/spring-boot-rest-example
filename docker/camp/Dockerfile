@@ -1,4 +1,4 @@
-FROM 316263240806.dkr.ecr.ap-northeast-1.amazonaws.com/tesla/java-base
+FROM 316263240806.dkr.ecr.ap-northeast-1.amazonaws.com/tesla/base-java
 
 ADD opt/SyncQueue/CampService.jar /opt/SyncQueue/
 EXPOSE 8080
