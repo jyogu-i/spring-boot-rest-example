@@ -1,0 +1,90 @@
+### This is the main way to configure the application (other than annotations).
+### This file is in Yaml format but you can also configure spring boot using the traditional
+### Java properties file format. 
+
+spring:
+  datasource:
+    url: jdbc:postgresql://192.168.50.5:51705/camp
+ #   url: jdbc:postgresql://camp-prod-pgsql.cifaheblb7yk.ap-northeast-1.rds.amazonaws.com:5432/camp
+    username: brainlab_camp
+    password: jCcwRsP1
+    driverClassName: org.postgresql.Driver
+  jmx:
+    enabled: false
+
+  mail:
+    default-encoding: UTF-8
+    protocol: smtp
+    host: mail.careerup-camp.jp
+    port: 587
+    username: noreply@careerup-camp.jp
+    password: V9CnPLBm
+    jndi-name: mail/Session
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+          #enable: false
+            enable: true
+          socketFactory:
+          #port: 2525
+            port: 587
+            class: javax.net.ssl.SSLSocketFactory
+            fallback: false
+        debug: true
+  test-connection: false
+
+#cloud.aws:
+#  credentials:
+#    accessKey: AKIAJ7D5XZGL5SZ5XKNA
+#    secretKey: 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
+#  region:
+#    static: ap-northeast-1
+
+server:
+  port: 8090
+
+#todo: make sure to always enable security in production
+security:
+  basic:
+    enabled: false
+
+#management endpoints on a separate port
+management:
+  port: 8091
+  security:
+    enabled: false # management port is internal only. no need to secure it.
+
+#default project info followed by actual injected pom-specified values.
+project:
+  name: spring-boot-rest-example
+  version: 0.1
+  description: boot-example default description
+info:
+  build:
+    artifact: ${project.artifactId}
+    name: ${project.name}
+    description: ${project.description}
+    version: ${project.version}
+
+hotel.service:
+  name: 'default profile:'
+---
+spring:
+  profiles: test
+  h2:
+    console:
+      enabled: true
+
+spring.jpa:
+    hibernate.ddl-auto: create-drop
+
+hotel.service:
+  name: 'test profile:'
+  
+logging:
+  file: boot_example.log
+  org.hibernate: INFO
+
+ 
