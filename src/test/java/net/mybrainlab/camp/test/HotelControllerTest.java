@@ -5,12 +5,10 @@ package net.mybrainlab.camp.test;
  */
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.khoubyari.example.Application;
-import com.khoubyari.example.api.rest.CampController;
-import com.khoubyari.example.domain.User;
 
 import net.mybrainlab.camp.App;
 import net.mybrainlab.camp.api.rest.CampController;
+import net.mybrainlab.camp.dao.entity.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

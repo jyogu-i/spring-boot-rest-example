@@ -4,8 +4,7 @@
 
 spring:
   datasource:
-    url: jdbc:postgresql://192.168.50.5:51705/camp
- #   url: jdbc:postgresql://camp-prod-pgsql.cifaheblb7yk.ap-northeast-1.rds.amazonaws.com:5432/camp
+    url: jdbc:postgresql://camp-prod-pgsql.cifaheblb7yk.ap-northeast-1.rds.amazonaws.com:5432/camp
     username: brainlab_camp
     password: jCcwRsP1
     driverClassName: org.postgresql.Driver
