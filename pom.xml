@@ -37,42 +37,21 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-            <build>
-                <resources>
-                    <resource>
-                        <directory>src/main/resources</directory>
-                    </resource>
-                    <resource>
-                        <directory>config/dev</directory>
-                    </resource>
-                </resources>
-            </build>
+            <properties>
+                <resources.directory>config/dev/</resources.directory>
+            </properties>
         </profile>
         <profile>
             <id>prod</id>
-            <build>
-                <resources>
-                    <resource>
-                        <directory>src/main/resources</directory>
-                    </resource>
-                    <resource>
-                        <directory>config/prod</directory>
-                    </resource>
-                </resources>
-            </build>
+            <properties>
+                <resources.directory>config/prod/</resources.directory>
+            </properties>
         </profile>
         <profile>
             <id>stage</id>
-            <build>
-                <resources>
-                    <resource>
-                        <directory>src/main/resources</directory>
-                    </resource>
-                    <resource>
-                        <directory>config/stage</directory>
-                    </resource>
-                </resources>
-            </build>
+            <properties>
+                <resources.directory>config/stage/</resources.directory>
+            </properties>
         </profile>
     </profiles>
     <dependencies>
@@ -433,5 +412,13 @@
                 </executions>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>${resources.directory}</directory>
+            </resource>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+            </resource>
+        </resources>
     </build>
 </project>
