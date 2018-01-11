@@ -385,7 +385,7 @@
                             <include>${project.build.finalName}.jar</include>
                         </resource>
                     </resources>
-                    <useConfigFile>true</useConfigFile>
+                    <userConfig>true</userConfig>
                 </configuration>
                 <executions>
                     <execution>

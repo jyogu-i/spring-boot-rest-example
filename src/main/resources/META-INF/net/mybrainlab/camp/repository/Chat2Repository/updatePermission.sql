@@ -1,0 +1,1 @@
+UPDATE public."Chat2" SET flg=2 WHERE ca_id=/* chat.getCaId() */'C01' AND user_id=/* chat.getUserId() */'U01';

@@ -1,0 +1,1 @@
+select * from public."Chat2" where user_id=/* chat.getUserId() */'N1' and flg=2;

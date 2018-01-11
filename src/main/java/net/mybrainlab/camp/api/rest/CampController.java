@@ -160,9 +160,9 @@ public class CampController extends AbstractRestHandler {
         BufferedInputStream bis = null;
         try {
             final URL url =
-                    new URL("http://careerup-camp.jp.s3.amazonaws.com/assets/tutorial/" + "Top.jpg");
+                    new URL("http://careerup-camp.jp.s3.amazonaws.com/tutrial/" + "Top.jpg");
             final URL url2 =
-                    new URL("http://careerup-camp.jp.s3.amazonaws.com/assets/tutorial/" + "camp_char.png");
+                    new URL("http://careerup-camp.jp.s3.amazonaws.com/tutrial/" + "camp_char.png");
 
             bis = new BufferedInputStream(url.openStream());
             final String base64 =
@@ -197,17 +197,6 @@ public class CampController extends AbstractRestHandler {
         List tos = tosRepository.selectAll();
         return tos;
     }
-
-    // テスト画面 TODO
-//    @RequestMapping(value = "/test", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseBody
-//    public String test(){
-//        String Path = "/usr/share/tomcat7/webapps/sample_app/resources/images/";
-//        String encoded = Base64.getEncoder().encodeToString(Path.getBytes(StandardCharsets.UTF_8));
-//        String decoded = new String(Base64.getDecoder().decode(encoded));
-//        System.err.println(decoded);
-//        return encoded;
-//    }
 
     // ログイン画面 TODO
     @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -290,7 +279,7 @@ public class CampController extends AbstractRestHandler {
     // 上2つのメソッドを実行するための命令たち・きっと消される運命
     private WritableResource getResource() {
         return (WritableResource)
-                resourceLoader.getResource("s3://careerup-camp.jp/assets/CA_img/");
+                resourceLoader.getResource("s3://careerup-camp.jp/CA_img/");
     }
     private void copy(InputStream in, OutputStream out) throws IOException {
         byte[] buff = new byte[1024];
@@ -336,11 +325,8 @@ public class CampController extends AbstractRestHandler {
     }
 
     public String trimSpace(String str) {
-        str = str.replace("[", "");
-        str = str.replace("]", "");
         str = str.replace(" ", "");
         str = str.replace("　", "");
-        str = str.replace("\uFEFF", "");
         str.trim();
 
         return str;
@@ -668,7 +654,7 @@ public class CampController extends AbstractRestHandler {
                 BufferedInputStream bis = null;
                 try {
                     final URL url =
-                            new URL("http://careerup-camp.jp.s3.amazonaws.com/assets/CA_img/" + _ca.getCaImg());
+                            new URL("http://careerup-camp.jp.s3.amazonaws.com/CA_img/" + _ca.getCaImg());
                     String type = null;
                     if (_ca.getCaImg().matches(".*png.*")) {
                         type = "png";
@@ -708,7 +694,7 @@ public class CampController extends AbstractRestHandler {
             BufferedInputStream bis = null;
             try {
                 final URL url =
-                        new URL("http://careerup-camp.jp.s3.amazonaws.com/assets/CA_img/" + ca_person.getCaImg());
+                        new URL("http://careerup-camp.jp.s3.amazonaws.com/CA_img/" + ca_person.getCaImg());
                 String type = null;
                 if (ca_person.getCaImg().matches(".*png.*")) {
                     type = "png";
@@ -762,7 +748,7 @@ public class CampController extends AbstractRestHandler {
                 BufferedInputStream bis = null;
                 try {
                     final URL url =
-                            new URL("http://careerup-camp.jp.s3.amazonaws.com/assets/CA_img/" + message.getCaImg());
+                            new URL("http://careerup-camp.jp.s3.amazonaws.com/CA_img/" + message.getCaImg());
                     String type = null;
                     if (message.getCaImg().matches(".*png.*")) {
                         type = "png";
