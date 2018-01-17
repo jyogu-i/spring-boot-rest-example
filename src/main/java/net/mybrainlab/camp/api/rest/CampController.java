@@ -208,6 +208,18 @@ public class CampController extends AbstractRestHandler {
         return login.toString();
     }
 
+    // 必要か分からないけど作成。 CAのマッチング状況をみる
+    @RequestMapping(value = "/{ca_id}/match", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List ca_match(@PathVariable String ca_id) throws Exception {
+        //承認したときのflgを2に変える
+        Chat chat = new Chat();
+        chat.setCaId(ca_id);
+
+        return chatRepository.selectMatch(chat);
+    }
+
     // 必要か分からないけど作成。 CAが承認した場合のflg書き換え chatテーブルのflgを2に
     @RequestMapping(value = "/{ca_id}/{user_id}/permission", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -291,7 +303,7 @@ public class CampController extends AbstractRestHandler {
 
     public void python(String user_id, String industry,String job_category,String company) throws IOException {
         Chat chat = new Chat();
-        String[] cmd = {"/Users/sekipon/anaconda3/bin/python3", "match.py", industry, job_category, company};
+        String[] cmd = {"/usr/bin/python3", "/opt/SyncQueue/match.py", industry, job_category, company};
 
         ProcessBuilder pb = new ProcessBuilder(cmd);
         Process proc = pb.start();
@@ -595,20 +607,6 @@ public class CampController extends AbstractRestHandler {
         return "お問い合わせが完了しました。\n事務局からの返信をお待ちくださいませ。";
     }
 
-    // お問い合わせ画面
-//    @RequestMapping(value = "/{user_id}/contact", method = {RequestMethod.POST}, consumes = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseStatus(HttpStatus.OK)
-//    @ResponseBody
-//    public void contact(@RequestBody String json,@PathVariable String user_id)throws IOException{
-//        // IDはクエリから取得
-//        System.err.println("jsonの中身＝"+json);
-//        ObjectMapper mapper = new ObjectMapper();
-//        Contact contact = mapper.readValue(json, Contact.class);
-//        contact.setRequesterId(user_id);
-//        contact.setContactMessage(contact.getContactMessage());
-//        contactRepository.insert(contact);
-//    }
-
     // campへのご要望画面
     @RequestMapping(value = "/{user_id}/camp_request", method = {RequestMethod.POST}, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -674,8 +672,23 @@ public class CampController extends AbstractRestHandler {
                 }
             }
         }
-
         return caList;
+    }
+
+    // お気に入り登録
+    @RequestMapping(value = "/{user_id}/ca/{ca_id}/favo", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public void favo_post(@RequestBody String json,@PathVariable String user_id,@PathVariable String ca_id) throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        Chat chat = mapper.readValue(json, Chat.class);
+        System.err.println("aaaaaaa"+json);
+
+        chat.setUserId(user_id);
+        chat.setCaId(ca_id);
+        chat.setFavo(chat.getFavo());
+
+        chatRepository.updateFavo(chat);
     }
 
     // ca詳細
@@ -771,17 +784,6 @@ public class CampController extends AbstractRestHandler {
                 messageLists.add(message);
             }
         }
-        return messageLists;
-    }
-
-    // チャット詳細 TODO
-    @RequestMapping(value = "/{user_id}/chat/{chat_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public List chat_detail(@PathVariable String user_id, @PathVariable int chat_id) throws Exception {
-        Message message = new Message();
-        message.setChatId(chat_id);
-        List messageLists = messageRepository.selectDetail(message);
         return messageLists;
     }
 

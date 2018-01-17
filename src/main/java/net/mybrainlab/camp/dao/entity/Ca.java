@@ -62,6 +62,9 @@ public class Ca {
     @Column(name = "update")
     String update;
 
+    @Column(name = "favo")
+    String favo;
+
     public String getCaId() {
         return caId;
     }
@@ -172,5 +175,13 @@ public class Ca {
 
     public void setUpdate(String update) {
         this.update = update;
+    }
+
+    public String getFavo() {
+        return favo;
+    }
+
+    public void setFavo(String favo) {
+        this.favo = favo;
     }
 }

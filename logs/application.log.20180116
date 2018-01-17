@@ -1,0 +1,1010 @@
+2018-01-16 11:55:43.132  WARN 49034 --- [http-nio-8090-exec-1] o.s.web.servlet.PageNotFound             : Request method 'GET' not supported
+2018-01-16 13:16:11.894  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.GenderRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:12.077  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/GenderRepository/selectAll.sql],
+SELECT * FROM public."Gender"
+2018-01-16 13:16:12.095  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.GenderRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:12.095  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.AcademicRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:12.096  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/AcademicRepository/selectAll.sql],
+SELECT * FROM public."Academic"
+2018-01-16 13:16:12.111  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.AcademicRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:12.111  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.EnglishRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:12.112  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/EnglishRepository/selectAll.sql],
+SELECT english_id,english FROM public."English"
+2018-01-16 13:16:12.125  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.EnglishRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:12.126  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectBig]
+2018-01-16 13:16:12.126  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/IndustryRepository/selectBig.sql],
+SELECT DISTINCT big_industry,big_industry_id FROM public."Industry" ORDER BY big_industry_id ASC
+2018-01-16 13:16:12.143  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectBig]
+2018-01-16 13:16:12.143  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectMiddle]
+2018-01-16 13:16:12.143  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/IndustryRepository/selectMiddle.sql],
+SELECT DISTINCT big_industry_id,middle_industry_id,middle_industry FROM public."Industry" ORDER BY big_industry_id ASC
+2018-01-16 13:16:12.169  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectMiddle]
+2018-01-16 13:16:12.169  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectSmall]
+2018-01-16 13:16:12.169  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/IndustryRepository/selectSmall.sql],
+SELECT big_industry_id,middle_industry_id,small_industry,small_industry_id FROM public."Industry" ORDER BY big_industry_id ASC
+2018-01-16 13:16:12.198  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectSmall]
+2018-01-16 13:16:12.199  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectBig]
+2018-01-16 13:16:12.199  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/JobCategoryRepository/selectBig.sql],
+SELECT DISTINCT big_category,big_category_id FROM public."JobCategory" ORDER BY big_category_id ASC
+2018-01-16 13:16:12.216  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectBig]
+2018-01-16 13:16:12.217  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectMiddle]
+2018-01-16 13:16:12.217  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/JobCategoryRepository/selectMiddle.sql],
+SELECT DISTINCT big_category_id,middle_category_id,middle_category FROM public."JobCategory" ORDER BY big_category_id ASC
+2018-01-16 13:16:12.237  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectMiddle]
+2018-01-16 13:16:12.238  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectSmall]
+2018-01-16 13:16:12.238  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/JobCategoryRepository/selectSmall.sql],
+SELECT big_category_id,middle_category_id,small_category_id,small_category FROM public."JobCategory" ORDER BY big_category_id ASC
+2018-01-16 13:16:12.274  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectSmall]
+2018-01-16 13:16:12.276  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.MajorRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:12.277  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/MajorRepository/selectAll.sql],
+SELECT major_id,major FROM public."Major"
+2018-01-16 13:16:12.291  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.MajorRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:12.293  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.PlaceRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:12.293  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/PlaceRepository/selectAll.sql],
+SELECT place_id,place FROM public."Place" ORDER BY place_id ASC
+2018-01-16 13:16:12.307  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.PlaceRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:12.308  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.TermRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:12.308  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/TermRepository/selectAll.sql],
+SELECT term_id,term FROM public."Term"
+2018-01-16 13:16:12.321  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.TermRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:12.322  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.TimingRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:12.322  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/TimingRepository/selectAll.sql],
+SELECT timing_id,timing FROM public."Timing"
+2018-01-16 13:16:12.337  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.TimingRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:12.338  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.TimesRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:12.338  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/TimesRepository/selectAll.sql],
+SELECT times_id,times FROM public."Times"
+2018-01-16 13:16:12.354  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.TimesRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:12.355  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.WorkRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:12.356  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/WorkRepository/selectAll.sql],
+SELECT work_id,work FROM public."Work"
+2018-01-16 13:16:12.371  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.WorkRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:12.374  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ScaleNumberRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:12.374  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ScaleNumberRepository/selectAll.sql],
+SELECT scale_number_id,scale_number FROM public."Scale_number"
+2018-01-16 13:16:12.388  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ScaleNumberRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:12.391  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ScaleTypeRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:12.391  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ScaleTypeRepository/selectAll.sql],
+SELECT scale_type_id,scale_type FROM public."Scale_type"
+2018-01-16 13:16:12.407  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ScaleTypeRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:27.537  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.GenderRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:27.604  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/GenderRepository/selectAll.sql],
+SELECT * FROM public."Gender"
+2018-01-16 13:16:27.619  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.GenderRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:27.620  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.AcademicRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:27.620  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/AcademicRepository/selectAll.sql],
+SELECT * FROM public."Academic"
+2018-01-16 13:16:27.634  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.AcademicRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:27.635  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.EnglishRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:27.635  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/EnglishRepository/selectAll.sql],
+SELECT english_id,english FROM public."English"
+2018-01-16 13:16:27.648  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.EnglishRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:27.649  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectBig]
+2018-01-16 13:16:27.649  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/IndustryRepository/selectBig.sql],
+SELECT DISTINCT big_industry,big_industry_id FROM public."Industry" ORDER BY big_industry_id ASC
+2018-01-16 13:16:27.665  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectBig]
+2018-01-16 13:16:27.665  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectMiddle]
+2018-01-16 13:16:27.665  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/IndustryRepository/selectMiddle.sql],
+SELECT DISTINCT big_industry_id,middle_industry_id,middle_industry FROM public."Industry" ORDER BY big_industry_id ASC
+2018-01-16 13:16:27.693  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectMiddle]
+2018-01-16 13:16:27.693  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectSmall]
+2018-01-16 13:16:27.693  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/IndustryRepository/selectSmall.sql],
+SELECT big_industry_id,middle_industry_id,small_industry,small_industry_id FROM public."Industry" ORDER BY big_industry_id ASC
+2018-01-16 13:16:27.720  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectSmall]
+2018-01-16 13:16:27.720  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectBig]
+2018-01-16 13:16:27.720  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/JobCategoryRepository/selectBig.sql],
+SELECT DISTINCT big_category,big_category_id FROM public."JobCategory" ORDER BY big_category_id ASC
+2018-01-16 13:16:27.736  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectBig]
+2018-01-16 13:16:27.736  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectMiddle]
+2018-01-16 13:16:27.736  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/JobCategoryRepository/selectMiddle.sql],
+SELECT DISTINCT big_category_id,middle_category_id,middle_category FROM public."JobCategory" ORDER BY big_category_id ASC
+2018-01-16 13:16:27.754  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectMiddle]
+2018-01-16 13:16:27.755  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectSmall]
+2018-01-16 13:16:27.755  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/JobCategoryRepository/selectSmall.sql],
+SELECT big_category_id,middle_category_id,small_category_id,small_category FROM public."JobCategory" ORDER BY big_category_id ASC
+2018-01-16 13:16:27.785  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectSmall]
+2018-01-16 13:16:27.786  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.MajorRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:27.786  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/MajorRepository/selectAll.sql],
+SELECT major_id,major FROM public."Major"
+2018-01-16 13:16:27.799  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.MajorRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:27.799  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.PlaceRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:27.800  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/PlaceRepository/selectAll.sql],
+SELECT place_id,place FROM public."Place" ORDER BY place_id ASC
+2018-01-16 13:16:27.814  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.PlaceRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:27.815  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.TermRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:27.815  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/TermRepository/selectAll.sql],
+SELECT term_id,term FROM public."Term"
+2018-01-16 13:16:27.829  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.TermRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:27.829  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.TimingRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:27.829  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/TimingRepository/selectAll.sql],
+SELECT timing_id,timing FROM public."Timing"
+2018-01-16 13:16:27.842  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.TimingRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:27.843  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.TimesRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:27.844  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/TimesRepository/selectAll.sql],
+SELECT times_id,times FROM public."Times"
+2018-01-16 13:16:27.857  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.TimesRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:27.858  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.WorkRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:27.859  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/WorkRepository/selectAll.sql],
+SELECT work_id,work FROM public."Work"
+2018-01-16 13:16:27.893  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.WorkRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:27.894  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ScaleNumberRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:27.894  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ScaleNumberRepository/selectAll.sql],
+SELECT scale_number_id,scale_number FROM public."Scale_number"
+2018-01-16 13:16:27.918  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ScaleNumberRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:27.919  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ScaleTypeRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:16:27.920  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ScaleTypeRepository/selectAll.sql],
+SELECT scale_type_id,scale_type FROM public."Scale_type"
+2018-01-16 13:16:27.942  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ScaleTypeRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:29.832  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.UserHopeRepositoryImpl], メソッド=[insertBasicUserHope]
+2018-01-16 13:17:30.134  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/UserHopeRepository/insertBasicUserHope.sql],
+INSERT INTO public."User_hope"(
+	user_id,h_industry_id,h_job_category_id)
+	VALUES ('vq31l5t2x3pne57e', '2800','4308')
+2018-01-16 13:17:30.153  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.UserHopeRepositoryImpl], メソッド=[insertBasicUserHope]
+2018-01-16 13:17:30.174  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.UserPreviousRepositoryImpl], メソッド=[insertBasicUserPrevious]
+2018-01-16 13:17:30.250  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/UserPreviousRepository/insertBasicUserPrevious.sql],
+INSERT INTO public."User_previous"(
+	user_id, p_company_name, joined_year, p_job_category_id,p_industry_id)
+	VALUES ('vq31l5t2x3pne57e','test' ,2017
+	,'4308','BC02')
+2018-01-16 13:17:30.275  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.UserPreviousRepositoryImpl], メソッド=[insertBasicUserPrevious]
+2018-01-16 13:17:30.293  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.UserRepositoryImpl], メソッド=[insertBasicUser]
+2018-01-16 13:17:30.353  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/UserRepository/insertBasicUser.sql],
+INSERT INTO public."User"(
+	user_id, gender_id, age, academic_id, school, major_id, times_id, english_id,skill, timing_id, cellphone, password)
+	VALUES ('vq31l5t2x3pne57e', '1', 23,'なし', 'test',
+	 '10', '0', '0',null,null,
+	 '', '')
+2018-01-16 13:17:30.370  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.UserRepositoryImpl], メソッド=[insertBasicUser]
+2018-01-16 13:17:38.245  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:17:38.460  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ChatRepository/insert.sql],
+INSERT INTO public."Chat" (user_id,ca_id,score) SELECT 'vq31l5t2x3pne57e','14',0
+WHERE NOT EXISTS (SELECT user_id,ca_id FROM public."Chat" WHERE user_id='vq31l5t2x3pne57e' AND ca_id='14')
+2018-01-16 13:17:38.481  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:17:38.481  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:17:38.483  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ChatRepository/insert.sql],
+INSERT INTO public."Chat" (user_id,ca_id,score) SELECT 'vq31l5t2x3pne57e','5',0
+WHERE NOT EXISTS (SELECT user_id,ca_id FROM public."Chat" WHERE user_id='vq31l5t2x3pne57e' AND ca_id='5')
+2018-01-16 13:17:38.505  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:17:38.505  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:17:38.507  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ChatRepository/insert.sql],
+INSERT INTO public."Chat" (user_id,ca_id,score) SELECT 'vq31l5t2x3pne57e','12',0
+WHERE NOT EXISTS (SELECT user_id,ca_id FROM public."Chat" WHERE user_id='vq31l5t2x3pne57e' AND ca_id='12')
+2018-01-16 13:17:38.522  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:17:38.522  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:17:38.523  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ChatRepository/insert.sql],
+INSERT INTO public."Chat" (user_id,ca_id,score) SELECT 'vq31l5t2x3pne57e','13',0
+WHERE NOT EXISTS (SELECT user_id,ca_id FROM public."Chat" WHERE user_id='vq31l5t2x3pne57e' AND ca_id='13')
+2018-01-16 13:17:38.539  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:17:38.539  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:17:38.540  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ChatRepository/insert.sql],
+INSERT INTO public."Chat" (user_id,ca_id,score) SELECT 'vq31l5t2x3pne57e','20',0
+WHERE NOT EXISTS (SELECT user_id,ca_id FROM public."Chat" WHERE user_id='vq31l5t2x3pne57e' AND ca_id='20')
+2018-01-16 13:17:38.556  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:17:38.556  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:17:38.558  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ChatRepository/insert.sql],
+INSERT INTO public."Chat" (user_id,ca_id,score) SELECT 'vq31l5t2x3pne57e','22',0
+WHERE NOT EXISTS (SELECT user_id,ca_id FROM public."Chat" WHERE user_id='vq31l5t2x3pne57e' AND ca_id='22')
+2018-01-16 13:17:38.572  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:17:38.572  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:17:38.573  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ChatRepository/insert.sql],
+INSERT INTO public."Chat" (user_id,ca_id,score) SELECT 'vq31l5t2x3pne57e','31',0
+WHERE NOT EXISTS (SELECT user_id,ca_id FROM public."Chat" WHERE user_id='vq31l5t2x3pne57e' AND ca_id='31')
+2018-01-16 13:17:38.587  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:17:38.587  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:17:38.589  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ChatRepository/insert.sql],
+INSERT INTO public."Chat" (user_id,ca_id,score) SELECT 'vq31l5t2x3pne57e','45',0
+WHERE NOT EXISTS (SELECT user_id,ca_id FROM public."Chat" WHERE user_id='vq31l5t2x3pne57e' AND ca_id='45')
+2018-01-16 13:17:38.603  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:17:38.604  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:17:38.605  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ChatRepository/insert.sql],
+INSERT INTO public."Chat" (user_id,ca_id,score) SELECT 'vq31l5t2x3pne57e','23',0
+WHERE NOT EXISTS (SELECT user_id,ca_id FROM public."Chat" WHERE user_id='vq31l5t2x3pne57e' AND ca_id='23')
+2018-01-16 13:17:38.620  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:17:38.620  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:17:38.621  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ChatRepository/insert.sql],
+INSERT INTO public."Chat" (user_id,ca_id,score) SELECT 'vq31l5t2x3pne57e','28',0
+WHERE NOT EXISTS (SELECT user_id,ca_id FROM public."Chat" WHERE user_id='vq31l5t2x3pne57e' AND ca_id='28')
+2018-01-16 13:17:38.635  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:17:39.620  INFO 49034 --- [http-nio-8090-exec-4] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 13:17:39.624  INFO 49034 --- [http-nio-8090-exec-4] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/CaRepository/selectCaLists.sql],
+SELECT public."Ca".ca_id, ca_name, ca_company, ca_img, pr_message, max_flg, ca_company_place, phone_number, gender_id, place_id, ca_company_url, ca_yomigana, intro_message,favo
+FROM public."Ca"
+JOIN public."Chat"
+ON public."Ca".ca_id=public."Chat".ca_id
+WHERE public."Chat".user_id='vq31l5t2x3pne57e' AND public."Chat".flg=2
+2018-01-16 13:17:39.644  INFO 49034 --- [http-nio-8090-exec-4] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 13:17:46.950  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.GenderRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:47.102  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/GenderRepository/selectAll.sql],
+SELECT * FROM public."Gender"
+2018-01-16 13:17:47.122  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.GenderRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:47.123  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.AcademicRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:47.123  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/AcademicRepository/selectAll.sql],
+SELECT * FROM public."Academic"
+2018-01-16 13:17:47.138  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.AcademicRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:47.138  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.EnglishRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:47.139  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/EnglishRepository/selectAll.sql],
+SELECT english_id,english FROM public."English"
+2018-01-16 13:17:47.153  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.EnglishRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:47.153  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectBig]
+2018-01-16 13:17:47.154  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/IndustryRepository/selectBig.sql],
+SELECT DISTINCT big_industry,big_industry_id FROM public."Industry" ORDER BY big_industry_id ASC
+2018-01-16 13:17:47.169  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectBig]
+2018-01-16 13:17:47.169  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectMiddle]
+2018-01-16 13:17:47.169  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/IndustryRepository/selectMiddle.sql],
+SELECT DISTINCT big_industry_id,middle_industry_id,middle_industry FROM public."Industry" ORDER BY big_industry_id ASC
+2018-01-16 13:17:47.186  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectMiddle]
+2018-01-16 13:17:47.187  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectSmall]
+2018-01-16 13:17:47.188  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/IndustryRepository/selectSmall.sql],
+SELECT big_industry_id,middle_industry_id,small_industry,small_industry_id FROM public."Industry" ORDER BY big_industry_id ASC
+2018-01-16 13:17:47.208  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectSmall]
+2018-01-16 13:17:47.208  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectBig]
+2018-01-16 13:17:47.209  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/JobCategoryRepository/selectBig.sql],
+SELECT DISTINCT big_category,big_category_id FROM public."JobCategory" ORDER BY big_category_id ASC
+2018-01-16 13:17:47.223  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectBig]
+2018-01-16 13:17:47.224  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectMiddle]
+2018-01-16 13:17:47.224  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/JobCategoryRepository/selectMiddle.sql],
+SELECT DISTINCT big_category_id,middle_category_id,middle_category FROM public."JobCategory" ORDER BY big_category_id ASC
+2018-01-16 13:17:47.248  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectMiddle]
+2018-01-16 13:17:47.248  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectSmall]
+2018-01-16 13:17:47.248  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/JobCategoryRepository/selectSmall.sql],
+SELECT big_category_id,middle_category_id,small_category_id,small_category FROM public."JobCategory" ORDER BY big_category_id ASC
+2018-01-16 13:17:47.292  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectSmall]
+2018-01-16 13:17:47.292  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.MajorRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:47.292  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/MajorRepository/selectAll.sql],
+SELECT major_id,major FROM public."Major"
+2018-01-16 13:17:47.309  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.MajorRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:47.310  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.PlaceRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:47.310  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/PlaceRepository/selectAll.sql],
+SELECT place_id,place FROM public."Place" ORDER BY place_id ASC
+2018-01-16 13:17:47.324  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.PlaceRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:47.324  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.TermRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:47.325  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/TermRepository/selectAll.sql],
+SELECT term_id,term FROM public."Term"
+2018-01-16 13:17:47.338  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.TermRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:47.338  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.TimingRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:47.338  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/TimingRepository/selectAll.sql],
+SELECT timing_id,timing FROM public."Timing"
+2018-01-16 13:17:47.417  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.TimingRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:47.417  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.TimesRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:47.418  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/TimesRepository/selectAll.sql],
+SELECT times_id,times FROM public."Times"
+2018-01-16 13:17:47.432  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.TimesRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:47.432  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.WorkRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:47.432  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/WorkRepository/selectAll.sql],
+SELECT work_id,work FROM public."Work"
+2018-01-16 13:17:47.447  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.WorkRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:47.447  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ScaleNumberRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:47.448  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ScaleNumberRepository/selectAll.sql],
+SELECT scale_number_id,scale_number FROM public."Scale_number"
+2018-01-16 13:17:47.462  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ScaleNumberRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:47.462  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ScaleTypeRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:47.463  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ScaleTypeRepository/selectAll.sql],
+SELECT scale_type_id,scale_type FROM public."Scale_type"
+2018-01-16 13:17:47.476  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ScaleTypeRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:51.753  INFO 49034 --- [http-nio-8090-exec-3] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.GenderRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:51.927  INFO 49034 --- [http-nio-8090-exec-3] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2222] THROW  : クラス=[net.mybrainlab.camp.repository.GenderRepositoryImpl], メソッド=[selectAll], 例外=[org.seasar.doma.jdbc.JdbcException]
+2018-01-16 13:17:51.939 ERROR 49034 --- [http-nio-8090-exec-3] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.seasar.doma.jdbc.JdbcException: [DOMA2016] java.sql.PreparedStatementの取得に失敗しました。
+SQLファイルパス=[META-INF/net/mybrainlab/camp/repository/GenderRepository/selectAll.sql]。
+実際のSQL=[SELECT * FROM public."Gender"]。
+原因は次のものです。java.sql.SQLException: Failed to validate a newly established connection.] with root cause
+
+java.sql.SQLException: Failed to validate a newly established connection.
+	at org.apache.tomcat.jdbc.pool.ConnectionPool.borrowConnection(ConnectionPool.java:840)
+	at org.apache.tomcat.jdbc.pool.ConnectionPool.borrowConnection(ConnectionPool.java:651)
+	at org.apache.tomcat.jdbc.pool.ConnectionPool.getConnection(ConnectionPool.java:198)
+	at org.apache.tomcat.jdbc.pool.DataSourceProxy.getConnection(DataSourceProxy.java:132)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:111)
+	at org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy$TransactionAwareInvocationHandler.invoke(TransactionAwareDataSourceProxy.java:225)
+	at com.sun.proxy.$Proxy112.prepareStatement(Unknown Source)
+	at org.seasar.doma.internal.jdbc.util.JdbcUtil.prepareStatement(JdbcUtil.java:57)
+	at org.seasar.doma.jdbc.command.SelectCommand.execute(SelectCommand.java:65)
+	at net.mybrainlab.camp.repository.GenderRepositoryImpl.selectAll(GenderRepositoryImpl.java:44)
+	at net.mybrainlab.camp.repository.GenderRepositoryImpl$$FastClassBySpringCGLIB$$6e659abc.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:738)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:157)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:136)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:673)
+	at net.mybrainlab.camp.repository.GenderRepositoryImpl$$EnhancerBySpringCGLIB$$9ace431e.selectAll(<generated>)
+	at net.mybrainlab.camp.api.rest.CampController.welcome(CampController.java:143)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:133)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:97)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:827)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:738)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:85)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:967)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:901)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:970)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:861)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:635)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:846)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:742)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.boot.web.filter.ApplicationContextHeaderFilter.doFilterInternal(ApplicationContextHeaderFilter.java:55)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at net.mybrainlab.camp.api.rest.SimpleCORSFilter.doFilter(SimpleCORSFilter.java:18)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.boot.actuate.trace.WebRequestTraceFilter.doFilterInternal(WebRequestTraceFilter.java:110)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:208)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:177)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:346)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:262)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HttpPutFormContentFilter.doFilterInternal(HttpPutFormContentFilter.java:108)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:81)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:197)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.boot.actuate.autoconfigure.MetricsFilter.doFilterInternal(MetricsFilter.java:106)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:199)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:478)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:803)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:868)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1459)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+
+2018-01-16 13:17:57.470  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.GenderRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:57.541  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/GenderRepository/selectAll.sql],
+SELECT * FROM public."Gender"
+2018-01-16 13:17:57.556  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.GenderRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:57.556  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.AcademicRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:57.557  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/AcademicRepository/selectAll.sql],
+SELECT * FROM public."Academic"
+2018-01-16 13:17:57.573  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.AcademicRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:57.573  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.EnglishRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:57.574  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/EnglishRepository/selectAll.sql],
+SELECT english_id,english FROM public."English"
+2018-01-16 13:17:57.588  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.EnglishRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:57.588  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectBig]
+2018-01-16 13:17:57.589  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/IndustryRepository/selectBig.sql],
+SELECT DISTINCT big_industry,big_industry_id FROM public."Industry" ORDER BY big_industry_id ASC
+2018-01-16 13:17:57.605  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectBig]
+2018-01-16 13:17:57.673  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectMiddle]
+2018-01-16 13:17:57.674  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/IndustryRepository/selectMiddle.sql],
+SELECT DISTINCT big_industry_id,middle_industry_id,middle_industry FROM public."Industry" ORDER BY big_industry_id ASC
+2018-01-16 13:17:57.690  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectMiddle]
+2018-01-16 13:17:57.690  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectSmall]
+2018-01-16 13:17:57.691  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/IndustryRepository/selectSmall.sql],
+SELECT big_industry_id,middle_industry_id,small_industry,small_industry_id FROM public."Industry" ORDER BY big_industry_id ASC
+2018-01-16 13:17:57.710  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectSmall]
+2018-01-16 13:17:57.711  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectBig]
+2018-01-16 13:17:57.712  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/JobCategoryRepository/selectBig.sql],
+SELECT DISTINCT big_category,big_category_id FROM public."JobCategory" ORDER BY big_category_id ASC
+2018-01-16 13:17:57.725  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectBig]
+2018-01-16 13:17:57.726  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectMiddle]
+2018-01-16 13:17:57.726  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/JobCategoryRepository/selectMiddle.sql],
+SELECT DISTINCT big_category_id,middle_category_id,middle_category FROM public."JobCategory" ORDER BY big_category_id ASC
+2018-01-16 13:17:57.743  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectMiddle]
+2018-01-16 13:17:57.743  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectSmall]
+2018-01-16 13:17:57.743  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/JobCategoryRepository/selectSmall.sql],
+SELECT big_category_id,middle_category_id,small_category_id,small_category FROM public."JobCategory" ORDER BY big_category_id ASC
+2018-01-16 13:17:57.773  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectSmall]
+2018-01-16 13:17:57.773  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.MajorRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:57.773  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/MajorRepository/selectAll.sql],
+SELECT major_id,major FROM public."Major"
+2018-01-16 13:17:57.787  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.MajorRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:57.787  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.PlaceRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:57.787  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/PlaceRepository/selectAll.sql],
+SELECT place_id,place FROM public."Place" ORDER BY place_id ASC
+2018-01-16 13:17:57.803  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.PlaceRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:57.804  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.TermRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:57.804  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/TermRepository/selectAll.sql],
+SELECT term_id,term FROM public."Term"
+2018-01-16 13:17:57.818  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.TermRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:57.818  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.TimingRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:57.819  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/TimingRepository/selectAll.sql],
+SELECT timing_id,timing FROM public."Timing"
+2018-01-16 13:17:57.850  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.TimingRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:57.851  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.TimesRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:57.851  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/TimesRepository/selectAll.sql],
+SELECT times_id,times FROM public."Times"
+2018-01-16 13:17:57.866  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.TimesRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:57.867  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.WorkRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:57.867  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/WorkRepository/selectAll.sql],
+SELECT work_id,work FROM public."Work"
+2018-01-16 13:17:57.883  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.WorkRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:57.883  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ScaleNumberRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:57.883  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ScaleNumberRepository/selectAll.sql],
+SELECT scale_number_id,scale_number FROM public."Scale_number"
+2018-01-16 13:17:57.898  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ScaleNumberRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:57.899  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ScaleTypeRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:17:57.900  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ScaleTypeRepository/selectAll.sql],
+SELECT scale_type_id,scale_type FROM public."Scale_type"
+2018-01-16 13:17:57.913  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ScaleTypeRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:18:58.543  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.UserHopeRepositoryImpl], メソッド=[insertBasicUserHope]
+2018-01-16 13:18:58.658  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/UserHopeRepository/insertBasicUserHope.sql],
+INSERT INTO public."User_hope"(
+	user_id,h_industry_id,h_job_category_id)
+	VALUES ('m3e5nke7z3478pwy', '1600','1201')
+2018-01-16 13:18:58.673  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.UserHopeRepositoryImpl], メソッド=[insertBasicUserHope]
+2018-01-16 13:18:58.674  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.UserPreviousRepositoryImpl], メソッド=[insertBasicUserPrevious]
+2018-01-16 13:18:58.674  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/UserPreviousRepository/insertBasicUserPrevious.sql],
+INSERT INTO public."User_previous"(
+	user_id, p_company_name, joined_year, p_job_category_id,p_industry_id)
+	VALUES ('m3e5nke7z3478pwy','test' ,2017
+	,'1201','1600')
+2018-01-16 13:18:58.689  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.UserPreviousRepositoryImpl], メソッド=[insertBasicUserPrevious]
+2018-01-16 13:18:58.790  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.UserRepositoryImpl], メソッド=[insertBasicUser]
+2018-01-16 13:18:58.791  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/UserRepository/insertBasicUser.sql],
+INSERT INTO public."User"(
+	user_id, gender_id, age, academic_id, school, major_id, times_id, english_id,skill, timing_id, cellphone, password)
+	VALUES ('m3e5nke7z3478pwy', '1', 23,'なし', 'test',
+	 '0', '0', '0',null,null,
+	 'h.mamiya@mybrainlab.net', '$2a$10$VZqYjGAWsVqiws.Eu9NTN.59ATVryS6lNECGlTc4yzOy.VdUjs55O')
+2018-01-16 13:18:58.809  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.UserRepositoryImpl], メソッド=[insertBasicUser]
+2018-01-16 13:19:04.693  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:19:04.808  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ChatRepository/insert.sql],
+INSERT INTO public."Chat" (user_id,ca_id,score) SELECT 'm3e5nke7z3478pwy','2',0
+WHERE NOT EXISTS (SELECT user_id,ca_id FROM public."Chat" WHERE user_id='m3e5nke7z3478pwy' AND ca_id='2')
+2018-01-16 13:19:04.824  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:19:04.825  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:19:04.825  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ChatRepository/insert.sql],
+INSERT INTO public."Chat" (user_id,ca_id,score) SELECT 'm3e5nke7z3478pwy','22',0
+WHERE NOT EXISTS (SELECT user_id,ca_id FROM public."Chat" WHERE user_id='m3e5nke7z3478pwy' AND ca_id='22')
+2018-01-16 13:19:04.841  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:19:04.841  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:19:04.842  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ChatRepository/insert.sql],
+INSERT INTO public."Chat" (user_id,ca_id,score) SELECT 'm3e5nke7z3478pwy','26',0
+WHERE NOT EXISTS (SELECT user_id,ca_id FROM public."Chat" WHERE user_id='m3e5nke7z3478pwy' AND ca_id='26')
+2018-01-16 13:19:04.856  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:19:04.856  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:19:04.857  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ChatRepository/insert.sql],
+INSERT INTO public."Chat" (user_id,ca_id,score) SELECT 'm3e5nke7z3478pwy','35',0
+WHERE NOT EXISTS (SELECT user_id,ca_id FROM public."Chat" WHERE user_id='m3e5nke7z3478pwy' AND ca_id='35')
+2018-01-16 13:19:04.889  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:19:04.890  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:19:04.890  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ChatRepository/insert.sql],
+INSERT INTO public."Chat" (user_id,ca_id,score) SELECT 'm3e5nke7z3478pwy','37',0
+WHERE NOT EXISTS (SELECT user_id,ca_id FROM public."Chat" WHERE user_id='m3e5nke7z3478pwy' AND ca_id='37')
+2018-01-16 13:19:04.905  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:19:04.905  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:19:04.906  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ChatRepository/insert.sql],
+INSERT INTO public."Chat" (user_id,ca_id,score) SELECT 'm3e5nke7z3478pwy','10',0
+WHERE NOT EXISTS (SELECT user_id,ca_id FROM public."Chat" WHERE user_id='m3e5nke7z3478pwy' AND ca_id='10')
+2018-01-16 13:19:04.920  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:19:04.920  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:19:04.922  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ChatRepository/insert.sql],
+INSERT INTO public."Chat" (user_id,ca_id,score) SELECT 'm3e5nke7z3478pwy','8',0
+WHERE NOT EXISTS (SELECT user_id,ca_id FROM public."Chat" WHERE user_id='m3e5nke7z3478pwy' AND ca_id='8')
+2018-01-16 13:19:04.936  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:19:04.936  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:19:04.937  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ChatRepository/insert.sql],
+INSERT INTO public."Chat" (user_id,ca_id,score) SELECT 'm3e5nke7z3478pwy','16',0
+WHERE NOT EXISTS (SELECT user_id,ca_id FROM public."Chat" WHERE user_id='m3e5nke7z3478pwy' AND ca_id='16')
+2018-01-16 13:19:04.952  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:19:04.953  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:19:04.954  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ChatRepository/insert.sql],
+INSERT INTO public."Chat" (user_id,ca_id,score) SELECT 'm3e5nke7z3478pwy','17',0
+WHERE NOT EXISTS (SELECT user_id,ca_id FROM public."Chat" WHERE user_id='m3e5nke7z3478pwy' AND ca_id='17')
+2018-01-16 13:19:04.969  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:19:04.970  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:19:04.972  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ChatRepository/insert.sql],
+INSERT INTO public."Chat" (user_id,ca_id,score) SELECT 'm3e5nke7z3478pwy','4',0
+WHERE NOT EXISTS (SELECT user_id,ca_id FROM public."Chat" WHERE user_id='m3e5nke7z3478pwy' AND ca_id='4')
+2018-01-16 13:19:04.992  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ChatRepositoryImpl], メソッド=[insert]
+2018-01-16 13:19:08.518  INFO 49034 --- [http-nio-8090-exec-9] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 13:19:08.649  INFO 49034 --- [http-nio-8090-exec-9] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2222] THROW  : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists], 例外=[org.seasar.doma.jdbc.JdbcException]
+2018-01-16 13:19:08.650 ERROR 49034 --- [http-nio-8090-exec-9] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.seasar.doma.jdbc.JdbcException: [DOMA2016] java.sql.PreparedStatementの取得に失敗しました。
+SQLファイルパス=[META-INF/net/mybrainlab/camp/repository/CaRepository/selectCaLists.sql]。
+実際のSQL=[SELECT public."Ca".ca_id, ca_name, ca_company, ca_img, pr_message, max_flg, ca_company_place, phone_number, gender_id, place_id, ca_company_url, ca_yomigana, intro_message,favo
+FROM public."Ca"
+JOIN public."Chat"
+ON public."Ca".ca_id=public."Chat".ca_id
+WHERE public."Chat".user_id=? AND public."Chat".flg=2]。
+原因は次のものです。java.sql.SQLException: Failed to validate a newly established connection.] with root cause
+
+java.sql.SQLException: Failed to validate a newly established connection.
+	at org.apache.tomcat.jdbc.pool.ConnectionPool.borrowConnection(ConnectionPool.java:840)
+	at org.apache.tomcat.jdbc.pool.ConnectionPool.borrowConnection(ConnectionPool.java:651)
+	at org.apache.tomcat.jdbc.pool.ConnectionPool.getConnection(ConnectionPool.java:198)
+	at org.apache.tomcat.jdbc.pool.DataSourceProxy.getConnection(DataSourceProxy.java:132)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:111)
+	at org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy$TransactionAwareInvocationHandler.invoke(TransactionAwareDataSourceProxy.java:225)
+	at com.sun.proxy.$Proxy112.prepareStatement(Unknown Source)
+	at org.seasar.doma.internal.jdbc.util.JdbcUtil.prepareStatement(JdbcUtil.java:57)
+	at org.seasar.doma.jdbc.command.SelectCommand.execute(SelectCommand.java:65)
+	at net.mybrainlab.camp.repository.CaRepositoryImpl.selectCaLists(CaRepositoryImpl.java:84)
+	at net.mybrainlab.camp.repository.CaRepositoryImpl$$FastClassBySpringCGLIB$$a174e19.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:738)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:157)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:136)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:673)
+	at net.mybrainlab.camp.repository.CaRepositoryImpl$$EnhancerBySpringCGLIB$$5f9cdbd.selectCaLists(<generated>)
+	at net.mybrainlab.camp.api.rest.CampController.ca_list(CampController.java:647)
+	at sun.reflect.GeneratedMethodAccessor144.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:133)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:97)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:827)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:738)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:85)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:967)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:901)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:970)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:861)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:635)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:846)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:742)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.boot.web.filter.ApplicationContextHeaderFilter.doFilterInternal(ApplicationContextHeaderFilter.java:55)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at net.mybrainlab.camp.api.rest.SimpleCORSFilter.doFilter(SimpleCORSFilter.java:18)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.boot.actuate.trace.WebRequestTraceFilter.doFilterInternal(WebRequestTraceFilter.java:110)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:208)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:177)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:346)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:262)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HttpPutFormContentFilter.doFilterInternal(HttpPutFormContentFilter.java:108)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:81)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:197)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.boot.actuate.autoconfigure.MetricsFilter.doFilterInternal(MetricsFilter.java:106)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:199)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:478)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:803)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:868)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1459)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+
+2018-01-16 13:19:18.519  INFO 49034 --- [http-nio-8090-exec-10] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 13:19:18.588  INFO 49034 --- [http-nio-8090-exec-10] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/CaRepository/selectCaLists.sql],
+SELECT public."Ca".ca_id, ca_name, ca_company, ca_img, pr_message, max_flg, ca_company_place, phone_number, gender_id, place_id, ca_company_url, ca_yomigana, intro_message,favo
+FROM public."Ca"
+JOIN public."Chat"
+ON public."Ca".ca_id=public."Chat".ca_id
+WHERE public."Chat".user_id='m3e5nke7z3478pwy' AND public."Chat".flg=2
+2018-01-16 13:19:18.607  INFO 49034 --- [http-nio-8090-exec-10] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 13:19:28.523  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 13:19:28.637  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/CaRepository/selectCaLists.sql],
+SELECT public."Ca".ca_id, ca_name, ca_company, ca_img, pr_message, max_flg, ca_company_place, phone_number, gender_id, place_id, ca_company_url, ca_yomigana, intro_message,favo
+FROM public."Ca"
+JOIN public."Chat"
+ON public."Ca".ca_id=public."Chat".ca_id
+WHERE public."Chat".user_id='m3e5nke7z3478pwy' AND public."Chat".flg=2
+2018-01-16 13:19:28.653  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 13:19:38.498  INFO 49034 --- [http-nio-8090-exec-4] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 13:19:38.624  INFO 49034 --- [http-nio-8090-exec-4] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/CaRepository/selectCaLists.sql],
+SELECT public."Ca".ca_id, ca_name, ca_company, ca_img, pr_message, max_flg, ca_company_place, phone_number, gender_id, place_id, ca_company_url, ca_yomigana, intro_message,favo
+FROM public."Ca"
+JOIN public."Chat"
+ON public."Ca".ca_id=public."Chat".ca_id
+WHERE public."Chat".user_id='m3e5nke7z3478pwy' AND public."Chat".flg=2
+2018-01-16 13:19:38.645  INFO 49034 --- [http-nio-8090-exec-4] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 13:19:48.507  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 13:19:48.604  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/CaRepository/selectCaLists.sql],
+SELECT public."Ca".ca_id, ca_name, ca_company, ca_img, pr_message, max_flg, ca_company_place, phone_number, gender_id, place_id, ca_company_url, ca_yomigana, intro_message,favo
+FROM public."Ca"
+JOIN public."Chat"
+ON public."Ca".ca_id=public."Chat".ca_id
+WHERE public."Chat".user_id='m3e5nke7z3478pwy' AND public."Chat".flg=2
+2018-01-16 13:19:48.622  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 13:19:58.532  INFO 49034 --- [http-nio-8090-exec-3] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 13:19:58.665  INFO 49034 --- [http-nio-8090-exec-3] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/CaRepository/selectCaLists.sql],
+SELECT public."Ca".ca_id, ca_name, ca_company, ca_img, pr_message, max_flg, ca_company_place, phone_number, gender_id, place_id, ca_company_url, ca_yomigana, intro_message,favo
+FROM public."Ca"
+JOIN public."Chat"
+ON public."Ca".ca_id=public."Chat".ca_id
+WHERE public."Chat".user_id='m3e5nke7z3478pwy' AND public."Chat".flg=2
+2018-01-16 13:19:58.681  INFO 49034 --- [http-nio-8090-exec-3] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 13:20:08.537  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 13:20:08.663  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/CaRepository/selectCaLists.sql],
+SELECT public."Ca".ca_id, ca_name, ca_company, ca_img, pr_message, max_flg, ca_company_place, phone_number, gender_id, place_id, ca_company_url, ca_yomigana, intro_message,favo
+FROM public."Ca"
+JOIN public."Chat"
+ON public."Ca".ca_id=public."Chat".ca_id
+WHERE public."Chat".user_id='m3e5nke7z3478pwy' AND public."Chat".flg=2
+2018-01-16 13:20:08.678  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 13:20:18.546  INFO 49034 --- [http-nio-8090-exec-6] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 13:20:18.608  INFO 49034 --- [http-nio-8090-exec-6] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/CaRepository/selectCaLists.sql],
+SELECT public."Ca".ca_id, ca_name, ca_company, ca_img, pr_message, max_flg, ca_company_place, phone_number, gender_id, place_id, ca_company_url, ca_yomigana, intro_message,favo
+FROM public."Ca"
+JOIN public."Chat"
+ON public."Ca".ca_id=public."Chat".ca_id
+WHERE public."Chat".user_id='m3e5nke7z3478pwy' AND public."Chat".flg=2
+2018-01-16 13:20:18.624  INFO 49034 --- [http-nio-8090-exec-6] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 13:20:28.524  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 13:20:28.635  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/CaRepository/selectCaLists.sql],
+SELECT public."Ca".ca_id, ca_name, ca_company, ca_img, pr_message, max_flg, ca_company_place, phone_number, gender_id, place_id, ca_company_url, ca_yomigana, intro_message,favo
+FROM public."Ca"
+JOIN public."Chat"
+ON public."Ca".ca_id=public."Chat".ca_id
+WHERE public."Chat".user_id='m3e5nke7z3478pwy' AND public."Chat".flg=2
+2018-01-16 13:20:28.649  INFO 49034 --- [http-nio-8090-exec-7] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 13:20:38.551  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 13:20:38.663  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/CaRepository/selectCaLists.sql],
+SELECT public."Ca".ca_id, ca_name, ca_company, ca_img, pr_message, max_flg, ca_company_place, phone_number, gender_id, place_id, ca_company_url, ca_yomigana, intro_message,favo
+FROM public."Ca"
+JOIN public."Chat"
+ON public."Ca".ca_id=public."Chat".ca_id
+WHERE public."Chat".user_id='m3e5nke7z3478pwy' AND public."Chat".flg=2
+2018-01-16 13:20:38.676  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 13:20:48.561  INFO 49034 --- [http-nio-8090-exec-9] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 13:20:48.663  INFO 49034 --- [http-nio-8090-exec-9] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/CaRepository/selectCaLists.sql],
+SELECT public."Ca".ca_id, ca_name, ca_company, ca_img, pr_message, max_flg, ca_company_place, phone_number, gender_id, place_id, ca_company_url, ca_yomigana, intro_message,favo
+FROM public."Ca"
+JOIN public."Chat"
+ON public."Ca".ca_id=public."Chat".ca_id
+WHERE public."Chat".user_id='m3e5nke7z3478pwy' AND public."Chat".flg=2
+2018-01-16 13:20:48.687  INFO 49034 --- [http-nio-8090-exec-9] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 13:20:58.559  INFO 49034 --- [http-nio-8090-exec-10] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 13:20:58.685  INFO 49034 --- [http-nio-8090-exec-10] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/CaRepository/selectCaLists.sql],
+SELECT public."Ca".ca_id, ca_name, ca_company, ca_img, pr_message, max_flg, ca_company_place, phone_number, gender_id, place_id, ca_company_url, ca_yomigana, intro_message,favo
+FROM public."Ca"
+JOIN public."Chat"
+ON public."Ca".ca_id=public."Chat".ca_id
+WHERE public."Chat".user_id='m3e5nke7z3478pwy' AND public."Chat".flg=2
+2018-01-16 13:20:58.699  INFO 49034 --- [http-nio-8090-exec-10] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 13:21:08.072  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.GenderRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:21:08.171  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/GenderRepository/selectAll.sql],
+SELECT * FROM public."Gender"
+2018-01-16 13:21:08.185  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.GenderRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:21:08.185  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.AcademicRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:21:08.185  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/AcademicRepository/selectAll.sql],
+SELECT * FROM public."Academic"
+2018-01-16 13:21:08.197  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.AcademicRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:21:08.197  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.EnglishRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:21:08.197  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/EnglishRepository/selectAll.sql],
+SELECT english_id,english FROM public."English"
+2018-01-16 13:21:08.209  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.EnglishRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:21:08.210  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectBig]
+2018-01-16 13:21:08.210  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/IndustryRepository/selectBig.sql],
+SELECT DISTINCT big_industry,big_industry_id FROM public."Industry" ORDER BY big_industry_id ASC
+2018-01-16 13:21:08.224  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectBig]
+2018-01-16 13:21:08.224  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectMiddle]
+2018-01-16 13:21:08.224  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/IndustryRepository/selectMiddle.sql],
+SELECT DISTINCT big_industry_id,middle_industry_id,middle_industry FROM public."Industry" ORDER BY big_industry_id ASC
+2018-01-16 13:21:08.239  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectMiddle]
+2018-01-16 13:21:08.240  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectSmall]
+2018-01-16 13:21:08.240  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/IndustryRepository/selectSmall.sql],
+SELECT big_industry_id,middle_industry_id,small_industry,small_industry_id FROM public."Industry" ORDER BY big_industry_id ASC
+2018-01-16 13:21:08.257  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.IndustryRepositoryImpl], メソッド=[selectSmall]
+2018-01-16 13:21:08.257  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectBig]
+2018-01-16 13:21:08.257  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/JobCategoryRepository/selectBig.sql],
+SELECT DISTINCT big_category,big_category_id FROM public."JobCategory" ORDER BY big_category_id ASC
+2018-01-16 13:21:08.269  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectBig]
+2018-01-16 13:21:08.270  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectMiddle]
+2018-01-16 13:21:08.270  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/JobCategoryRepository/selectMiddle.sql],
+SELECT DISTINCT big_category_id,middle_category_id,middle_category FROM public."JobCategory" ORDER BY big_category_id ASC
+2018-01-16 13:21:08.284  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectMiddle]
+2018-01-16 13:21:08.284  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectSmall]
+2018-01-16 13:21:08.285  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/JobCategoryRepository/selectSmall.sql],
+SELECT big_category_id,middle_category_id,small_category_id,small_category FROM public."JobCategory" ORDER BY big_category_id ASC
+2018-01-16 13:21:08.314  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.JobCategoryRepositoryImpl], メソッド=[selectSmall]
+2018-01-16 13:21:08.314  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.MajorRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:21:08.314  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/MajorRepository/selectAll.sql],
+SELECT major_id,major FROM public."Major"
+2018-01-16 13:21:08.327  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.MajorRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:21:08.327  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.PlaceRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:21:08.327  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/PlaceRepository/selectAll.sql],
+SELECT place_id,place FROM public."Place" ORDER BY place_id ASC
+2018-01-16 13:21:08.342  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.PlaceRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:21:08.342  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.TermRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:21:08.342  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/TermRepository/selectAll.sql],
+SELECT term_id,term FROM public."Term"
+2018-01-16 13:21:08.356  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.TermRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:21:08.356  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.TimingRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:21:08.356  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/TimingRepository/selectAll.sql],
+SELECT timing_id,timing FROM public."Timing"
+2018-01-16 13:21:08.373  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.TimingRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:21:08.373  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.TimesRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:21:08.373  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/TimesRepository/selectAll.sql],
+SELECT times_id,times FROM public."Times"
+2018-01-16 13:21:08.385  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.TimesRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:21:08.385  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.WorkRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:21:08.385  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/WorkRepository/selectAll.sql],
+SELECT work_id,work FROM public."Work"
+2018-01-16 13:21:08.398  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.WorkRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:21:08.398  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ScaleNumberRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:21:08.399  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ScaleNumberRepository/selectAll.sql],
+SELECT scale_number_id,scale_number FROM public."Scale_number"
+2018-01-16 13:21:08.411  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ScaleNumberRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:21:08.411  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.ScaleTypeRepositoryImpl], メソッド=[selectAll]
+2018-01-16 13:21:08.411  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/ScaleTypeRepository/selectAll.sql],
+SELECT scale_type_id,scale_type FROM public."Scale_type"
+2018-01-16 13:21:08.423  INFO 49034 --- [http-nio-8090-exec-2] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.ScaleTypeRepositoryImpl], メソッド=[selectAll]
+2018-01-16 15:43:37.383  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 15:43:37.537  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/CaRepository/selectCaLists.sql],
+SELECT public."Ca".ca_id, ca_name, ca_company, ca_img, pr_message, max_flg, ca_company_place, phone_number, gender_id, place_id, ca_company_url, ca_yomigana, intro_message,favo
+FROM public."Ca"
+JOIN public."Chat"
+ON public."Ca".ca_id=public."Chat".ca_id
+WHERE public."Chat".user_id='jajs663xtgfb9lcp' AND public."Chat".flg=2
+2018-01-16 15:43:37.579  INFO 49034 --- [http-nio-8090-exec-1] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 15:43:38.618 ERROR 49034 --- [http-nio-8090-exec-1] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.NullPointerException] with root cause
+
+java.lang.NullPointerException: null
+	at net.mybrainlab.camp.api.rest.CampController.ca_list(CampController.java:671)
+	at sun.reflect.GeneratedMethodAccessor144.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:133)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:97)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:827)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:738)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:85)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:967)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:901)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:970)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:861)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:635)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:846)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:742)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.boot.web.filter.ApplicationContextHeaderFilter.doFilterInternal(ApplicationContextHeaderFilter.java:55)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at net.mybrainlab.camp.api.rest.SimpleCORSFilter.doFilter(SimpleCORSFilter.java:18)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.boot.actuate.trace.WebRequestTraceFilter.doFilterInternal(WebRequestTraceFilter.java:110)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:208)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:177)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:346)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:262)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HttpPutFormContentFilter.doFilterInternal(HttpPutFormContentFilter.java:108)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:81)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:197)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.boot.actuate.autoconfigure.MetricsFilter.doFilterInternal(MetricsFilter.java:106)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:199)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:478)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:803)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:868)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1459)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+
+2018-01-16 15:55:21.713  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 15:55:21.778  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/CaRepository/selectCaLists.sql],
+SELECT public."Ca".ca_id, ca_name, ca_company, ca_img, pr_message, max_flg, ca_company_place, phone_number, gender_id, place_id, ca_company_url, ca_yomigana, intro_message,favo
+FROM public."Ca"
+JOIN public."Chat"
+ON public."Ca".ca_id=public."Chat".ca_id
+WHERE public."Chat".user_id='jajs663xtgfb9lcp' AND public."Chat".flg=2
+2018-01-16 15:55:21.807  INFO 49034 --- [http-nio-8090-exec-5] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 16:33:09.644  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 16:33:09.907  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/CaRepository/selectCaLists.sql],
+SELECT public."Ca".ca_id, ca_name, ca_company, ca_img, pr_message, max_flg, ca_company_place, phone_number, gender_id, place_id, ca_company_url, ca_yomigana, intro_message,favo
+FROM public."Ca"
+JOIN public."Chat"
+ON public."Ca".ca_id=public."Chat".ca_id
+WHERE public."Chat".user_id='3bjvyh8rs9px764t' AND public."Chat".flg=2
+2018-01-16 16:33:09.926  INFO 49034 --- [http-nio-8090-exec-8] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 16:33:23.249  INFO 49034 --- [http-nio-8090-exec-10] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2220] ENTER  : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 16:33:23.314  INFO 49034 --- [http-nio-8090-exec-10] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2076] SQLログ : SQLファイル=[META-INF/net/mybrainlab/camp/repository/CaRepository/selectCaLists.sql],
+SELECT public."Ca".ca_id, ca_name, ca_company, ca_img, pr_message, max_flg, ca_company_place, phone_number, gender_id, place_id, ca_company_url, ca_yomigana, intro_message,favo
+FROM public."Ca"
+JOIN public."Chat"
+ON public."Ca".ca_id=public."Chat".ca_id
+WHERE public."Chat".user_id='3bjvyh8rs9px764t' AND public."Chat".flg=2
+2018-01-16 16:33:23.331  INFO 49034 --- [http-nio-8090-exec-10] o.s.doma.jdbc.UtilLoggingJdbcLogger      : [DOMA2221] EXIT   : クラス=[net.mybrainlab.camp.repository.CaRepositoryImpl], メソッド=[selectCaLists]
+2018-01-16 16:52:11.853  INFO 49034 --- [Thread-4] ationConfigEmbeddedWebApplicationContext : Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@20d525: startup date [Mon Jan 15 18:43:48 JST 2018]; root of context hierarchy
+2018-01-16 16:52:11.878  INFO 49034 --- [Thread-4] ationConfigEmbeddedWebApplicationContext : Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@dc59ec2: startup date [Mon Jan 15 18:43:55 JST 2018]; parent: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@20d525
+2018-01-16 16:52:12.075  INFO 49034 --- [Thread-4] o.s.c.support.DefaultLifecycleProcessor  : Stopping beans in phase 2147483647
+2018-01-16 16:52:35.529  INFO 53239 --- [main] net.mybrainlab.camp.App                  : Starting App on sekinemayuminoMacBook-Pro.local with PID 53239 (/Users/sekipon/mywork/camp/server/target/classes started by maysekine in /Users/sekipon/mywork/camp/server)
+2018-01-16 16:52:35.541  INFO 53239 --- [main] net.mybrainlab.camp.App                  : No active profile set, falling back to default profiles: default
+2018-01-16 16:52:35.632  INFO 53239 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@20d525: startup date [Tue Jan 16 16:52:35 JST 2018]; root of context hierarchy
+2018-01-16 16:52:39.184  INFO 53239 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.ws.config.annotation.DelegatingWsConfiguration' of type [org.springframework.ws.config.annotation.DelegatingWsConfiguration$$EnhancerBySpringCGLIB$$190ab862] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2018-01-16 16:52:39.271  INFO 53239 --- [main] .w.s.a.s.AnnotationActionEndpointMapping : Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+2018-01-16 16:52:39.287  INFO 53239 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$7472f363] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2018-01-16 16:52:39.782  INFO 53239 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8090 (http)
+2018-01-16 16:52:39.797  INFO 53239 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2018-01-16 16:52:39.798  INFO 53239 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.23
+2018-01-16 16:52:40.468  INFO 53239 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2018-01-16 16:52:40.471  INFO 53239 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 4839 ms
+2018-01-16 16:52:40.903  INFO 53239 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'metricsFilter' to: [/*]
+2018-01-16 16:52:40.905  INFO 53239 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2018-01-16 16:52:40.906  INFO 53239 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2018-01-16 16:52:40.906  INFO 53239 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2018-01-16 16:52:40.906  INFO 53239 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2018-01-16 16:52:40.907  INFO 53239 --- [localhost-startStop-1] .s.DelegatingFilterProxyRegistrationBean : Mapping filter: 'springSecurityFilterChain' to: [/*]
+2018-01-16 16:52:40.907  INFO 53239 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'webRequestLoggingFilter' to: [/*]
+2018-01-16 16:52:40.907  INFO 53239 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'simpleCORSFilter' to: [/*]
+2018-01-16 16:52:40.907  INFO 53239 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'applicationContextIdFilter' to: [/*]
+2018-01-16 16:52:40.908  INFO 53239 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2018-01-16 16:52:40.909  INFO 53239 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'messageDispatcherServlet' to [/services/*]
+2018-01-16 16:52:41.843  WARN 53239 --- [main] figurationPropertiesBindingPostProcessor : The @ConfigurationProperties bean class net.mybrainlab.camp.service.ServiceProperties contains validation constraints but had not been annotated with @Validated.
+2018-01-16 16:52:41.844  WARN 53239 --- [main] figurationPropertiesBindingPostProcessor : The @ConfigurationProperties bean class net.mybrainlab.camp.service.ServiceProperties contains validation constraints but had not been annotated with @Validated.
+2018-01-16 16:52:41.844  WARN 53239 --- [main] figurationPropertiesBindingPostProcessor : The @ConfigurationProperties bean class net.mybrainlab.camp.service.ServiceProperties contains validation constraints but had not been annotated with @Validated.
+2018-01-16 16:52:42.572  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v1/api/camp/{user_id}/question/option],methods=[POST],consumes=[application/json]}" onto public void net.mybrainlab.camp.api.rest.CampController.option(java.lang.String,java.lang.String) throws java.io.IOException
+2018-01-16 16:52:42.578  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v1/api/camp/personal],methods=[GET],produces=[application/json]}" onto public java.util.List net.mybrainlab.camp.api.rest.CampController.personal() throws java.lang.Exception
+2018-01-16 16:52:42.579  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v1/api/camp/welcome],methods=[GET],produces=[application/json]}" onto public java.util.List net.mybrainlab.camp.api.rest.CampController.welcome() throws java.lang.Exception
+2018-01-16 16:52:42.579  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v1/api/camp/login],methods=[POST],consumes=[application/json]}" onto public java.lang.String net.mybrainlab.camp.api.rest.CampController.login(net.mybrainlab.camp.dao.entity.User)
+2018-01-16 16:52:42.580  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v1/api/camp/{ca_id}/match],methods=[GET],produces=[application/json]}" onto public java.util.List net.mybrainlab.camp.api.rest.CampController.ca_match(java.lang.String) throws java.lang.Exception
+2018-01-16 16:52:42.580  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v1/api/camp/{ca_id}/{user_id}/denial],methods=[GET],produces=[application/json]}" onto public void net.mybrainlab.camp.api.rest.CampController.denial(java.lang.String,java.lang.String) throws java.lang.Exception
+2018-01-16 16:52:42.580  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v1/api/camp/{user_id}/question/basic],methods=[POST],consumes=[application/json]}" onto public void net.mybrainlab.camp.api.rest.CampController.basic(java.lang.String,java.lang.String) throws java.io.IOException
+2018-01-16 16:52:42.581  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v1/api/camp/{user_id}/myprofile],methods=[GET],produces=[application/json]}" onto public java.util.List net.mybrainlab.camp.api.rest.CampController.user_list(java.lang.String) throws java.lang.Exception
+2018-01-16 16:52:42.581  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v1/api/camp/{user_id}/myprofile],methods=[POST],consumes=[application/json]}" onto public void net.mybrainlab.camp.api.rest.CampController.myprofile(java.lang.String,java.lang.String) throws java.io.IOException
+2018-01-16 16:52:42.581  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v1/api/camp/{user_id}/account],methods=[GET],produces=[application/json]}" onto public net.mybrainlab.camp.dao.entity.User net.mybrainlab.camp.api.rest.CampController.account(java.lang.String) throws java.io.IOException
+2018-01-16 16:52:42.582  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v1/api/camp/{user_id}/account],methods=[POST],consumes=[application/json]}" onto public void net.mybrainlab.camp.api.rest.CampController.account(java.lang.String,java.lang.String) throws java.io.IOException
+2018-01-16 16:52:42.588  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v1/api/camp/{user_id}/contact],methods=[POST],consumes=[application/json]}" onto public java.lang.String net.mybrainlab.camp.api.rest.CampController.contact(java.lang.String,java.lang.String) throws java.io.IOException
+2018-01-16 16:52:42.588  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v1/api/camp/{user_id}/camp_request],methods=[POST],consumes=[application/json]}" onto public void net.mybrainlab.camp.api.rest.CampController.camp_request(java.lang.String,java.lang.String) throws java.io.IOException
+2018-01-16 16:52:42.589  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v1/api/camp/{user_id}/review],methods=[POST],consumes=[application/json]}" onto public void net.mybrainlab.camp.api.rest.CampController.review(java.lang.String,java.lang.String) throws java.io.IOException
+2018-01-16 16:52:42.589  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v1/api/camp/{user_id}/ca],methods=[GET],produces=[application/json]}" onto public java.util.List net.mybrainlab.camp.api.rest.CampController.ca_list(java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws java.lang.Exception
+2018-01-16 16:52:42.590  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v1/api/camp/{user_id}/ca/{ca_id}/favo],methods=[POST],produces=[application/json]}" onto public void net.mybrainlab.camp.api.rest.CampController.favo_post(java.lang.String,java.lang.String,java.lang.String) throws java.lang.Exception
+2018-01-16 16:52:42.591  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v1/api/camp/{user_id}/ca/{ca_id}],methods=[GET],produces=[application/json]}" onto public java.util.List net.mybrainlab.camp.api.rest.CampController.ca_detail(java.lang.String,java.lang.String) throws java.lang.Exception
+2018-01-16 16:52:42.594  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v1/api/camp/{user_id}/chat],methods=[GET],produces=[application/json]}" onto public java.util.List net.mybrainlab.camp.api.rest.CampController.chat_list(java.lang.String) throws java.lang.Exception
+2018-01-16 16:52:42.595  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v1/api/camp/{user_id}/notice],methods=[GET],produces=[application/json]}" onto public java.util.List net.mybrainlab.camp.api.rest.CampController.notice_list(java.lang.String) throws java.lang.Exception
+2018-01-16 16:52:42.596  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v1/api/camp/{user_id}/notice/{notice_id}],methods=[GET],produces=[application/json]}" onto public java.util.List net.mybrainlab.camp.api.rest.CampController.notice_detail(java.lang.String,java.lang.String) throws java.lang.Exception
+2018-01-16 16:52:42.596  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v1/api/camp/{user_id}/Q&A],methods=[GET],produces=[application/json]}" onto public java.util.List net.mybrainlab.camp.api.rest.CampController.q_a() throws java.lang.Exception
+2018-01-16 16:52:42.596  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v1/api/camp/{user_id}/leave],methods=[GET],produces=[application/json]}" onto public void net.mybrainlab.camp.api.rest.CampController.leave(java.lang.String) throws java.lang.Exception
+2018-01-16 16:52:42.597  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v1/api/camp/{ca_id}/{user_id}/permission],methods=[GET],produces=[application/json]}" onto public void net.mybrainlab.camp.api.rest.CampController.permission(java.lang.String,java.lang.String) throws java.lang.Exception
+2018-01-16 16:52:42.597  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v1/api/camp/{user_id}/notification],methods=[POST],consumes=[application/json]}" onto public void net.mybrainlab.camp.api.rest.CampController.notification(java.lang.String,java.lang.String) throws java.lang.Exception
+2018-01-16 16:52:42.597  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v1/api/camp/{user_id}/notification],methods=[GET],produces=[application/json]}" onto public java.lang.String net.mybrainlab.camp.api.rest.CampController.notification() throws java.lang.Exception
+2018-01-16 16:52:42.600  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v1/api/camp/tos],methods=[GET],produces=[application/json]}" onto public java.util.List net.mybrainlab.camp.api.rest.CampController.tos() throws java.lang.Exception
+2018-01-16 16:52:42.603  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v2/api-docs],methods=[GET],produces=[application/json || application/hal+json]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)
+2018-01-16 16:52:42.607  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources/configuration/ui]}" onto org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.UiConfiguration> springfox.documentation.swagger.web.ApiResourceController.uiConfiguration()
+2018-01-16 16:52:42.607  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources/configuration/security]}" onto org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.SecurityConfiguration> springfox.documentation.swagger.web.ApiResourceController.securityConfiguration()
+2018-01-16 16:52:42.608  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources]}" onto org.springframework.http.ResponseEntity<java.util.List<springfox.documentation.swagger.web.SwaggerResource>> springfox.documentation.swagger.web.ApiResourceController.swaggerResources()
+2018-01-16 16:52:42.611  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2018-01-16 16:52:42.612  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2018-01-16 16:52:43.016  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@20d525: startup date [Tue Jan 16 16:52:35 JST 2018]; root of context hierarchy
+2018-01-16 16:52:43.103  INFO 53239 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-01-16 16:52:43.103  INFO 53239 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-01-16 16:52:43.148  INFO 53239 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-01-16 16:52:43.444  INFO 53239 --- [main] b.a.s.AuthenticationManagerConfiguration : 
+
+Using default security password: fc283e1d-af15-4595-9924-095ab9b6efef
+
+2018-01-16 16:52:43.552  INFO 53239 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: OrRequestMatcher [requestMatchers=[Ant [pattern='/css/**'], Ant [pattern='/js/**'], Ant [pattern='/images/**'], Ant [pattern='/webjars/**'], Ant [pattern='/**/favicon.ico'], Ant [pattern='/error']]], []
+2018-01-16 16:52:43.552  INFO 53239 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: org.springframework.boot.actuate.autoconfigure.ManagementWebSecurityAutoConfiguration$LazyEndpointPathRequestMatcher@35650279, []
+2018-01-16 16:52:43.644  INFO 53239 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: org.springframework.boot.autoconfigure.security.SpringBootWebSecurityConfiguration$ApplicationNoWebSecurityConfigurerAdapter$1@6f9ab79d, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@64ae105d, org.springframework.security.web.context.SecurityContextPersistenceFilter@365afe87, org.springframework.security.web.header.HeaderWriterFilter@2b44d6d0, org.springframework.security.web.csrf.CsrfFilter@3f9b7fe1, org.springframework.security.web.authentication.logout.LogoutFilter@4877919f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@21e45a6f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2ce03e86, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@10a18e3e, org.springframework.security.web.session.SessionManagementFilter@3bb9ca38, org.springframework.security.web.access.ExceptionTranslationFilter@32a4ecbe]
+2018-01-16 16:52:44.366  INFO 53239 --- [main] o.s.ui.freemarker.SpringTemplateLoader   : SpringTemplateLoader for FreeMarker: using resource loader [org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@20d525: startup date [Tue Jan 16 16:52:35 JST 2018]; root of context hierarchy] and template loader path [classpath:/templates/]
+2018-01-16 16:52:44.367  INFO 53239 --- [main] o.s.w.s.v.f.FreeMarkerConfigurer         : ClassTemplateLoader for Spring macros added to FreeMarker configuration
+2018-01-16 16:52:44.393  WARN 53239 --- [main] o.s.b.a.f.FreeMarkerAutoConfiguration    : Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.checkTemplateLocation=false)
+2018-01-16 16:52:44.652  INFO 53239 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@b01cb8d: startup date [Tue Jan 16 16:52:44 JST 2018]; parent: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@20d525
+2018-01-16 16:52:44.712  INFO 53239 --- [main] o.s.b.f.s.DefaultListableBeanFactory     : Overriding bean definition for bean 'handlerExceptionResolver' with a different definition: replacing [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.web.servlet.config.annotation.DelegatingWebMvcConfiguration; factoryMethodName=handlerExceptionResolver; initMethodName=null; destroyMethodName=(inferred); defined in org.springframework.web.servlet.config.annotation.DelegatingWebMvcConfiguration] with [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=endpointWebMvcChildContextConfiguration; factoryMethodName=compositeHandlerExceptionResolver; initMethodName=null; destroyMethodName=(inferred); defined in org.springframework.boot.actuate.autoconfigure.EndpointWebMvcChildContextConfiguration]
+2018-01-16 16:52:44.784  INFO 53239 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8091 (http)
+2018-01-16 16:52:44.784  INFO 53239 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2018-01-16 16:52:44.785  INFO 53239 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.23
+2018-01-16 16:52:44.792  INFO 53239 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2018-01-16 16:52:44.792  INFO 53239 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 140 ms
+2018-01-16 16:52:44.803  INFO 53239 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2018-01-16 16:52:44.803  INFO 53239 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'springSecurityFilterChain' to: [/*]
+2018-01-16 16:52:44.912  INFO 53239 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/env/{name:.*}],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EnvironmentMvcEndpoint.value(java.lang.String)
+2018-01-16 16:52:44.912  INFO 53239 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/env || /env.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2018-01-16 16:52:44.913  INFO 53239 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/health || /health.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.HealthMvcEndpoint.invoke(javax.servlet.http.HttpServletRequest,java.security.Principal)
+2018-01-16 16:52:44.914  INFO 53239 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/loggers/{name:.*}],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.LoggersMvcEndpoint.get(java.lang.String)
+2018-01-16 16:52:44.914  INFO 53239 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/loggers/{name:.*}],methods=[POST],consumes=[application/vnd.spring-boot.actuator.v1+json || application/json],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.LoggersMvcEndpoint.set(java.lang.String,java.util.Map<java.lang.String, java.lang.String>)
+2018-01-16 16:52:44.915  INFO 53239 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/loggers || /loggers.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2018-01-16 16:52:44.915  INFO 53239 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/dump || /dump.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2018-01-16 16:52:44.916  INFO 53239 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/heapdump || /heapdump.json],methods=[GET],produces=[application/octet-stream]}" onto public void org.springframework.boot.actuate.endpoint.mvc.HeapdumpMvcEndpoint.invoke(boolean,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws java.io.IOException,javax.servlet.ServletException
+2018-01-16 16:52:44.917  INFO 53239 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/autoconfig || /autoconfig.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2018-01-16 16:52:44.918  INFO 53239 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/beans || /beans.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2018-01-16 16:52:44.918  INFO 53239 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/info || /info.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2018-01-16 16:52:44.919  INFO 53239 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/mappings || /mappings.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2018-01-16 16:52:44.920  INFO 53239 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/metrics/{name:.*}],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.MetricsMvcEndpoint.value(java.lang.String)
+2018-01-16 16:52:44.920  INFO 53239 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/metrics || /metrics.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2018-01-16 16:52:44.921  INFO 53239 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/auditevents || /auditevents.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public org.springframework.http.ResponseEntity<?> org.springframework.boot.actuate.endpoint.mvc.AuditEventsMvcEndpoint.findByPrincipalAndAfterAndType(java.lang.String,java.util.Date,java.lang.String)
+2018-01-16 16:52:44.921  INFO 53239 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/trace || /trace.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2018-01-16 16:52:44.922  INFO 53239 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/configprops || /configprops.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2018-01-16 16:52:44.937  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public java.util.Map<java.lang.String, java.lang.Object> org.springframework.boot.actuate.endpoint.mvc.ManagementErrorEndpoint.invoke()
+2018-01-16 16:52:44.944  INFO 53239 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-01-16 16:52:44.944  INFO 53239 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-01-16 16:52:44.956  INFO 53239 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@b01cb8d: startup date [Tue Jan 16 16:52:44 JST 2018]; parent: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@20d525
+2018-01-16 16:52:45.062  INFO 53239 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8091 (http)
+2018-01-16 16:52:45.067  INFO 53239 --- [main] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 2147483647
+2018-01-16 16:52:45.067  INFO 53239 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2018-01-16 16:52:45.102  INFO 53239 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2018-01-16 16:52:45.113  INFO 53239 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2018-01-16 16:52:45.489  INFO 53239 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8090 (http)
+2018-01-16 16:52:45.494  INFO 53239 --- [main] net.mybrainlab.camp.App                  : Started App in 25.462 seconds (JVM running for 26.788)

@@ -5,7 +5,7 @@ import org.seasar.doma.*;
 /**
  */
 @Entity
-@Table(name = "Chat")
+@Table(name = "Chat2")
 public class Chat {
 
     /** */
@@ -25,44 +25,28 @@ public class Chat {
     @Column(name = "flg")
     int flg;
 
-    @Column(name = "count")
-    int count;
+    @Column(name = "score")
+    int score;
 
     @Column(name = "update")
     String update;
 
-    /** 
-     * Returns the chatId.
-     * 
-     * @return the chatId
-     */
+    @Column(name = "favo")
+    int favo;
+
+
     public Integer getChatId() {
         return chatId;
     }
 
-    /** 
-     * Sets the chatId.
-     * 
-     * @param chatId the chatId
-     */
     public void setChatId(Integer chatId) {
         this.chatId = chatId;
     }
 
-    /** 
-     * Returns the userId.
-     * 
-     * @return the userId
-     */
     public String getUserId() {
         return userId;
     }
 
-    /** 
-     * Sets the userId.
-     * 
-     * @param userId the userId
-     */
     public void setUserId(String userId) {
         this.userId = userId;
     }
@@ -83,12 +67,12 @@ public class Chat {
         this.flg = flg;
     }
 
-    public int getCount() {
-        return count;
+    public int getScore() {
+        return score;
     }
 
-    public void setCount(int count) {
-        this.count = count;
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public String getUpdate() {
@@ -97,5 +81,13 @@ public class Chat {
 
     public void setUpdate(String update) {
         this.update = update;
+    }
+
+    public int getFavo() {
+        return favo;
+    }
+
+    public void setFavo(int favo) {
+        this.favo = favo;
     }
 }

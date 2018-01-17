@@ -1,0 +1,1 @@
+SELECT * FROM public."Chat" WHERE ca_id=/* chat.getCaId() */'22';

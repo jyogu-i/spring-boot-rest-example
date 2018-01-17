@@ -1,5 +1,6 @@
 package net.mybrainlab.camp.repository;
 
+
 import net.mybrainlab.camp.annotation.ConfigAutoDefault;
 import net.mybrainlab.camp.dao.entity.Chat;
 import org.seasar.doma.Dao;
@@ -13,13 +14,13 @@ import java.util.List;
 @Dao
 public interface ChatRepository {
     @Select
-    List<Chat> selectAll();
-
-    @Select
     List<Chat> selectCaList(Chat chat);
 
     @Select
     List<Chat> selectApproval(Chat chat);
+
+    @Select
+    List<Chat> selectMatch(Chat chat);
 
     @Insert(sqlFile = true)
     int insert(Chat chat);
@@ -29,5 +30,8 @@ public interface ChatRepository {
 
     @Update(sqlFile = true)
     int updateDenial(Chat chat);
+
+    @Update(sqlFile = true)
+    int updateFavo(Chat chat);
 
 }

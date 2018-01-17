@@ -1,1 +1,0 @@
-SELECT COUNT(ca_id) FROM public."Chat" WHERE ca_id=/* chat.getCaId() */'22';
