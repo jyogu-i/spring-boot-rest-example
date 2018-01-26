@@ -41,6 +41,10 @@ service:
     username: brainlab_camp
     password: jCcwRsP1
     driverClassName: org.postgresql.Driver
+    tomcat:
+      test-on-borrow: true
+    dbcp:
+      validation-query: SELECT 1
 
 server:
   port: 8090

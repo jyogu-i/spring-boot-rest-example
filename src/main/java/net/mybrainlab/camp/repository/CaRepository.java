@@ -14,7 +14,7 @@ import java.util.List;
 @Dao
 public interface CaRepository {
     @Select
-    Ca selectDetail(Ca ca);
+    Ca selectDetail(Chat chat);
 
     @Select
     List<Ca> selectCaLists(Chat chat);

@@ -1,7 +1,10 @@
 package net.mybrainlab.camp.repository;
 
 import net.mybrainlab.camp.annotation.ConfigAutoDefault;
+import net.mybrainlab.camp.dao.entity.AllUerInfo;
+import net.mybrainlab.camp.dao.entity.Myprofile;
 import net.mybrainlab.camp.dao.entity.User;
+import net.mybrainlab.camp.dao.entity.Chat;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
@@ -19,8 +22,20 @@ public interface UserRepository {
     @Select
     User selectAccount(User user);
 
+    @Select
+    User selectMailPass(User user);
+
+    @Select
+    AllUerInfo selectMyprofile(Chat chat);
+
+    @Select
+    User selectCheckMail(User user);
+
     @Insert(sqlFile = true)
     int insert(User user);
+
+    @Insert(sqlFile = true)
+    int insertAccount(User user);
 
     @Insert(sqlFile = true)
     int insertBasicUser(User user);
@@ -37,3 +52,4 @@ public interface UserRepository {
     @Update(sqlFile = true)
     int updateLeave(User user);
 }
+

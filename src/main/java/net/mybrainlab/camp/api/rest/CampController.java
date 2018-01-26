@@ -163,6 +163,8 @@ public class CampController extends AbstractRestHandler {
                     new URL("http://careerup-camp.jp.s3.amazonaws.com/tutrial/" + "Top.jpg");
             final URL url2 =
                     new URL("http://careerup-camp.jp.s3.amazonaws.com/tutrial/" + "camp_char.png");
+            final URL url3 =
+                    new URL("http://careerup-camp.jp.s3.amazonaws.com/tutrial/" + "FB-f-Logo__white_29.png");
 
             bis = new BufferedInputStream(url.openStream());
             final String base64 =
@@ -173,12 +175,17 @@ public class CampController extends AbstractRestHandler {
             final String base642 =
                     new String(Base64.encodeBase64(IOUtils.toByteArray(bis)));
             welcome.add("data:image/png;base64," + base642);
+
+            bis = new BufferedInputStream(url3.openStream());
+            final String base643 =
+                    new String(Base64.encodeBase64(IOUtils.toByteArray(bis)));
+            welcome.add("data:image/png;base64," + base643);
         } finally {
             bis.close();
         }
         return welcome;
     }
-    
+
     // 個人情報規約画面
     @RequestMapping(value = "/personal", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -198,14 +205,42 @@ public class CampController extends AbstractRestHandler {
         return tos;
     }
 
-    // ログイン画面 TODO
+    // ログイン画面
     @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public String login(@RequestBody User login) {
-        // ToDo:正しいものか確認するところ実装
-        System.err.println(login);
-        System.err.println(login.getAge());
-        return login.toString();
+    public String login(@RequestBody String json) throws Exception{
+        ObjectMapper mapper = new ObjectMapper();
+        User mailpass = mapper.readValue(json, User.class);
+        User user_id = userRepository.selectMailPass(mailpass);
+        if(user_id==null){
+            return "";
+        }
+        else if (passwordEncoder.matches(mailpass.getPassword(), user_id.getPassword())){
+            return user_id.getUserId();
+        }
+        else{
+            return "";
+        }
+    }
+
+    // テスト
+    @RequestMapping(value = "/test", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String test() throws Exception{
+        String json="{\"cellphone\":\"abcdefg@aaa.lom\",\"password\":\"12345678\"}";
+        ObjectMapper mapper = new ObjectMapper();
+        User mailpass = mapper.readValue(json, User.class);
+        User user_id = userRepository.selectMailPass(mailpass);
+        if(user_id==null){
+            return "";
+        }
+        else if (passwordEncoder.matches(mailpass.getPassword(), user_id.getPassword())){
+            return user_id.getUserId();
+        }
+        else{
+            return "";
+        }
     }
 
     // 必要か分からないけど作成。 CAのマッチング状況をみる
@@ -276,7 +311,7 @@ public class CampController extends AbstractRestHandler {
 //        }
 //    }
 
-//    // 必要ないけど作れちゃったのさ・画像の読み込み
+    //    // 必要ないけど作れちゃったのさ・画像の読み込み
 //    @RequestMapping(value = "/s3/read", method = RequestMethod.GET)
 //    public void get(@PathVariable String ca_id,OutputStream res) throws Exception {
 //        Ca ca =new Ca();
@@ -303,7 +338,9 @@ public class CampController extends AbstractRestHandler {
 
     public void python(String user_id, String industry,String job_category,String company) throws IOException {
         Chat chat = new Chat();
-        String[] cmd = {"/usr/bin/python3", "/opt/SyncQueue/match.py", industry, job_category, company};
+        //String[] cmd = {"/usr/bin/python3", "/opt/SyncQueue/match.py", industry, job_category, company};
+        String[] cmd = {"/Users/sekipon/anaconda3/bin/python3", "/docker/camp/match.py", industry, job_category, company};
+        //↑path違いました笑
 
         ProcessBuilder pb = new ProcessBuilder(cmd);
         Process proc = pb.start();
@@ -334,6 +371,13 @@ public class CampController extends AbstractRestHandler {
         }
         brstd.close();
 
+    }
+
+    public String nullcheck(String str) throws Exception {
+        if(str==null){
+            str="未入力";
+        }
+        return str;
     }
 
     public String trimSpace(String str) {
@@ -464,6 +508,27 @@ public class CampController extends AbstractRestHandler {
 
     }
 
+    // 新規登録画面-アカウント
+    @RequestMapping(value = "/{user_id}/signup", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public String signup(@RequestBody String json, @PathVariable String user_id) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        User signup = mapper.readValue(json, User.class);
+        signup.setUserId(user_id);
+        // パスワードをハッシュ化
+        signup.setPassword(passwordEncoder.encode(signup.getPassword()));
+        User check = userRepository.selectCheckMail(signup);
+        if(check==null){
+            userRepository.insertAccount(signup);
+            return "OK";
+        }
+        else{
+            return "error";
+        }
+
+    }
+
     // マイプロフィール画面 プロフィール一覧をフロントに送信
     @RequestMapping(value = "/{user_id}/myprofile", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -515,7 +580,9 @@ public class CampController extends AbstractRestHandler {
         if (myprofile.getScaleType() != null) {
             userhope.setScaleTypeId(trimSpace(myprofile.getScaleType()));
         }
-        userhope.setScaleNumberId(trimSpace(myprofile.getScaleNumber()));
+        if (myprofile.getScaleNumber() != null) {
+            userhope.setScaleNumberId(trimSpace(myprofile.getScaleNumber()));
+        }
         userhope.setJobCategoryId(trimSpace(myprofile.getH_job_category() + myprofile.getH_job_category_middle() + myprofile.getH_job_category_small()));
         userhopeRepository.updateMyprofileUserHope(userhope);
 
@@ -579,6 +646,7 @@ public class CampController extends AbstractRestHandler {
         User account = mapper.readValue(json, User.class);
 
         account.setUserId(user_id);
+        // パスワードをハッシュ化
         account.setPassword(passwordEncoder.encode(account.getPassword()));
         account.setCellphone(account.getCellphone());
         userRepository.updateAccount(account);
@@ -676,20 +744,219 @@ public class CampController extends AbstractRestHandler {
     }
 
     // お気に入り登録
-    @RequestMapping(value = "/{user_id}/ca/{ca_id}/favo", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{user_id}/ca/{ca_id}/favo", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public void favo_post(@RequestBody String json,@PathVariable String user_id,@PathVariable String ca_id) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         Chat chat = mapper.readValue(json, Chat.class);
-        System.err.println("aaaaaaa"+json);
 
         chat.setUserId(user_id);
         chat.setCaId(ca_id);
         chat.setFavo(chat.getFavo());
 
         chatRepository.updateFavo(chat);
+
+        Ca ca = caRepository.selectDetail(chat);
+        AllUerInfo profile = userRepository.selectMyprofile(chat);
+
+//        SimpleMailMessage mailMessage = new SimpleMailMessage();
+//
+//        mailMessage.setTo("user-info@careerup-camp.jp");
+//        //mailMessage.setReplyTo("リプライのメールアドレス");
+//        mailMessage.setFrom("noreply@careerup-camp.jp");
+//        mailMessage.setSubject("新規マッチングのお知らせ");
+//        mailMessage.setText("ユーザーID：" + user_id + "様とCAID："+ ca_id + "様がマッチングしました\n以下ユーザー情報とCA情報" +
+//                "\n#################################\n\n" + contact.getContactMessage());
+//
+//        javaMailSender.send(mailMessage);
     }
+
+    // お気に入り登録
+    @RequestMapping(value = "/{user_id}/ca/{ca_id}/mail", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public String test(@PathVariable String user_id,@PathVariable String ca_id) throws Exception {
+
+        Chat chat = new Chat();
+
+        chat.setUserId(user_id);
+        chat.setCaId(ca_id);
+        chat.setFavo(chat.getFavo());
+
+        chatRepository.updateFavo(chat);
+
+        Ca ca = caRepository.selectDetail(chat);
+        AllUerInfo profile = userRepository.selectMyprofile(chat);
+
+        profile.setIncome(nullcheck(profile.getIncome()));
+        System.out.println("年収"+profile.getIncome());
+        switch (profile.getIncome()){
+            case "0":
+                profile.setIncome("300万以上〜");
+                break;
+            case "1":
+                profile.setIncome("400万以上〜");
+                break;
+            case "2":
+                profile.setIncome("500万以上〜");
+                break;
+            case "3":
+                profile.setIncome("600万以上〜");
+                break;
+            case "4":
+                profile.setIncome("700万以上〜");
+                break;
+            case "5":
+                profile.setIncome("800万以上〜");
+                break;
+            case "6":
+                profile.setIncome("900万以上〜");
+                break;
+            case "7":
+                profile.setIncome("1000万以上〜");
+                break;
+        }
+
+        profile.setFirstName(nullcheck(profile.getFirstName()));
+        profile.setLastName(nullcheck(profile.getLastName()));
+        profile.sethCompanyName(nullcheck(profile.gethCompanyName()));
+
+        profile.setScaleTypeId(nullcheck(profile.getScaleTypeId()));
+        switch (profile.getScaleTypeId()){
+            case "0":
+                profile.setScaleTypeId("スタートアップ");
+                break;
+            case "1":
+                profile.setScaleTypeId("ベンチャー");
+                break;
+            case "2":
+                profile.setScaleTypeId("大手");
+                break;
+            case "3":
+                profile.setScaleTypeId("こだわらない");
+                break;
+        }
+
+        profile.setWorkId(nullcheck(profile.getWorkId()));
+        switch (profile.getWorkId()){
+            case "0":
+                profile.setWorkId("キャリアアップができる職場選び");
+                break;
+            case "1":
+                profile.setWorkId("様々な求人・企業から自分に合う環境を見つけること");
+                break;
+            case "2":
+                profile.setWorkId("スピーディーに内定までを決めること");
+                break;
+            case "3":
+                profile.setWorkId("面接や書類審査の対策");
+                break;
+        }
+
+        profile.setPlaceId(nullcheck(profile.getPlaceId()));
+        switch (profile.getPlaceId()){
+            case "0":
+                profile.setPlaceId("首都圏");
+                break;
+            case "1":
+                profile.setPlaceId("北海道・東北");
+                break;
+            case "2":
+                profile.setPlaceId("北陸・甲信越");
+                break;
+            case "3":
+                profile.setPlaceId("東海・中部");
+                break;
+            case "4":
+                profile.setPlaceId("近畿");
+                break;
+            case "5":
+                profile.setPlaceId("中国・四国");
+                break;
+            case "6":
+                profile.setPlaceId("九州");
+                break;
+            case "7":
+                profile.setPlaceId("こだわらない");
+                break;
+        }
+
+        profile.setSkill(nullcheck(profile.getSkill()));
+
+        profile.setTermId(nullcheck(profile.getTermId()));
+        switch (profile.getTermId()){
+            case "0":
+                profile.setTermId("就業中");
+                break;
+            case "1":
+                profile.setTermId("1ヶ月以内");
+                break;
+            case "2":
+                profile.setTermId("3ヶ月以内");
+                break;
+            case "3":
+                profile.setTermId("6ヶ月以内");
+                break;
+            case "4":
+                profile.setTermId("1年以内");
+                break;
+            case "5":
+                profile.setTermId("1年以上");
+                break;
+        }
+
+        profile.setTimingId(nullcheck(profile.getTimingId()));
+        switch (profile.getTimingId()){
+            case "0":
+                profile.setTimingId("すぐにでも");
+                break;
+            case "1":
+                profile.setTimingId("3ヶ月以内");
+                break;
+            case "2":
+                profile.setTimingId("6ヶ月以内");
+                break;
+            case "3":
+                profile.setTimingId("1年以内");
+                break;
+            case "4":
+                profile.setTimingId("良い求人があれば");
+                break;
+            case "5":
+                profile.setTimingId("未定");
+                break;
+        }
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+
+        //mailMessage.setTo("user-info@careerup-camp.jp");
+        mailMessage.setTo("m.sekine@mybrainlab.net");
+        //mailMessage.setReplyTo("リプライのメールアドレス");
+        mailMessage.setFrom("noreply@careerup-camp.jp");
+        mailMessage.setSubject("【CAMP】新規マッチングのお知らせtest");
+        mailMessage.setText(ca.getCaName() + "様" + "\nお世話になっております。" + "CAMP運営事務局でございます。"
+                + "\nユーザーID：" + user_id + "様とマッチングしましたのでお知らせ致します。\n以下ユーザー情報"
+                + "\n\n#################################\n"
+                + "\nユーザーID：" + user_id + "\n姓：" + profile.getLastName() + "\n名：" + profile.getFirstName()
+                + "\nメール：" + profile.getCellphone() + "\n性別：" + profile.getGender() + "\n年齢：" + profile.getAge()
+                + "\n学歴：" + profile.getSchool() + "\n専攻：" + profile.getMajor() + "\n転職回数：" + profile.getTimes()
+                + "\n英語力：" + profile.getEnglish() + "\n転職期間：" + profile.getTermId() + "\n転職タイミング：" + profile.getTimingId()
+                + "\n資格：" + profile.getSkill() + "\n直近の企業名：" + profile.getPCompanyName() + "\n入社年度：" + profile.getJoinedYear()
+                + "\n希望企業名：" + profile.gethCompanyName()
+                + "\n希望業界：" + profile.getBigIndustry() + "\n>" + profile.getMiddleIndustry() + "\n>>" + profile.getSmallIndustry()
+                + "\n希望職種：" + profile.getBigCategory() + "\n>" + profile.getMiddleCategory() + "\n>>" + profile.getSmallCategory()
+                + "\n希望年収：" + profile.getIncome() + "\n希望勤務地：" + profile.getPlaceId() + "\n希望企業規模：" + profile.getScaleNumber()
+                + "\n希望企業タイプ：" + profile.getScaleTypeId() + "\n転職に求めるもの：" + profile.getWorkId()
+                + "\n#################################\n\n"
+                + "\nお問い合わせは下記までお願い致します。" + "\nCAMP事務局\ntel：03-0000-0000\nmail：@mybrainlab.net\n担当者："
+        );
+
+        javaMailSender.send(mailMessage);
+
+        return profile.getGender();
+    }
+
 
     // ca詳細
     @RequestMapping(value = "/{user_id}/ca/{ca_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -697,10 +964,11 @@ public class CampController extends AbstractRestHandler {
     @ResponseBody
     public List ca_detail(@PathVariable String user_id, @PathVariable String ca_id) throws Exception {
 
-        Ca ca = new Ca();
-        ca.setCaId(ca_id);
+        Chat chat = new Chat();
+        chat.setCaId(ca_id);
+        chat.setUserId(user_id);
         List caList = new ArrayList<>();
-        Ca ca_person = caRepository.selectDetail(ca);
+        Ca ca_person = caRepository.selectDetail(chat);
 
         // caの写真をbase64で変換
         if(ca_person.getCaImg()!=null) {
@@ -817,7 +1085,7 @@ public class CampController extends AbstractRestHandler {
     }
 
     // 退会画面
-    @RequestMapping(value = "/{user_id}/leave", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{user_id}/leave", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public void leave(@PathVariable String user_id) throws Exception {
         // ユーザの退会

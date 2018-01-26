@@ -1,0 +1,1 @@
+SELECT user_id,password FROM public."User" WHERE cellphone=/* user.getCellphone() */'mail@mail.com';
