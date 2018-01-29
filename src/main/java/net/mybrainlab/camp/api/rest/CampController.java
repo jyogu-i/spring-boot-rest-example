@@ -214,13 +214,13 @@ public class CampController extends AbstractRestHandler {
         User mailpass = mapper.readValue(json, User.class);
         User user_id = userRepository.selectMailPass(mailpass);
         if(user_id==null){
-            return "";
+            return "error";
         }
         else if (passwordEncoder.matches(mailpass.getPassword(), user_id.getPassword())){
             return user_id.getUserId();
         }
         else{
-            return "";
+            return "error";
         }
     }
 
@@ -338,9 +338,9 @@ public class CampController extends AbstractRestHandler {
 
     public void python(String user_id, String industry,String job_category,String company) throws IOException {
         Chat chat = new Chat();
-        //String[] cmd = {"/usr/bin/python3", "/opt/SyncQueue/match.py", industry, job_category, company};
-        String[] cmd = {"/Users/sekipon/anaconda3/bin/python3", "/docker/camp/match.py", industry, job_category, company};
-        //↑path違いました笑
+        chat.setUserId(user_id);
+        String[] cmd = {"/usr/bin/python3", "/opt/SyncQueue/match.py", industry, job_category, company};
+        //String[] cmd = {"/Users/sekipon/anaconda3/bin/python3", "docker/camp/match.py", industry, job_category, company};
 
         ProcessBuilder pb = new ProcessBuilder(cmd);
         Process proc = pb.start();
@@ -360,16 +360,16 @@ public class CampController extends AbstractRestHandler {
             // 配列を分解
             String[] fruit = str.split(",", 0);
             System.err.println(str);
-
-            for (String s : fruit) {
-                // "["と"]"を除去
-                trimSpace(s);
-                chat.setUserId(user_id);
-                chat.setCaId(s);
+            for(int i = 0; i < fruit.length; i = i + 2){
+                chat.setCaId(fruit[i]);
+                chat.setScore(Integer.parseInt(fruit[i + 1]));
+                System.out.println("id=="+chat.getCaId());
+                System.out.println("score=="+chat.getScore());
                 chatRepository.insert(chat);
             }
         }
         brstd.close();
+
 
     }
 
@@ -584,7 +584,9 @@ public class CampController extends AbstractRestHandler {
             userhope.setScaleNumberId(trimSpace(myprofile.getScaleNumber()));
         }
         userhope.setJobCategoryId(trimSpace(myprofile.getH_job_category() + myprofile.getH_job_category_middle() + myprofile.getH_job_category_small()));
-        userhopeRepository.updateMyprofileUserHope(userhope);
+        //userhopeRepository.updateMyprofileUserHope(userhope);
+        userhopeRepository.delete(userhope);
+        userhopeRepository.insertOptionUserHope(userhope);
 
         //会社の数だけ繰り返すfor文
         //previous_idだけはAutoIncrementで生成しているので、更新時は前のものは全てDeleteし、新しくinsertする
@@ -641,17 +643,57 @@ public class CampController extends AbstractRestHandler {
     @RequestMapping(value = "/{user_id}/account", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public void account(@RequestBody String json, @PathVariable String user_id) throws IOException {
+    public String account(@RequestBody String json, @PathVariable String user_id) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         User account = mapper.readValue(json, User.class);
-
         account.setUserId(user_id);
-        // パスワードをハッシュ化
-        account.setPassword(passwordEncoder.encode(account.getPassword()));
-        account.setCellphone(account.getCellphone());
-        userRepository.updateAccount(account);
+        System.out.println("json" + json);
 
+        // ユーザがしたい動作を確認。結果がnullならメアドも更新したい。notnullならパスワードだけ変えたい。
+        User docheck = userRepository.selectCheckAccountDo(account);
+
+        // パスワードだけ変えたい
+        if (docheck != null) {
+            // パスワードが空かチェック
+            if (account.getPassword().isEmpty() == false) {
+                User user = userRepository.selectAccount(account);
+                // 旧パスワードの正当性を確認
+                if (passwordEncoder.matches(account.getOld_password(), user.getPassword())) {
+                    // パスワードをハッシュ化
+                    account.setPassword(passwordEncoder.encode(account.getPassword()));
+                    userRepository.updateAllAccount(account);
+                    return "パスワードの更新が完了しました";
+                }
+                return "旧パスワードが正しくありません";
+            }
+            return "変更項目を入力してください";
+        }
+        // メアドも変えたい
+        else {
+            // 更新しようとしているアドレスがユニークかどうかチェック
+            User mailcheck = userRepository.selectMailPass(account);
+            if (mailcheck != null) {
+                return "このアドレスはすでに登録されています";
+            }
+            // 受け取ったJSONにパスワードが入っていたら新しいパスワードも登録
+            else if (account.getPassword().isEmpty() == false) {
+                User user = userRepository.selectAccount(account);
+                // 旧パスワードの正当性を確認
+                if (passwordEncoder.matches(account.getOld_password(), user.getPassword())) {
+                    // パスワードをハッシュ化
+                    account.setPassword(passwordEncoder.encode(account.getPassword()));
+                    userRepository.updateAllAccount(account);
+                    return "アドレス・パスワードの更新が完了しました";
+                }
+                return "旧パスワードが正しくありません";
+            } else {
+                // メアドのみ更新
+                userRepository.updateMailAccount(account);
+                return "アドレス更新が完了しました";
+            }
+        }
     }
+
 
     // お問い合わせメール
     @RequestMapping(value = "/{user_id}/contact", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -760,203 +802,173 @@ public class CampController extends AbstractRestHandler {
         Ca ca = caRepository.selectDetail(chat);
         AllUerInfo profile = userRepository.selectMyprofile(chat);
 
-//        SimpleMailMessage mailMessage = new SimpleMailMessage();
-//
-//        mailMessage.setTo("user-info@careerup-camp.jp");
-//        //mailMessage.setReplyTo("リプライのメールアドレス");
-//        mailMessage.setFrom("noreply@careerup-camp.jp");
-//        mailMessage.setSubject("新規マッチングのお知らせ");
-//        mailMessage.setText("ユーザーID：" + user_id + "様とCAID："+ ca_id + "様がマッチングしました\n以下ユーザー情報とCA情報" +
-//                "\n#################################\n\n" + contact.getContactMessage());
-//
-//        javaMailSender.send(mailMessage);
+        if (chat.getFavo()==1) {
+            profile.setIncome(nullcheck(profile.getIncome()));
+            System.out.println("年収" + profile.getIncome());
+            switch (profile.getIncome()) {
+                case "0":
+                    profile.setIncome("300万以上〜");
+                    break;
+                case "1":
+                    profile.setIncome("400万以上〜");
+                    break;
+                case "2":
+                    profile.setIncome("500万以上〜");
+                    break;
+                case "3":
+                    profile.setIncome("600万以上〜");
+                    break;
+                case "4":
+                    profile.setIncome("700万以上〜");
+                    break;
+                case "5":
+                    profile.setIncome("800万以上〜");
+                    break;
+                case "6":
+                    profile.setIncome("900万以上〜");
+                    break;
+                case "7":
+                    profile.setIncome("1000万以上〜");
+                    break;
+            }
+
+            profile.setFirstName(nullcheck(profile.getFirstName()));
+            profile.setLastName(nullcheck(profile.getLastName()));
+            profile.sethCompanyName(nullcheck(profile.gethCompanyName()));
+
+            profile.setScaleTypeId(nullcheck(profile.getScaleTypeId()));
+            switch (profile.getScaleTypeId()) {
+                case "0":
+                    profile.setScaleTypeId("スタートアップ");
+                    break;
+                case "1":
+                    profile.setScaleTypeId("ベンチャー");
+                    break;
+                case "2":
+                    profile.setScaleTypeId("大手");
+                    break;
+                case "3":
+                    profile.setScaleTypeId("こだわらない");
+                    break;
+            }
+
+            profile.setWorkId(nullcheck(profile.getWorkId()));
+            switch (profile.getWorkId()) {
+                case "0":
+                    profile.setWorkId("キャリアアップができる職場選び");
+                    break;
+                case "1":
+                    profile.setWorkId("様々な求人・企業から自分に合う環境を見つけること");
+                    break;
+                case "2":
+                    profile.setWorkId("スピーディーに内定までを決めること");
+                    break;
+                case "3":
+                    profile.setWorkId("面接や書類審査の対策");
+                    break;
+            }
+
+            profile.setPlaceId(nullcheck(profile.getPlaceId()));
+            switch (profile.getPlaceId()) {
+                case "0":
+                    profile.setPlaceId("首都圏");
+                    break;
+                case "1":
+                    profile.setPlaceId("北海道・東北");
+                    break;
+                case "2":
+                    profile.setPlaceId("北陸・甲信越");
+                    break;
+                case "3":
+                    profile.setPlaceId("東海・中部");
+                    break;
+                case "4":
+                    profile.setPlaceId("近畿");
+                    break;
+                case "5":
+                    profile.setPlaceId("中国・四国");
+                    break;
+                case "6":
+                    profile.setPlaceId("九州");
+                    break;
+                case "7":
+                    profile.setPlaceId("こだわらない");
+                    break;
+            }
+
+            profile.setSkill(nullcheck(profile.getSkill()));
+
+            profile.setTermId(nullcheck(profile.getTermId()));
+            switch (profile.getTermId()) {
+                case "0":
+                    profile.setTermId("就業中");
+                    break;
+                case "1":
+                    profile.setTermId("1ヶ月以内");
+                    break;
+                case "2":
+                    profile.setTermId("3ヶ月以内");
+                    break;
+                case "3":
+                    profile.setTermId("6ヶ月以内");
+                    break;
+                case "4":
+                    profile.setTermId("1年以内");
+                    break;
+                case "5":
+                    profile.setTermId("1年以上");
+                    break;
+            }
+
+            profile.setTimingId(nullcheck(profile.getTimingId()));
+            switch (profile.getTimingId()) {
+                case "0":
+                    profile.setTimingId("すぐにでも");
+                    break;
+                case "1":
+                    profile.setTimingId("3ヶ月以内");
+                    break;
+                case "2":
+                    profile.setTimingId("6ヶ月以内");
+                    break;
+                case "3":
+                    profile.setTimingId("1年以内");
+                    break;
+                case "4":
+                    profile.setTimingId("良い求人があれば");
+                    break;
+                case "5":
+                    profile.setTimingId("未定");
+                    break;
+            }
+
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+
+            //mailMessage.setTo("user-info@careerup-camp.jp");
+            mailMessage.setTo("m.sekine@mybrainlab.net");
+            //mailMessage.setReplyTo("リプライのメールアドレス");
+            mailMessage.setFrom("noreply@careerup-camp.jp");
+            mailMessage.setSubject("【CAMP】新規マッチングのお知らせtest");
+            mailMessage.setText(ca.getCaName() + "様" + "\nお世話になっております。" + "CAMP運営事務局でございます。"
+                    + "\nユーザーID：" + user_id + "様とマッチングしましたのでお知らせ致します。\n以下ユーザー情報"
+                    + "\n\n#################################\n"
+                    + "\nユーザーID：" + user_id + "\n姓：" + profile.getLastName() + "\n名：" + profile.getFirstName()
+                    + "\nメール：" + profile.getCellphone() + "\n性別：" + profile.getGender() + "\n年齢：" + profile.getAge()
+                    + "\n学歴：" + profile.getSchool() + "\n専攻：" + profile.getMajor() + "\n転職回数：" + profile.getTimes()
+                    + "\n英語力：" + profile.getEnglish() + "\n転職期間：" + profile.getTermId() + "\n転職タイミング：" + profile.getTimingId()
+                    + "\n資格：" + profile.getSkill() + "\n直近の企業名：" + profile.getPCompanyName() + "\n入社年度：" + profile.getJoinedYear()
+                    + "\n希望企業名：" + profile.gethCompanyName()
+                    + "\n希望業界：" + profile.getBigIndustry() + "\n>" + profile.getMiddleIndustry() + "\n>>" + profile.getSmallIndustry()
+                    + "\n希望職種：" + profile.getBigCategory() + "\n>" + profile.getMiddleCategory() + "\n>>" + profile.getSmallCategory()
+                    + "\n希望年収：" + profile.getIncome() + "\n希望勤務地：" + profile.getPlaceId() + "\n希望企業規模：" + profile.getScaleNumber()
+                    + "\n希望企業タイプ：" + profile.getScaleTypeId() + "\n転職に求めるもの：" + profile.getWorkId()
+                    + "\n#################################\n\n"
+                    + "\nお問い合わせは下記までお願い致します。" + "\nCAMP事務局\ntel：03-0000-0000\nmail：@mybrainlab.net\n担当者："
+            );
+
+            javaMailSender.send(mailMessage);
+        }
     }
-
-    // お気に入り登録
-    @RequestMapping(value = "/{user_id}/ca/{ca_id}/mail", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public String test(@PathVariable String user_id,@PathVariable String ca_id) throws Exception {
-
-        Chat chat = new Chat();
-
-        chat.setUserId(user_id);
-        chat.setCaId(ca_id);
-        chat.setFavo(chat.getFavo());
-
-        chatRepository.updateFavo(chat);
-
-        Ca ca = caRepository.selectDetail(chat);
-        AllUerInfo profile = userRepository.selectMyprofile(chat);
-
-        profile.setIncome(nullcheck(profile.getIncome()));
-        System.out.println("年収"+profile.getIncome());
-        switch (profile.getIncome()){
-            case "0":
-                profile.setIncome("300万以上〜");
-                break;
-            case "1":
-                profile.setIncome("400万以上〜");
-                break;
-            case "2":
-                profile.setIncome("500万以上〜");
-                break;
-            case "3":
-                profile.setIncome("600万以上〜");
-                break;
-            case "4":
-                profile.setIncome("700万以上〜");
-                break;
-            case "5":
-                profile.setIncome("800万以上〜");
-                break;
-            case "6":
-                profile.setIncome("900万以上〜");
-                break;
-            case "7":
-                profile.setIncome("1000万以上〜");
-                break;
-        }
-
-        profile.setFirstName(nullcheck(profile.getFirstName()));
-        profile.setLastName(nullcheck(profile.getLastName()));
-        profile.sethCompanyName(nullcheck(profile.gethCompanyName()));
-
-        profile.setScaleTypeId(nullcheck(profile.getScaleTypeId()));
-        switch (profile.getScaleTypeId()){
-            case "0":
-                profile.setScaleTypeId("スタートアップ");
-                break;
-            case "1":
-                profile.setScaleTypeId("ベンチャー");
-                break;
-            case "2":
-                profile.setScaleTypeId("大手");
-                break;
-            case "3":
-                profile.setScaleTypeId("こだわらない");
-                break;
-        }
-
-        profile.setWorkId(nullcheck(profile.getWorkId()));
-        switch (profile.getWorkId()){
-            case "0":
-                profile.setWorkId("キャリアアップができる職場選び");
-                break;
-            case "1":
-                profile.setWorkId("様々な求人・企業から自分に合う環境を見つけること");
-                break;
-            case "2":
-                profile.setWorkId("スピーディーに内定までを決めること");
-                break;
-            case "3":
-                profile.setWorkId("面接や書類審査の対策");
-                break;
-        }
-
-        profile.setPlaceId(nullcheck(profile.getPlaceId()));
-        switch (profile.getPlaceId()){
-            case "0":
-                profile.setPlaceId("首都圏");
-                break;
-            case "1":
-                profile.setPlaceId("北海道・東北");
-                break;
-            case "2":
-                profile.setPlaceId("北陸・甲信越");
-                break;
-            case "3":
-                profile.setPlaceId("東海・中部");
-                break;
-            case "4":
-                profile.setPlaceId("近畿");
-                break;
-            case "5":
-                profile.setPlaceId("中国・四国");
-                break;
-            case "6":
-                profile.setPlaceId("九州");
-                break;
-            case "7":
-                profile.setPlaceId("こだわらない");
-                break;
-        }
-
-        profile.setSkill(nullcheck(profile.getSkill()));
-
-        profile.setTermId(nullcheck(profile.getTermId()));
-        switch (profile.getTermId()){
-            case "0":
-                profile.setTermId("就業中");
-                break;
-            case "1":
-                profile.setTermId("1ヶ月以内");
-                break;
-            case "2":
-                profile.setTermId("3ヶ月以内");
-                break;
-            case "3":
-                profile.setTermId("6ヶ月以内");
-                break;
-            case "4":
-                profile.setTermId("1年以内");
-                break;
-            case "5":
-                profile.setTermId("1年以上");
-                break;
-        }
-
-        profile.setTimingId(nullcheck(profile.getTimingId()));
-        switch (profile.getTimingId()){
-            case "0":
-                profile.setTimingId("すぐにでも");
-                break;
-            case "1":
-                profile.setTimingId("3ヶ月以内");
-                break;
-            case "2":
-                profile.setTimingId("6ヶ月以内");
-                break;
-            case "3":
-                profile.setTimingId("1年以内");
-                break;
-            case "4":
-                profile.setTimingId("良い求人があれば");
-                break;
-            case "5":
-                profile.setTimingId("未定");
-                break;
-        }
-
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-
-        //mailMessage.setTo("user-info@careerup-camp.jp");
-        mailMessage.setTo("m.sekine@mybrainlab.net");
-        //mailMessage.setReplyTo("リプライのメールアドレス");
-        mailMessage.setFrom("noreply@careerup-camp.jp");
-        mailMessage.setSubject("【CAMP】新規マッチングのお知らせtest");
-        mailMessage.setText(ca.getCaName() + "様" + "\nお世話になっております。" + "CAMP運営事務局でございます。"
-                + "\nユーザーID：" + user_id + "様とマッチングしましたのでお知らせ致します。\n以下ユーザー情報"
-                + "\n\n#################################\n"
-                + "\nユーザーID：" + user_id + "\n姓：" + profile.getLastName() + "\n名：" + profile.getFirstName()
-                + "\nメール：" + profile.getCellphone() + "\n性別：" + profile.getGender() + "\n年齢：" + profile.getAge()
-                + "\n学歴：" + profile.getSchool() + "\n専攻：" + profile.getMajor() + "\n転職回数：" + profile.getTimes()
-                + "\n英語力：" + profile.getEnglish() + "\n転職期間：" + profile.getTermId() + "\n転職タイミング：" + profile.getTimingId()
-                + "\n資格：" + profile.getSkill() + "\n直近の企業名：" + profile.getPCompanyName() + "\n入社年度：" + profile.getJoinedYear()
-                + "\n希望企業名：" + profile.gethCompanyName()
-                + "\n希望業界：" + profile.getBigIndustry() + "\n>" + profile.getMiddleIndustry() + "\n>>" + profile.getSmallIndustry()
-                + "\n希望職種：" + profile.getBigCategory() + "\n>" + profile.getMiddleCategory() + "\n>>" + profile.getSmallCategory()
-                + "\n希望年収：" + profile.getIncome() + "\n希望勤務地：" + profile.getPlaceId() + "\n希望企業規模：" + profile.getScaleNumber()
-                + "\n希望企業タイプ：" + profile.getScaleTypeId() + "\n転職に求めるもの：" + profile.getWorkId()
-                + "\n#################################\n\n"
-                + "\nお問い合わせは下記までお願い致します。" + "\nCAMP事務局\ntel：03-0000-0000\nmail：@mybrainlab.net\n担当者："
-        );
-
-        javaMailSender.send(mailMessage);
-
-        return profile.getGender();
-    }
-
 
     // ca詳細
     @RequestMapping(value = "/{user_id}/ca/{ca_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -1085,7 +1097,7 @@ public class CampController extends AbstractRestHandler {
     }
 
     // 退会画面
-    @RequestMapping(value = "/{user_id}/leave", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{user_id}/leave", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public void leave(@PathVariable String user_id) throws Exception {
         // ユーザの退会

@@ -198,8 +198,8 @@ def code_change(df, int1):
 def print_match_pair():
     for i in range(len(match_pair)):
         print (match_pair[i], end='')
-        #print(',', end='')
-        #print (match_score[i], end='')
+        print(',', end='')
+        print (match_score[i], end='')
         if len(match_pair) > i + 1:
             print(',', end='')
 

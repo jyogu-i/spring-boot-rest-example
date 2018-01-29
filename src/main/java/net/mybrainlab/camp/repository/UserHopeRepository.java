@@ -3,10 +3,8 @@ package net.mybrainlab.camp.repository;
 
 import net.mybrainlab.camp.annotation.ConfigAutoDefault;
 import net.mybrainlab.camp.dao.entity.UserHope;
-import org.seasar.doma.Dao;
-import org.seasar.doma.Insert;
-import org.seasar.doma.Select;
-import org.seasar.doma.Update;
+import net.mybrainlab.camp.dao.entity.UserPrevious;
+import org.seasar.doma.*;
 
 import java.util.List;
 
@@ -30,4 +28,7 @@ public interface UserHopeRepository {
 
     @Update(sqlFile = true)
     int updateMyprofileUserHope(UserHope userhope);
+
+    @Delete(sqlFile = true)
+    int delete(UserHope userhope);
 }

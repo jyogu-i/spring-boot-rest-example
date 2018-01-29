@@ -31,6 +31,9 @@ public interface UserRepository {
     @Select
     User selectCheckMail(User user);
 
+    @Select
+    User selectCheckAccountDo(User user);
+
     @Insert(sqlFile = true)
     int insert(User user);
 
@@ -47,7 +50,10 @@ public interface UserRepository {
     int updateMyprofileUser(User user);
 
     @Update(sqlFile = true)
-    int updateAccount(User user);
+    int updateMailAccount(User user);
+
+    @Update(sqlFile = true)
+    int updateAllAccount(User user);
 
     @Update(sqlFile = true)
     int updateLeave(User user);

@@ -1,0 +1,1 @@
+DELETE FROM public."User_hope" WHERE user_id=/* userhope.getUserId() */'01';

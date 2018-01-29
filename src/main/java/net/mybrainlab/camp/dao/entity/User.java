@@ -75,6 +75,9 @@ public class User {
     @Column(name = "password")
     String password;
 
+    @Column(name = "old_password")
+    String old_password;
+
     @Column(name = "leave")
     int leave;
 
@@ -200,6 +203,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getOld_password() {
+        return old_password;
+    }
+
+    public void setOld_password(String old_password) {
+        this.old_password = old_password;
     }
 
     public int getLeave() {

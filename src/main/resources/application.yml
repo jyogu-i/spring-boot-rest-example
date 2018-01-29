@@ -5,6 +5,9 @@
 spring:
   jmx:
     enabled: false
+  datasource:
+    testOnBorrow: true
+    validationQuery: SELECT 1
 
   mail:
     default-encoding: UTF-8
@@ -41,10 +44,6 @@ service:
     username: brainlab_camp
     password: jCcwRsP1
     driverClassName: org.postgresql.Driver
-    tomcat:
-      test-on-borrow: true
-    dbcp:
-      validation-query: SELECT 1
 
 server:
   port: 8090
