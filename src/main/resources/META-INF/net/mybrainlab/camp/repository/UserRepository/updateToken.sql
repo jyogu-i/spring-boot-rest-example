@@ -1,0 +1,1 @@
+UPDATE public."User" SET token=/* user.getToken() */'aa' WHERE user_id=/* user.getUserId() */'U1';

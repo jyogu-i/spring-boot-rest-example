@@ -43,8 +43,6 @@ service:
     password: jCcwRsP1
     driverClassName: org.postgresql.Driver
 
-
-
 server:
   port: 80
 

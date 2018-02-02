@@ -55,8 +55,8 @@ public class App extends SpringBootServletInitializer {
         _dataSource.setMaxActive(5);
         _dataSource.setMaxIdle(1);
         _dataSource.setMaxWait(10000);
-        _dataSource.setTestOnBorrow(true);
-        _dataSource.setTestWhileIdle(true);
+        _dataSource.setTestOnBorrow(false);
+        _dataSource.setTestWhileIdle(false);
         return _dataSource;
     }
     @Bean PasswordEncoder passwordEncoder() {

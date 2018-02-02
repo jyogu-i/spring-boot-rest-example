@@ -84,6 +84,11 @@ public class User {
     @Column(name = "update")
     String update;
 
+    @Column(name = "mailcheck")
+    int mailcheck;
+
+    @Column(name = "token")
+    int token;
 
     public String getUserId() {
         return userId;
@@ -229,5 +234,20 @@ public class User {
         this.update = update;
     }
 
+    public int getMailcheck() {
+        return mailcheck;
+    }
+
+    public void setMailcheck(int mailcheck) {
+        this.mailcheck = mailcheck;
+    }
+
+    public int getToken() {
+        return token;
+    }
+
+    public void setToken(int token) {
+        this.token = token;
+    }
 
 }

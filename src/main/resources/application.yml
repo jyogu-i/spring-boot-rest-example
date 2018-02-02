@@ -5,9 +5,6 @@
 spring:
   jmx:
     enabled: false
-  datasource:
-    testOnBorrow: true
-    validationQuery: SELECT 1
 
   mail:
     default-encoding: UTF-8

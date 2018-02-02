@@ -34,6 +34,9 @@ public interface UserRepository {
     @Select
     User selectCheckAccountDo(User user);
 
+    @Select
+    User selectCheckToken(User user);
+
     @Insert(sqlFile = true)
     int insert(User user);
 
@@ -57,5 +60,11 @@ public interface UserRepository {
 
     @Update(sqlFile = true)
     int updateLeave(User user);
+
+    @Update(sqlFile = true)
+    int updateToken(User user);
+
+    @Update(sqlFile = true)
+    int updateMailCheck(User user);
 }
 

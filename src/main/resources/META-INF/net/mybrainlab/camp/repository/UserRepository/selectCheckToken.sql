@@ -1,0 +1,1 @@
+SELECT token FROM public."User" WHERE user_id=/* user.getUserId() */'aa';

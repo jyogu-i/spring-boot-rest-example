@@ -209,18 +209,24 @@ public class CampController extends AbstractRestHandler {
     @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public String login(@RequestBody String json) throws Exception{
+    public List login(@RequestBody String json) throws Exception{
         ObjectMapper mapper = new ObjectMapper();
         User mailpass = mapper.readValue(json, User.class);
-        User user_id = userRepository.selectMailPass(mailpass);
-        if(user_id==null){
-            return "error";
+        User user = userRepository.selectMailPass(mailpass);
+
+        List info = new ArrayList();
+        if(user==null){
+            info.add("error");
+            return info;
         }
-        else if (passwordEncoder.matches(mailpass.getPassword(), user_id.getPassword())){
-            return user_id.getUserId();
+        else if (passwordEncoder.matches(mailpass.getPassword(), user.getPassword())){
+            info.add(user.getUserId());
+            info.add(user.getMailcheck());
+            return info;
         }
         else{
-            return "error";
+            info.add("error");
+            return info;
         }
     }
 
@@ -441,7 +447,7 @@ public class CampController extends AbstractRestHandler {
 
     }
 
-    // オプション登録画面
+    // オプション登録画面f
     @RequestMapping(value = "/{user_id}/question/option", method = {RequestMethod.POST}, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -519,8 +525,30 @@ public class CampController extends AbstractRestHandler {
         // パスワードをハッシュ化
         signup.setPassword(passwordEncoder.encode(signup.getPassword()));
         User check = userRepository.selectCheckMail(signup);
+
         if(check==null){
             userRepository.insertAccount(signup);
+
+            // トークン発行
+            Random rnd = new Random();
+            int ran = rnd.nextInt(899999) + 100000;
+            signup.setToken(ran);
+
+            // トークンをDBへ登録
+            userRepository.updateToken(signup);
+
+            // ユーザにメール送信する
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+
+            mailMessage.setTo(signup.getCellphone());
+            mailMessage.setFrom("noreply@careerup-camp.jp");
+            mailMessage.setSubject("CAMPメールアドレス認証");
+            mailMessage.setText("この度はCAMPへのご登録ありがとうございます。\n" +
+                    "メール認証を行うため、以下の番号をアプリで入力してください。\n" +
+                    ran+ "\n\nお心当たりのない方は誠に恐れ入りますが、下記までご連絡ください。\n"+
+                    "株式会社ブレイン・ラボ　tel:03-6432-0874　CAMPアプリ担当");
+            javaMailSender.send(mailMessage);
+
             return "OK";
         }
         else{
@@ -581,7 +609,7 @@ public class CampController extends AbstractRestHandler {
             userhope.setScaleTypeId(trimSpace(myprofile.getScaleType()));
         }
         if (myprofile.getScaleNumber() != null) {
-            userhope.setScaleNumberId(trimSpace(myprofile.getScaleNumber()));
+            userhope.setScaleNumberId("6");
         }
         userhope.setJobCategoryId(trimSpace(myprofile.getH_job_category() + myprofile.getH_job_category_middle() + myprofile.getH_job_category_small()));
         //userhopeRepository.updateMyprofileUserHope(userhope);
@@ -683,17 +711,120 @@ public class CampController extends AbstractRestHandler {
                     // パスワードをハッシュ化
                     account.setPassword(passwordEncoder.encode(account.getPassword()));
                     userRepository.updateAllAccount(account);
+                    // トークン発行
+                    Random rnd = new Random();
+                    int ran = rnd.nextInt(899999) + 100000;
+                    account.setToken(ran);
+
+                    // トークンをDBへ登録
+                    userRepository.updateToken(account);
+
+                    // ユーザにメール送信する
+                    SimpleMailMessage mailMessage = new SimpleMailMessage();
+
+                    mailMessage.setTo(account.getCellphone());
+                    mailMessage.setFrom("noreply@careerup-camp.jp");
+                    mailMessage.setSubject("CAMPメールアドレス認証");
+                    mailMessage.setText("この度はCAMPへのご登録ありがとうございます。\n" +
+                            "メール認証を行うため、以下の番号をアプリで入力してください。\n" +
+                            ran+ "\n\nお心当たりのない方は誠に恐れ入りますが、下記までご連絡ください。\n"+
+                            "株式会社ブレイン・ラボ　tel:03-6432-0874　CAMPアプリ担当");
+                    javaMailSender.send(mailMessage);
+
+                    // flgを0に書き換える
+                    account.setMailcheck(0);
+                    userRepository.updateMailCheck(account);
+
                     return "アドレス・パスワードの更新が完了しました";
                 }
                 return "旧パスワードが正しくありません";
             } else {
                 // メアドのみ更新
                 userRepository.updateMailAccount(account);
+
+                // トークン発行
+                Random rnd = new Random();
+                int ran = rnd.nextInt(899999) + 100000;
+                account.setToken(ran);
+
+                // トークンをDBへ登録
+                userRepository.updateToken(account);
+
+                // ユーザにメール送信する
+                SimpleMailMessage mailMessage = new SimpleMailMessage();
+
+                mailMessage.setTo(account.getCellphone());
+                mailMessage.setFrom("noreply@careerup-camp.jp");
+                mailMessage.setSubject("CAMPメールアドレス認証");
+                mailMessage.setText("この度はCAMPへのご登録ありがとうございます。\n" +
+                        "メール認証を行うため、以下の番号をアプリで入力してください。\n" +
+                        ran+ "\n\nお心当たりのない方は誠に恐れ入りますが、下記までご連絡ください。\n"+
+                        "株式会社ブレイン・ラボ　tel:03-6432-0874　CAMPアプリ担当");
+                javaMailSender.send(mailMessage);
+
+                // flgを0に書き換える
+                account.setMailcheck(0);
+                userRepository.updateMailCheck(account);
+
                 return "アドレス更新が完了しました";
             }
         }
     }
 
+    // 再メール認証-トークン発行&メール送信
+    @RequestMapping(value = "/{user_id}/mailauth", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public void mailauth(@PathVariable String user_id) throws IOException {
+        User user = new User();
+        user.setUserId(user_id);
+        User account = userRepository.selectAccount(user);
+
+        // トークン発行
+        Random rnd = new Random();
+        int ran = rnd.nextInt(899999) + 100000;
+        account.setToken(ran);
+
+        // トークンをDBへ登録
+        userRepository.updateToken(account);
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+
+        mailMessage.setTo(account.getCellphone());
+        mailMessage.setFrom("noreply@careerup-camp.jp");
+        mailMessage.setSubject("CAMPメールアドレス認証");
+        mailMessage.setText("この度はCAMPへのご登録ありがとうございます。\n" +
+                "メール認証を行うため、以下の番号をアプリで入力してください。\n" +
+                ran + "\n\nお心当たりのない方は誠に恐れ入りますが、下記までご連絡ください。\n"+
+                "株式会社ブレイン・ラボ　tel:03-6432-0874　CAMPアプリ担当");
+
+        javaMailSender.send(mailMessage);
+    }
+
+    // メール認証-トークンチェック
+    @RequestMapping(value = "/{user_id}/tokencheck", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public String tokencheck(@RequestBody String json, @PathVariable String user_id) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        User signup = mapper.readValue(json, User.class);
+        signup.setUserId(user_id);
+
+        // 入力されたトークンが発行したmailものと一致しているかチェック
+        User token = userRepository.selectCheckToken(signup);
+
+        // 一致して入ればmailcheckフラグを更新し、OKを返す
+        if(token.getToken() == signup.getToken()){
+            // フラグ更新
+            signup.setMailcheck(1);
+            userRepository.updateMailCheck(signup);
+            return "OK";
+        }
+        // 一致していないのでerrorを返す
+        else{
+            return "error";
+        }
+    }
 
     // お問い合わせメール
     @RequestMapping(value = "/{user_id}/contact", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -715,18 +846,6 @@ public class CampController extends AbstractRestHandler {
         javaMailSender.send(mailMessage);
 
         return "お問い合わせが完了しました。\n事務局からの返信をお待ちくださいませ。";
-    }
-
-    // campへのご要望画面
-    @RequestMapping(value = "/{user_id}/camp_request", method = {RequestMethod.POST}, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public void camp_request(@RequestBody String json, @PathVariable String user_id) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        Request request = mapper.readValue(json, Request.class);
-        request.setRequesterId(user_id);
-        request.setRequestMessage(request.getRequestMessage());
-        requestRepository.insert(request);
     }
 
     // ユーザからの評価画面
@@ -966,7 +1085,7 @@ public class CampController extends AbstractRestHandler {
                     + "\nお問い合わせは下記までお願い致します。" + "\nCAMP事務局\ntel：03-0000-0000\nmail：@mybrainlab.net\n担当者："
             );
 
-            javaMailSender.send(mailMessage);
+            //javaMailSender.send(mailMessage);
         }
     }
 
