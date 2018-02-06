@@ -14,15 +14,11 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-
-
-
 //設定ファイル
 @Configuration
 @EnableSwagger2
 @ComponentScan("com.khoubyari.example.api.rest")
 public class SwaggerConfig {
-
 
     // API一覧を作る対象を設定するpathsを設定
     @Bean

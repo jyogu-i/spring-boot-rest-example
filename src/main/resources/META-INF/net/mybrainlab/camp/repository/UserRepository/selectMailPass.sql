@@ -1,1 +1,1 @@
-SELECT user_id,password,mailcheck FROM public."User" WHERE cellphone=/* user.getCellphone() */'mail@mail.com' and leave=0;
+SELECT user_id,password,mailcheck FROM public."User" WHERE mail=/* user.getMail() */'mail@mail.com' and leave=0;

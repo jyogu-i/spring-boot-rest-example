@@ -433,9 +433,9 @@ public class CampController extends AbstractRestHandler {
         user.setAcademicId("なし");
         if(basic.getPassword()==null){
             user.setPassword("");
-            user.setCellphone("");
+            user.setMail("");
         }else {
-            user.setCellphone(basic.getCellphone());
+            user.setMail(basic.getCellphone());
             user.setPassword(passwordEncoder.encode(basic.getPassword()));
         }
         userRepository.insertBasicUser(user);
@@ -502,9 +502,9 @@ public class CampController extends AbstractRestHandler {
         user.setAcademicId("なし");
         if(option.getPassword()==null){
             user.setPassword("");
-            user.setCellphone("");
+            user.setMail("");
         } else {
-            user.setCellphone(option.getCellphone());
+            user.setMail(option.getCellphone());
             user.setPassword(passwordEncoder.encode(option.getPassword()));
         }
         userRepository.insertOptionUser(user);
@@ -527,20 +527,18 @@ public class CampController extends AbstractRestHandler {
         User check = userRepository.selectCheckMail(signup);
 
         if(check==null){
-            userRepository.insertAccount(signup);
-
             // トークン発行
             Random rnd = new Random();
             int ran = rnd.nextInt(899999) + 100000;
             signup.setToken(ran);
 
-            // トークンをDBへ登録
-            userRepository.updateToken(signup);
+            // パスワード・トークン・メアド・ユーザIDをまとめてDBへ登録
+            userRepository.insertAccount(signup);
 
             // ユーザにメール送信する
             SimpleMailMessage mailMessage = new SimpleMailMessage();
 
-            mailMessage.setTo(signup.getCellphone());
+            mailMessage.setTo(signup.getMail());
             mailMessage.setFrom("noreply@careerup-camp.jp");
             mailMessage.setSubject("CAMPメールアドレス認証");
             mailMessage.setText("この度はCAMPへのご登録ありがとうございます。\n" +
@@ -649,8 +647,8 @@ public class CampController extends AbstractRestHandler {
         } else {
             user.setSkill(myprofile.getSkill());
         }
-        user.setLastName(myprofile.getLastName());
-        user.setFirstName(myprofile.getFirstName());
+        user.setName(myprofile.getName());
+        user.setYomigana(myprofile.getYomigana());
         userRepository.updateMyprofileUser(user);
 
         python(user_id,userhope.getIndustryId(),userhope.getJobCategoryId(),userhope.getCompanyName());
@@ -722,7 +720,7 @@ public class CampController extends AbstractRestHandler {
                     // ユーザにメール送信する
                     SimpleMailMessage mailMessage = new SimpleMailMessage();
 
-                    mailMessage.setTo(account.getCellphone());
+                    mailMessage.setTo(account.getMail());
                     mailMessage.setFrom("noreply@careerup-camp.jp");
                     mailMessage.setSubject("CAMPメールアドレス認証");
                     mailMessage.setText("この度はCAMPへのご登録ありがとうございます。\n" +
@@ -753,7 +751,7 @@ public class CampController extends AbstractRestHandler {
                 // ユーザにメール送信する
                 SimpleMailMessage mailMessage = new SimpleMailMessage();
 
-                mailMessage.setTo(account.getCellphone());
+                mailMessage.setTo(account.getMail());
                 mailMessage.setFrom("noreply@careerup-camp.jp");
                 mailMessage.setSubject("CAMPメールアドレス認証");
                 mailMessage.setText("この度はCAMPへのご登録ありがとうございます。\n" +
@@ -790,7 +788,7 @@ public class CampController extends AbstractRestHandler {
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
 
-        mailMessage.setTo(account.getCellphone());
+        mailMessage.setTo(account.getMail());
         mailMessage.setFrom("noreply@careerup-camp.jp");
         mailMessage.setSubject("CAMPメールアドレス認証");
         mailMessage.setText("この度はCAMPへのご登録ありがとうございます。\n" +
@@ -951,8 +949,8 @@ public class CampController extends AbstractRestHandler {
                     break;
             }
 
-            profile.setFirstName(nullcheck(profile.getFirstName()));
-            profile.setLastName(nullcheck(profile.getLastName()));
+            profile.setName(nullcheck(profile.getName()));
+            profile.setYomigana(nullcheck(profile.getYomigana()));
             profile.sethCompanyName(nullcheck(profile.gethCompanyName()));
 
             profile.setScaleTypeId(nullcheck(profile.getScaleTypeId()));
@@ -1071,8 +1069,8 @@ public class CampController extends AbstractRestHandler {
             mailMessage.setText(ca.getCaName() + "様" + "\nお世話になっております。" + "CAMP運営事務局でございます。"
                     + "\nユーザーID：" + user_id + "様とマッチングしましたのでお知らせ致します。\n以下ユーザー情報"
                     + "\n\n#################################\n"
-                    + "\nユーザーID：" + user_id + "\n姓：" + profile.getLastName() + "\n名：" + profile.getFirstName()
-                    + "\nメール：" + profile.getCellphone() + "\n性別：" + profile.getGender() + "\n年齢：" + profile.getAge()
+                    + "\nユーザーID：" + user_id + "\n名前：" + profile.getName() + "\n読み仮名：" + profile.getYomigana()
+                    + "\nメール：" + profile.getMail() + "\n性別：" + profile.getGender() + "\n年齢：" + profile.getAge()
                     + "\n学歴：" + profile.getSchool() + "\n専攻：" + profile.getMajor() + "\n転職回数：" + profile.getTimes()
                     + "\n英語力：" + profile.getEnglish() + "\n転職期間：" + profile.getTermId() + "\n転職タイミング：" + profile.getTimingId()
                     + "\n資格：" + profile.getSkill() + "\n直近の企業名：" + profile.getPCompanyName() + "\n入社年度：" + profile.getJoinedYear()

@@ -9,6 +9,6 @@ UPDATE public."User" SET
 	term_id=/* user.getTermId() */'1',
 	skill=/* user.getSkill() */'hge',
 	timing_id=/* user.getTimingId() */'1',
-	last_name=/* user.getLastName() */'sekine',
-    first_name=/* user.getFirstName() */'sekine'
+	name=/* user.getName() */'sekine',
+    yomigana=/* user.getYomigana() */'sekine'
     WHERE user_id=/* user.getUserId() */'U1';

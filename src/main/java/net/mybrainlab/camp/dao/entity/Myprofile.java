@@ -24,9 +24,9 @@ public class Myprofile implements Serializable{
 
     String englishId;
 
-    String lastName;
+    String name;
 
-    String firstName;
+    String yomigana;
 
     String h_industry;
 
@@ -214,20 +214,20 @@ public class Myprofile implements Serializable{
         this.englishId = englishId;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getName() {
+        return name;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getYomigana() {
+        return yomigana;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setYomigana(String yomigana) {
+        this.yomigana = yomigana;
     }
 
     public String getMail() {

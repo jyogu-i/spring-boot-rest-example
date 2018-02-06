@@ -1,1 +1,1 @@
-SELECT password,cellphone,user_id FROM public."User" WHERE user_id=/* user.getUserId() */'U1';
+SELECT password,mail,user_id FROM public."User" WHERE user_id=/* user.getUserId() */'U1';

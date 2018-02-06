@@ -1,4 +1,4 @@
-select public."User".user_id,gender,age,school,major,times,english,term_id,skill,timing_id,last_name,first_name,cellphone
+select public."User".user_id,gender,age,school,major,times,english,term_id,skill,timing_id,yomigana,name,mail
 ,update,h_company_name,place_id,scale_number,scale_type_id,work_id,big_industry,middle_industry,small_industry,
 big_category,middle_category,small_category,income,p_company_name,joined_year
 from public."User"

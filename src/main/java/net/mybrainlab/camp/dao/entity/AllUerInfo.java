@@ -55,16 +55,16 @@ public class AllUerInfo implements Serializable{
     String timingId;
 
     /** */
-    @Column(name = "last_name")
-    String lastName;
+    @Column(name = "name")
+    String name;
 
     /** */
-    @Column(name = "first_name")
-    String firstName;
+    @Column(name = "yomigana")
+    String yomigana;
 
     /** */
-    @Column(name = "cellphone")
-    String cellphone;
+    @Column(name = "mail")
+    String mail;
 
     @Column(name = "update")
     String update;
@@ -341,28 +341,28 @@ public class AllUerInfo implements Serializable{
         this.timingId = timingId;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getName() {
+        return name;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getYomigana() {
+        return yomigana;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setYomigana(String yomigana) {
+        this.yomigana = yomigana;
     }
 
-    public String getCellphone() {
-        return cellphone;
+    public String getMail() {
+        return mail;
     }
 
-    public void setCellphone(String cellphone) {
-        this.cellphone = cellphone;
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
     public String getUpdate() {
