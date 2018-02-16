@@ -1,6 +1,5 @@
 package net.mybrainlab.camp.repository;
 
-
 import net.mybrainlab.camp.annotation.ConfigAutoDefault;
 import net.mybrainlab.camp.dao.entity.UserHope;
 import net.mybrainlab.camp.dao.entity.UserPrevious;

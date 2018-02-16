@@ -5,7 +5,7 @@ import org.seasar.doma.*;
 /**
  */
 @Entity
-@Table(name = "Chat2")
+@Table(name = "Chat")
 public class Chat {
 
     /** */

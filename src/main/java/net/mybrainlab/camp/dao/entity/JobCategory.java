@@ -39,29 +39,14 @@ public class JobCategory {
     @Column(name = "small_category_id")
     String smallCategoryId;
 
-    /** 
-     * Returns the jobCategoryId.
-     * 
-     * @return the jobCategoryId
-     */
     public String getJobCategoryId() {
         return jobCategoryId;
     }
 
-    /** 
-     * Sets the jobCategoryId.
-     * 
-     * @param jobCategoryId the jobCategoryId
-     */
     public void setJobCategoryId(String jobCategoryId) {
         this.jobCategoryId = jobCategoryId;
     }
 
-    /** 
-     * Returns the bigCategory.
-     * 
-     * @return the bigCategory
-     */
     public String getBigCategory() {
         return bigCategory;
     }

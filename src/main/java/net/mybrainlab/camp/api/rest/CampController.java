@@ -230,25 +230,6 @@ public class CampController extends AbstractRestHandler {
         }
     }
 
-    // テスト
-    @RequestMapping(value = "/test", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public String test() throws Exception{
-        String json="{\"cellphone\":\"abcdefg@aaa.lom\",\"password\":\"12345678\"}";
-        ObjectMapper mapper = new ObjectMapper();
-        User mailpass = mapper.readValue(json, User.class);
-        User user_id = userRepository.selectMailPass(mailpass);
-        if(user_id==null){
-            return "";
-        }
-        else if (passwordEncoder.matches(mailpass.getPassword(), user_id.getPassword())){
-            return user_id.getUserId();
-        }
-        else{
-            return "";
-        }
-    }
-
     // 必要か分からないけど作成。 CAのマッチング状況をみる
     @RequestMapping(value = "/{ca_id}/match", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -345,8 +326,8 @@ public class CampController extends AbstractRestHandler {
     public void python(String user_id, String industry,String job_category,String company) throws IOException {
         Chat chat = new Chat();
         chat.setUserId(user_id);
-        String[] cmd = {"/usr/bin/python3", "/opt/SyncQueue/match.py", industry, job_category, company};
-        //String[] cmd = {"/Users/sekipon/anaconda3/bin/python3", "docker/camp/match.py", industry, job_category, company};
+        //String[] cmd = {"/usr/bin/python3", "/opt/SyncQueue/match.py", industry, job_category, company};
+        String[] cmd = {"/Users/sekipon/anaconda3/bin/python3", "docker/camp/match.py", industry, job_category, company};
 
         ProcessBuilder pb = new ProcessBuilder(cmd);
         Process proc = pb.start();
@@ -447,7 +428,7 @@ public class CampController extends AbstractRestHandler {
 
     }
 
-    // オプション登録画面f
+    // オプション登録画面
     @RequestMapping(value = "/{user_id}/question/option", method = {RequestMethod.POST}, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -586,6 +567,8 @@ public class CampController extends AbstractRestHandler {
         ObjectMapper mapper = new ObjectMapper();
         Myprofile myprofile = mapper.readValue(json, Myprofile.class);
 
+        System.out.println("scalenumberは" + myprofile.getScaleNumber());
+
         UserHope userhope = new UserHope();
         userhope.setUserId(user_id);
         userhope.setIndustryId(trimSpace(myprofile.getH_industry() + myprofile.getH_industry_middle() + myprofile.getH_industry_small()));
@@ -607,6 +590,8 @@ public class CampController extends AbstractRestHandler {
             userhope.setScaleTypeId(trimSpace(myprofile.getScaleType()));
         }
         if (myprofile.getScaleNumber() != null) {
+            userhope.setScaleNumberId(myprofile.getScaleNumber());
+        }else{
             userhope.setScaleNumberId("6");
         }
         userhope.setJobCategoryId(trimSpace(myprofile.getH_job_category() + myprofile.getH_job_category_middle() + myprofile.getH_job_category_small()));
@@ -906,13 +891,12 @@ public class CampController extends AbstractRestHandler {
     @RequestMapping(value = "/{user_id}/ca/{ca_id}/favo", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public void favo_post(@RequestBody String json,@PathVariable String user_id,@PathVariable String ca_id) throws Exception {
+    public void favo_post(@RequestBody String json, @PathVariable String user_id,@PathVariable String ca_id) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         Chat chat = mapper.readValue(json, Chat.class);
 
         chat.setUserId(user_id);
         chat.setCaId(ca_id);
-        chat.setFavo(chat.getFavo());
 
         chatRepository.updateFavo(chat);
 
@@ -1066,11 +1050,10 @@ public class CampController extends AbstractRestHandler {
             //mailMessage.setReplyTo("リプライのメールアドレス");
             mailMessage.setFrom("noreply@careerup-camp.jp");
             mailMessage.setSubject("【CAMP】新規マッチングのお知らせtest");
-            mailMessage.setText(ca.getCaName() + "様" + "\nお世話になっております。" + "CAMP運営事務局でございます。"
+            mailMessage.setText(ca.getCaName() + "様" + "\nお世話になっております。" + "CONNECT運営事務局でございます。"
                     + "\nユーザーID：" + user_id + "様とマッチングしましたのでお知らせ致します。\n以下ユーザー情報"
                     + "\n\n#################################\n"
-                    + "\nユーザーID：" + user_id + "\n名前：" + profile.getName() + "\n読み仮名：" + profile.getYomigana()
-                    + "\nメール：" + profile.getMail() + "\n性別：" + profile.getGender() + "\n年齢：" + profile.getAge()
+                    + "\nユーザーID：" + user_id + "\n性別：" + profile.getGender() + "\n年齢：" + profile.getAge()
                     + "\n学歴：" + profile.getSchool() + "\n専攻：" + profile.getMajor() + "\n転職回数：" + profile.getTimes()
                     + "\n英語力：" + profile.getEnglish() + "\n転職期間：" + profile.getTermId() + "\n転職タイミング：" + profile.getTimingId()
                     + "\n資格：" + profile.getSkill() + "\n直近の企業名：" + profile.getPCompanyName() + "\n入社年度：" + profile.getJoinedYear()
@@ -1080,10 +1063,10 @@ public class CampController extends AbstractRestHandler {
                     + "\n希望年収：" + profile.getIncome() + "\n希望勤務地：" + profile.getPlaceId() + "\n希望企業規模：" + profile.getScaleNumber()
                     + "\n希望企業タイプ：" + profile.getScaleTypeId() + "\n転職に求めるもの：" + profile.getWorkId()
                     + "\n#################################\n\n"
-                    + "\nお問い合わせは下記までお願い致します。" + "\nCAMP事務局\ntel：03-0000-0000\nmail：@mybrainlab.net\n担当者："
+                    + "\nお問い合わせは下記までお願い致します。" + "\nCONNECT事務局\ntel：03-0000-0000\nmail：@mybrainlab.net\n担当者："
             );
 
-            //javaMailSender.send(mailMessage);
+            javaMailSender.send(mailMessage);
         }
     }
 
