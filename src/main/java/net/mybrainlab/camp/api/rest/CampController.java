@@ -130,9 +130,9 @@ public class CampController extends AbstractRestHandler {
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    CampController(JavaMailSender javaMailSender,PasswordEncoder passwordEncoder) {
+    CampController(JavaMailSender javaMailSender, PasswordEncoder passwordEncoder) {
         this.javaMailSender = javaMailSender;
-        this.passwordEncoder=passwordEncoder;
+        this.passwordEncoder = passwordEncoder;
     }
 
     // welcome画面
@@ -209,125 +209,204 @@ public class CampController extends AbstractRestHandler {
     @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List login(@RequestBody String json) throws Exception{
+    public List login(@RequestBody String json) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         User mailpass = mapper.readValue(json, User.class);
         User user = userRepository.selectMailPass(mailpass);
 
         List info = new ArrayList();
-        if(user==null){
+        if (user == null) {
             info.add("error");
             return info;
-        }
-        else if (passwordEncoder.matches(mailpass.getPassword(), user.getPassword())){
+        } else if (passwordEncoder.matches(mailpass.getPassword(), user.getPassword())) {
             info.add(user.getUserId());
             info.add(user.getMailcheck());
             return info;
-        }
-        else{
+        } else {
             info.add("error");
             return info;
         }
     }
 
-    // 必要か分からないけど作成。 CAのマッチング状況をみる
-    @RequestMapping(value = "/{ca_id}/match", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public List ca_match(@PathVariable String ca_id) throws Exception {
-        //承認したときのflgを2に変える
-        Chat chat = new Chat();
-        chat.setCaId(ca_id);
+    // ユーザとマッチング→CAにメールを送信
+    public void maching_mail(Chat chat) throws Exception {
+        Ca ca = caRepository.selectDetail(chat);
+        AllUerInfo profile = userRepository.selectMyprofile(chat);
 
-        return chatRepository.selectMatch(chat);
-    }
-
-    // 必要か分からないけど作成。 CAが承認した場合のflg書き換え chatテーブルのflgを2に
-    @RequestMapping(value = "/{ca_id}/{user_id}/permission", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public void permission(@PathVariable String ca_id, @PathVariable String user_id) throws Exception {
-        //承認したときのflgを2に変える
-        Chat chat = new Chat();
-        chat.setCaId(ca_id);
-        chat.setUserId(user_id);
-
-        chatRepository.updatePermission(chat);
-
-    }
-
-    // 必要か分からないけど作成・ CAが拒否した場合のflg書き換え chatテーブルのflgを0に
-    @RequestMapping(value = "/{ca_id}/{user_id}/denial", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public void denial(@PathVariable String ca_id, @PathVariable String user_id) throws Exception {
-        //拒否したときのflgを0に変える
-        Chat chat = new Chat();
-        chat.setCaId(ca_id);
-        chat.setUserId(user_id);
-
-        chatRepository.updateDenial(chat);
-    }
-
-    // 必要か分からないけど作成・ 通知のオンオフを渡す
-    @RequestMapping(value = "/{user_id}/notification", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public String notification() throws Exception {
-        //通知のオンオフを受け取る
-        return "{\"agent\":0,\"notice\":1,\"chat\":1}";
-    }
-
-    // 必要か分からないけど作成・ 通知のオンオフを受け取る
-    @RequestMapping(value = "/{user_id}/notification", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public void notification(@PathVariable String user_id, @RequestBody String json) throws Exception {
-        //通知のオンオフを受け取る
-        ObjectMapper mapper = new ObjectMapper();
-        Notification notification = mapper.readValue(json, Notification.class);
-
-    }
-
-    // 必要ないけど作れちゃったのさ・画像のアップロード
-//    @RequestMapping(value = "/s3/upload", method = RequestMethod.PUT)
-//    public void put(InputStream req) throws Exception {
-//        WritableResource resource = getResource();
-//        try (OutputStream out = resource.getOutputStream()) {
-//            copy(req, out);
-//        }
-//    }
-
-    //    // 必要ないけど作れちゃったのさ・画像の読み込み
-//    @RequestMapping(value = "/s3/read", method = RequestMethod.GET)
-//    public void get(@PathVariable String ca_id,OutputStream res) throws Exception {
-//        Ca ca =new Ca();
-//        ca.setCaId(ca_id);
-//        Ca img=caRepository.selectDetail(ca);
-//        System.err.println(img.getCaImg());
-//        Resource resource = getResource();
-//        try (InputStream in = resource.getInputStream()) {
-//            copy(in, res);
-//        }
-//    }
-    // 上2つのメソッドを実行するための命令たち・きっと消される運命
-    private WritableResource getResource() {
-        return (WritableResource)
-                resourceLoader.getResource("s3://careerup-camp.jp/CA_img/");
-    }
-    private void copy(InputStream in, OutputStream out) throws IOException {
-        byte[] buff = new byte[1024];
-        for (int len = in.read(buff); len > 0; len = in.read(buff)) {
-            out.write(buff, 0, len);
+        profile.setIncome(nullcheck(profile.getIncome()));
+        System.out.println("年収" + profile.getIncome());
+        switch (profile.getIncome()) {
+            case "0":
+                profile.setIncome("300万以上〜");
+                break;
+            case "1":
+                profile.setIncome("400万以上〜");
+                break;
+            case "2":
+                profile.setIncome("500万以上〜");
+                break;
+            case "3":
+                profile.setIncome("600万以上〜");
+                break;
+            case "4":
+                profile.setIncome("700万以上〜");
+                break;
+            case "5":
+                profile.setIncome("800万以上〜");
+                break;
+            case "6":
+                profile.setIncome("900万以上〜");
+                break;
+            case "7":
+                profile.setIncome("1000万以上〜");
+                break;
         }
+
+        profile.setName(nullcheck(profile.getName()));
+        profile.setYomigana(nullcheck(profile.getYomigana()));
+        profile.sethCompanyName(nullcheck(profile.gethCompanyName()));
+
+        profile.setScaleTypeId(nullcheck(profile.getScaleTypeId()));
+        switch (profile.getScaleTypeId()) {
+            case "0":
+                profile.setScaleTypeId("スタートアップ");
+                break;
+            case "1":
+                profile.setScaleTypeId("ベンチャー");
+                break;
+            case "2":
+                profile.setScaleTypeId("大手");
+                break;
+            case "3":
+                profile.setScaleTypeId("こだわらない");
+                break;
+        }
+
+        profile.setWorkId(nullcheck(profile.getWorkId()));
+        switch (profile.getWorkId()) {
+            case "0":
+                profile.setWorkId("キャリアアップができる職場選び");
+                break;
+            case "1":
+                profile.setWorkId("様々な求人・企業から自分に合う環境を見つけること");
+                break;
+            case "2":
+                profile.setWorkId("スピーディーに内定までを決めること");
+                break;
+            case "3":
+                profile.setWorkId("面接や書類審査の対策");
+                break;
+        }
+
+        profile.setPlaceId(nullcheck(profile.getPlaceId()));
+        switch (profile.getPlaceId()) {
+            case "0":
+                profile.setPlaceId("首都圏");
+                break;
+            case "1":
+                profile.setPlaceId("北海道・東北");
+                break;
+            case "2":
+                profile.setPlaceId("北陸・甲信越");
+                break;
+            case "3":
+                profile.setPlaceId("東海・中部");
+                break;
+            case "4":
+                profile.setPlaceId("近畿");
+                break;
+            case "5":
+                profile.setPlaceId("中国・四国");
+                break;
+            case "6":
+                profile.setPlaceId("九州");
+                break;
+            case "7":
+                profile.setPlaceId("こだわらない");
+                break;
+        }
+
+        profile.setSkill(nullcheck(profile.getSkill()));
+
+        profile.setTermId(nullcheck(profile.getTermId()));
+        switch (profile.getTermId()) {
+            case "0":
+                profile.setTermId("就業中");
+                break;
+            case "1":
+                profile.setTermId("1ヶ月以内");
+                break;
+            case "2":
+                profile.setTermId("3ヶ月以内");
+                break;
+            case "3":
+                profile.setTermId("6ヶ月以内");
+                break;
+            case "4":
+                profile.setTermId("1年以内");
+                break;
+            case "5":
+                profile.setTermId("1年以上");
+                break;
+        }
+
+        profile.setTimingId(nullcheck(profile.getTimingId()));
+        switch (profile.getTimingId()) {
+            case "0":
+                profile.setTimingId("すぐにでも");
+                break;
+            case "1":
+                profile.setTimingId("3ヶ月以内");
+                break;
+            case "2":
+                profile.setTimingId("6ヶ月以内");
+                break;
+            case "3":
+                profile.setTimingId("1年以内");
+                break;
+            case "4":
+                profile.setTimingId("良い求人があれば");
+                break;
+            case "5":
+                profile.setTimingId("未定");
+                break;
+        }
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+
+        // 下のコメント外すと本当にCAにメール送られます
+        //mailMessage.setTo(ca.getCaMail());
+        System.out.println("送ったCAのメール" + ca.getCaMail());
+        mailMessage.setTo("maysekine@pasonacareer.biz");
+        //mailMessage.setReplyTo("リプライのメールアドレス");
+        mailMessage.setFrom("noreply@careerup-camp.jp");
+        mailMessage.setSubject("【CONNECT】求職者のリコメンド");
+        mailMessage.setText(ca.getCaName() + "様" + "\nお世話になっております。" + "CONNECT運営事務局でございます。"
+                + "\nユーザーID：" + chat.getUserId() + "様をリコメンド致します。\n以下ユーザー情報"
+                + "\n\n#################################\n"
+                + "\nユーザーID：" + chat.getUserId() + "\n性別：" + profile.getGender() + "\n年齢：" + profile.getAge()
+                + "\n学歴：" + profile.getSchool() + "\n専攻：" + profile.getMajor() + "\n転職回数：" + profile.getTimes()
+                + "\n英語力：" + profile.getEnglish() + "\n転職期間：" + profile.getTermId() + "\n転職タイミング：" + profile.getTimingId()
+                + "\n資格：" + profile.getSkill() + "\n直近の企業名：" + profile.getPCompanyName() + "\n入社年度：" + profile.getJoinedYear()
+                + "\n希望企業名：" + profile.gethCompanyName()
+                + "\n希望業界：" + profile.getBigIndustry() + "\n>" + profile.getMiddleIndustry() + "\n>>" + profile.getSmallIndustry()
+                + "\n希望職種：" + profile.getBigCategory() + "\n>" + profile.getMiddleCategory() + "\n>>" + profile.getSmallCategory()
+                + "\n希望年収：" + profile.getIncome() + "\n希望勤務地：" + profile.getPlaceId() + "\n希望企業規模：" + profile.getScaleNumber()
+                + "\n希望企業タイプ：" + profile.getScaleTypeId() + "\n転職に求めるもの：" + profile.getWorkId()
+                + "\n#################################\n\n"
+                + "\nお問い合わせは下記までお願い致します。" + "\nCONNECT事務局\ntel：03-6432-0874\nmail：agent-info@career-connect.jp\n担当者：山下・秋元"
+        );
+
+        javaMailSender.send(mailMessage);
     }
 
 
-    public void python(String user_id, String industry,String job_category,String company) throws IOException {
+    public void python(String user_id, String industry, String job_category, String company) throws IOException {
         Chat chat = new Chat();
         chat.setUserId(user_id);
-        //String[] cmd = {"/usr/bin/python3", "/opt/SyncQueue/match.py", industry, job_category, company};
-        String[] cmd = {"/Users/sekipon/anaconda3/bin/python3", "docker/camp/match.py", industry, job_category, company};
+        //上は本番環境でやるとき、下はローカルでやるとき
+        String[] cmd = {"/usr/bin/python3", "/opt/SyncQueue/match.py", industry, job_category, company};
+        //String[] cmd = {"/Users/sekipon/anaconda3/bin/python3", "docker/camp/match.py", industry, job_category, company};
 
         ProcessBuilder pb = new ProcessBuilder(cmd);
         Process proc = pb.start();
@@ -347,22 +426,27 @@ public class CampController extends AbstractRestHandler {
             // 配列を分解
             String[] fruit = str.split(",", 0);
             System.err.println(str);
-            for(int i = 0; i < fruit.length; i = i + 2){
+            for (int i = 0; i < fruit.length; i = i + 2) {
                 chat.setCaId(fruit[i]);
                 chat.setScore(Integer.parseInt(fruit[i + 1]));
-                System.out.println("id=="+chat.getCaId());
-                System.out.println("score=="+chat.getScore());
+                System.out.println("id==" + chat.getCaId());
+                System.out.println("score==" + chat.getScore());
                 chatRepository.insert(chat);
+
+                try {
+                    maching_mail(chat);
+                } catch (Exception e) {
+                    System.out.print("メール送信できませんでした");
+                }
             }
         }
         brstd.close();
 
-
     }
 
     public String nullcheck(String str) throws Exception {
-        if(str==null){
-            str="未入力";
+        if (str == null) {
+            str = "未入力";
         }
         return str;
     }
@@ -412,10 +496,10 @@ public class CampController extends AbstractRestHandler {
         user.setSchool(trimSpace(basic.getSchool()));
         user.setTimesId(trimSpace(basic.getTimesId().trim()));
         user.setAcademicId("なし");
-        if(basic.getPassword()==null){
+        if (basic.getPassword() == null) {
             user.setPassword("");
             user.setMail("");
-        }else {
+        } else {
             user.setMail(basic.getCellphone());
             user.setPassword(passwordEncoder.encode(basic.getPassword()));
         }
@@ -424,7 +508,7 @@ public class CampController extends AbstractRestHandler {
         System.err.println("AIシステム＝" + user_id + "," + userhope.getIndustryId() + ","
                 + userhope.getJobCategoryId());
         //AIシステムへ
-        python(user_id,userhope.getIndustryId(),userhope.getJobCategoryId(),"");
+        python(user_id, userhope.getIndustryId(), userhope.getJobCategoryId(), "");
 
     }
 
@@ -452,7 +536,7 @@ public class CampController extends AbstractRestHandler {
         UserHope userhope = new UserHope();
         userhope.setUserId(user_id);
         userhope.setPlaceId(trimSpace(option.getPlace()));
-        if(option.getH_company_name()==null){
+        if (option.getH_company_name() == null) {
             userhope.setCompanyName("");
         } else {
             userhope.setCompanyName(trimSpace(option.getH_company_name()));
@@ -467,7 +551,7 @@ public class CampController extends AbstractRestHandler {
 
         User user = new User();
         user.setUserId(user_id);
-        if(option.getSkill()==null){
+        if (option.getSkill() == null) {
             user.setSkill("");
         } else {
             user.setSkill(option.getSkill());
@@ -481,7 +565,7 @@ public class CampController extends AbstractRestHandler {
         user.setSchool(trimSpace(option.getSchool()));
         user.setTimesId(trimSpace(option.getTimesId().trim()));
         user.setAcademicId("なし");
-        if(option.getPassword()==null){
+        if (option.getPassword() == null) {
             user.setPassword("");
             user.setMail("");
         } else {
@@ -491,7 +575,7 @@ public class CampController extends AbstractRestHandler {
         userRepository.insertOptionUser(user);
 
         //　AIシステムへ
-        python(user_id,userhope.getIndustryId(),userhope.getJobCategoryId(),userhope.getCompanyName());
+        python(user_id, userhope.getIndustryId(), userhope.getJobCategoryId(), userhope.getCompanyName());
 
     }
 
@@ -507,7 +591,7 @@ public class CampController extends AbstractRestHandler {
         signup.setPassword(passwordEncoder.encode(signup.getPassword()));
         User check = userRepository.selectCheckMail(signup);
 
-        if(check==null){
+        if (check == null) {
             // トークン発行
             Random rnd = new Random();
             int ran = rnd.nextInt(899999) + 100000;
@@ -521,16 +605,15 @@ public class CampController extends AbstractRestHandler {
 
             mailMessage.setTo(signup.getMail());
             mailMessage.setFrom("noreply@careerup-camp.jp");
-            mailMessage.setSubject("CAMPメールアドレス認証");
-            mailMessage.setText("この度はCAMPへのご登録ありがとうございます。\n" +
-                    "メール認証を行うため、以下の番号をアプリで入力してください。\n" +
-                    ran+ "\n\nお心当たりのない方は誠に恐れ入りますが、下記までご連絡ください。\n"+
-                    "株式会社ブレイン・ラボ　tel:03-6432-0874　CAMPアプリ担当");
+            mailMessage.setSubject("CONNECTメールアドレス認証");
+            mailMessage.setText("この度はCONNECTへのご登録ありがとうございます。\n" +
+                    "メール認証を行うため、以下の番号をご登録中の画面へご入力お願いいたします。。\n" +
+                    ran + "\n\nお心当たりのない方は誠に恐れ入りますが、下記までご連絡ください。\n" +
+                    "株式会社ブレイン・ラボ　tel:03-6432-0874　CONNECTアプリ担当");
             javaMailSender.send(mailMessage);
 
             return "OK";
-        }
-        else{
+        } else {
             return "error";
         }
 
@@ -567,15 +650,13 @@ public class CampController extends AbstractRestHandler {
         ObjectMapper mapper = new ObjectMapper();
         Myprofile myprofile = mapper.readValue(json, Myprofile.class);
 
-        System.out.println("scalenumberは" + myprofile.getScaleNumber());
-
         UserHope userhope = new UserHope();
         userhope.setUserId(user_id);
         userhope.setIndustryId(trimSpace(myprofile.getH_industry() + myprofile.getH_industry_middle() + myprofile.getH_industry_small()));
         if (myprofile.getPlace() != null) {
             userhope.setPlaceId(trimSpace(myprofile.getPlace()));
         }
-        if(myprofile.getH_company_name()==null){
+        if (myprofile.getH_company_name() == null) {
             userhope.setCompanyName("");
         } else {
             userhope.setCompanyName(myprofile.getH_company_name());
@@ -591,7 +672,7 @@ public class CampController extends AbstractRestHandler {
         }
         if (myprofile.getScaleNumber() != null) {
             userhope.setScaleNumberId(myprofile.getScaleNumber());
-        }else{
+        } else {
             userhope.setScaleNumberId("6");
         }
         userhope.setJobCategoryId(trimSpace(myprofile.getH_job_category() + myprofile.getH_job_category_middle() + myprofile.getH_job_category_small()));
@@ -619,7 +700,7 @@ public class CampController extends AbstractRestHandler {
         user.setGenderId(trimSpace(myprofile.getGender()));
         user.setMajorId(trimSpace(myprofile.getMajor()));
         user.setSchool(myprofile.getSchool());
-        if(myprofile.getTiming()==null){
+        if (myprofile.getTiming() == null) {
             myprofile.setTiming("");
         }
         user.setTimingId(trimSpace(myprofile.getTiming()));
@@ -627,7 +708,7 @@ public class CampController extends AbstractRestHandler {
             user.setTermId(trimSpace(myprofile.getTerm()));
         }
         user.setTimesId(myprofile.getTimesId());
-        if(myprofile.getSkill()==null){
+        if (myprofile.getSkill() == null) {
             user.setSkill("");
         } else {
             user.setSkill(myprofile.getSkill());
@@ -636,7 +717,7 @@ public class CampController extends AbstractRestHandler {
         user.setYomigana(myprofile.getYomigana());
         userRepository.updateMyprofileUser(user);
 
-        python(user_id,userhope.getIndustryId(),userhope.getJobCategoryId(),userhope.getCompanyName());
+        python(user_id, userhope.getIndustryId(), userhope.getJobCategoryId(), userhope.getCompanyName());
 
     }
 
@@ -707,11 +788,11 @@ public class CampController extends AbstractRestHandler {
 
                     mailMessage.setTo(account.getMail());
                     mailMessage.setFrom("noreply@careerup-camp.jp");
-                    mailMessage.setSubject("CAMPメールアドレス認証");
-                    mailMessage.setText("この度はCAMPへのご登録ありがとうございます。\n" +
+                    mailMessage.setSubject("CONNECTメールアドレス認証");
+                    mailMessage.setText("この度はCONNECTへのご登録ありがとうございます。\n" +
                             "メール認証を行うため、以下の番号をアプリで入力してください。\n" +
-                            ran+ "\n\nお心当たりのない方は誠に恐れ入りますが、下記までご連絡ください。\n"+
-                            "株式会社ブレイン・ラボ　tel:03-6432-0874　CAMPアプリ担当");
+                            ran + "\n\nお心当たりのない方は誠に恐れ入りますが、下記までご連絡ください。\n" +
+                            "株式会社ブレイン・ラボ　tel:03-6432-0874　CONNECTアプリ担当");
                     javaMailSender.send(mailMessage);
 
                     // flgを0に書き換える
@@ -738,11 +819,11 @@ public class CampController extends AbstractRestHandler {
 
                 mailMessage.setTo(account.getMail());
                 mailMessage.setFrom("noreply@careerup-camp.jp");
-                mailMessage.setSubject("CAMPメールアドレス認証");
-                mailMessage.setText("この度はCAMPへのご登録ありがとうございます。\n" +
+                mailMessage.setSubject("CONNECTメールアドレス認証");
+                mailMessage.setText("この度はCONNECTへのご登録ありがとうございます。\n" +
                         "メール認証を行うため、以下の番号をアプリで入力してください。\n" +
-                        ran+ "\n\nお心当たりのない方は誠に恐れ入りますが、下記までご連絡ください。\n"+
-                        "株式会社ブレイン・ラボ　tel:03-6432-0874　CAMPアプリ担当");
+                        ran + "\n\nお心当たりのない方は誠に恐れ入りますが、下記までご連絡ください。\n" +
+                        "株式会社ブレイン・ラボ　tel:03-6432-0874　CONNECTアプリ担当");
                 javaMailSender.send(mailMessage);
 
                 // flgを0に書き換える
@@ -775,11 +856,11 @@ public class CampController extends AbstractRestHandler {
 
         mailMessage.setTo(account.getMail());
         mailMessage.setFrom("noreply@careerup-camp.jp");
-        mailMessage.setSubject("CAMPメールアドレス認証");
-        mailMessage.setText("この度はCAMPへのご登録ありがとうございます。\n" +
+        mailMessage.setSubject("CONNECTメールアドレス認証");
+        mailMessage.setText("この度はCONNECTへのご登録ありがとうございます。\n" +
                 "メール認証を行うため、以下の番号をアプリで入力してください。\n" +
-                ran + "\n\nお心当たりのない方は誠に恐れ入りますが、下記までご連絡ください。\n"+
-                "株式会社ブレイン・ラボ　tel:03-6432-0874　CAMPアプリ担当");
+                ran + "\n\nお心当たりのない方は誠に恐れ入りますが、下記までご連絡ください。\n" +
+                "株式会社ブレイン・ラボ　tel:03-6432-0874　CONNECTアプリ担当");
 
         javaMailSender.send(mailMessage);
     }
@@ -797,14 +878,14 @@ public class CampController extends AbstractRestHandler {
         User token = userRepository.selectCheckToken(signup);
 
         // 一致して入ればmailcheckフラグを更新し、OKを返す
-        if(token.getToken() == signup.getToken()){
+        if (token.getToken() == signup.getToken()) {
             // フラグ更新
             signup.setMailcheck(1);
             userRepository.updateMailCheck(signup);
             return "OK";
         }
         // 一致していないのでerrorを返す
-        else{
+        else {
             return "error";
         }
     }
@@ -819,7 +900,7 @@ public class CampController extends AbstractRestHandler {
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
 
-        mailMessage.setTo("user-info@careerup-camp.jp");
+        mailMessage.setTo("user-info@career-connect.jp");
         //mailMessage.setReplyTo("リプライのメールアドレス");
         mailMessage.setFrom("noreply@careerup-camp.jp");
         mailMessage.setSubject(user_id + "様からのお問い合わせ");
@@ -831,7 +912,7 @@ public class CampController extends AbstractRestHandler {
         return "お問い合わせが完了しました。\n事務局からの返信をお待ちくださいませ。";
     }
 
-    // ユーザからの評価画面
+    // ユーザからの評価画面 だいぶ先まで登場しなさそう...
     @RequestMapping(value = "/{user_id}/review", method = {RequestMethod.POST}, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -860,7 +941,7 @@ public class CampController extends AbstractRestHandler {
 
         // caの写真をbase64で変換
         for (Ca _ca : caList) {
-            if(_ca.getCaImg()!=null) {
+            if (_ca.getCaImg() != null) {
                 BufferedInputStream bis = null;
                 try {
                     final URL url =
@@ -891,7 +972,7 @@ public class CampController extends AbstractRestHandler {
     @RequestMapping(value = "/{user_id}/ca/{ca_id}/favo", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public void favo_post(@RequestBody String json, @PathVariable String user_id,@PathVariable String ca_id) throws Exception {
+    public void favo_post(@RequestBody String json, @PathVariable String user_id, @PathVariable String ca_id) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         Chat chat = mapper.readValue(json, Chat.class);
 
@@ -903,7 +984,7 @@ public class CampController extends AbstractRestHandler {
         Ca ca = caRepository.selectDetail(chat);
         AllUerInfo profile = userRepository.selectMyprofile(chat);
 
-        if (chat.getFavo()==1) {
+        if (chat.getFavo() == 1) {
             profile.setIncome(nullcheck(profile.getIncome()));
             System.out.println("年収" + profile.getIncome());
             switch (profile.getIncome()) {
@@ -1045,15 +1126,17 @@ public class CampController extends AbstractRestHandler {
 
             SimpleMailMessage mailMessage = new SimpleMailMessage();
 
-            //mailMessage.setTo("user-info@careerup-camp.jp");
+            //mailMessage.setTo(ca.getCaMail());
+            System.out.println("送ったCAのメール" + ca.getCaMail());
             mailMessage.setTo("m.sekine@mybrainlab.net");
             //mailMessage.setReplyTo("リプライのメールアドレス");
             mailMessage.setFrom("noreply@careerup-camp.jp");
-            mailMessage.setSubject("【CAMP】新規マッチングのお知らせtest");
+            mailMessage.setSubject("【CONNECT】新規マッチングのお知らせtest");
             mailMessage.setText(ca.getCaName() + "様" + "\nお世話になっております。" + "CONNECT運営事務局でございます。"
                     + "\nユーザーID：" + user_id + "様とマッチングしましたのでお知らせ致します。\n以下ユーザー情報"
                     + "\n\n#################################\n"
-                    + "\nユーザーID：" + user_id + "\n性別：" + profile.getGender() + "\n年齢：" + profile.getAge()
+                    + "\nユーザーID：" + user_id + "\n名前：" + profile.getName() + "\n読み仮名：" + profile.getYomigana()
+                    + "\nメール：" + profile.getMail() + "\n性別：" + profile.getGender() + "\n年齢：" + profile.getAge()
                     + "\n学歴：" + profile.getSchool() + "\n専攻：" + profile.getMajor() + "\n転職回数：" + profile.getTimes()
                     + "\n英語力：" + profile.getEnglish() + "\n転職期間：" + profile.getTermId() + "\n転職タイミング：" + profile.getTimingId()
                     + "\n資格：" + profile.getSkill() + "\n直近の企業名：" + profile.getPCompanyName() + "\n入社年度：" + profile.getJoinedYear()
@@ -1063,7 +1146,7 @@ public class CampController extends AbstractRestHandler {
                     + "\n希望年収：" + profile.getIncome() + "\n希望勤務地：" + profile.getPlaceId() + "\n希望企業規模：" + profile.getScaleNumber()
                     + "\n希望企業タイプ：" + profile.getScaleTypeId() + "\n転職に求めるもの：" + profile.getWorkId()
                     + "\n#################################\n\n"
-                    + "\nお問い合わせは下記までお願い致します。" + "\nCONNECT事務局\ntel：03-0000-0000\nmail：@mybrainlab.net\n担当者："
+                    + "\nお問い合わせは下記までお願い致します。" + "\nCONNECT事務局\ntel：03-6432-0874\nmail：agent-info@career-connect.jp\n担当者：山下・秋元"
             );
 
             javaMailSender.send(mailMessage);
@@ -1083,7 +1166,7 @@ public class CampController extends AbstractRestHandler {
         Ca ca_person = caRepository.selectDetail(chat);
 
         // caの写真をbase64で変換
-        if(ca_person.getCaImg()!=null) {
+        if (ca_person.getCaImg() != null) {
             BufferedInputStream bis = null;
             try {
                 final URL url =
@@ -1137,7 +1220,7 @@ public class CampController extends AbstractRestHandler {
         for (Chat _chat : chatLists) {
             Message message = messageRepository.selectLast(_chat);
             // caの写真をbase64で変換
-            if (message != null && message.getCaImg()!=null) {
+            if (message != null && message.getCaImg() != null) {
                 BufferedInputStream bis = null;
                 try {
                     final URL url =
