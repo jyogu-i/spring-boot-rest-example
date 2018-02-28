@@ -374,10 +374,8 @@ public class CampController extends AbstractRestHandler {
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
 
-        // 下のコメント外すと本当にCAにメール送られます
-        //mailMessage.setTo(ca.getCaMail());
+        mailMessage.setTo(ca.getCaMail());
         System.out.println("送ったCAのメール" + ca.getCaMail());
-        mailMessage.setTo("maysekine@pasonacareer.biz");
         //mailMessage.setReplyTo("リプライのメールアドレス");
         mailMessage.setFrom("noreply@careerup-camp.jp");
         mailMessage.setSubject("【CONNECT】求職者のリコメンド");
@@ -397,7 +395,8 @@ public class CampController extends AbstractRestHandler {
                 + "\nお問い合わせは下記までお願い致します。" + "\nCONNECT事務局\ntel：03-6432-0874\nmail：agent-info@career-connect.jp\n担当者：山下・秋元"
         );
 
-        javaMailSender.send(mailMessage);
+        // 下のコメント外すと本当にCAにメール送られます
+        //javaMailSender.send(mailMessage);
     }
 
 
