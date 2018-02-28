@@ -374,29 +374,32 @@ public class CampController extends AbstractRestHandler {
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
 
-        mailMessage.setTo(ca.getCaMail());
-        System.out.println("送ったCAのメール" + ca.getCaMail());
-        //mailMessage.setReplyTo("リプライのメールアドレス");
-        mailMessage.setFrom("noreply@careerup-camp.jp");
-        mailMessage.setSubject("【CONNECT】求職者のリコメンド");
-        mailMessage.setText(ca.getCaName() + "様" + "\nお世話になっております。" + "CONNECT運営事務局でございます。"
-                + "\nユーザーID：" + chat.getUserId() + "様をリコメンド致します。\n以下ユーザー情報"
-                + "\n\n#################################\n"
-                + "\nユーザーID：" + chat.getUserId() + "\n性別：" + profile.getGender() + "\n年齢：" + profile.getAge()
-                + "\n学歴：" + profile.getSchool() + "\n専攻：" + profile.getMajor() + "\n転職回数：" + profile.getTimes()
-                + "\n英語力：" + profile.getEnglish() + "\n転職期間：" + profile.getTermId() + "\n転職タイミング：" + profile.getTimingId()
-                + "\n資格：" + profile.getSkill() + "\n直近の企業名：" + profile.getPCompanyName() + "\n入社年度：" + profile.getJoinedYear()
-                + "\n希望企業名：" + profile.gethCompanyName()
-                + "\n希望業界：" + profile.getBigIndustry() + "\n>" + profile.getMiddleIndustry() + "\n>>" + profile.getSmallIndustry()
-                + "\n希望職種：" + profile.getBigCategory() + "\n>" + profile.getMiddleCategory() + "\n>>" + profile.getSmallCategory()
-                + "\n希望年収：" + profile.getIncome() + "\n希望勤務地：" + profile.getPlaceId() + "\n希望企業規模：" + profile.getScaleNumber()
-                + "\n希望企業タイプ：" + profile.getScaleTypeId() + "\n転職に求めるもの：" + profile.getWorkId()
-                + "\n#################################\n\n"
-                + "\nお問い合わせは下記までお願い致します。" + "\nCONNECT事務局\ntel：03-6432-0874\nmail：agent-info@career-connect.jp\n担当者：山下・秋元"
-        );
+        // メアドが存在すれば送る
+        if(ca.getCaMail()!=null) {
+            mailMessage.setTo(ca.getCaMail());
+            System.out.println("送ったCAのメール" + ca.getCaMail());
+            //mailMessage.setReplyTo("リプライのメールアドレス");
+            mailMessage.setFrom("noreply@careerup-camp.jp");
+            mailMessage.setSubject("【CONNECT】求職者のリコメンド");
+            mailMessage.setText(ca.getCaName() + "様" + "\nお世話になっております。" + "CONNECT運営事務局でございます。"
+                    + "\nユーザーID：" + chat.getUserId() + "様をリコメンド致します。\n以下ユーザー情報"
+                    + "\n\n#################################\n"
+                    + "\nユーザーID：" + chat.getUserId() + "\n性別：" + profile.getGender() + "\n年齢：" + profile.getAge()
+                    + "\n学歴：" + profile.getSchool() + "\n専攻：" + profile.getMajor() + "\n転職回数：" + profile.getTimes()
+                    + "\n英語力：" + profile.getEnglish() + "\n転職期間：" + profile.getTermId() + "\n転職タイミング：" + profile.getTimingId()
+                    + "\n資格：" + profile.getSkill() + "\n直近の企業名：" + profile.getPCompanyName() + "\n入社年度：" + profile.getJoinedYear()
+                    + "\n希望企業名：" + profile.gethCompanyName()
+                    + "\n希望業界：" + profile.getBigIndustry() + "\n>" + profile.getMiddleIndustry() + "\n>>" + profile.getSmallIndustry()
+                    + "\n希望職種：" + profile.getBigCategory() + "\n>" + profile.getMiddleCategory() + "\n>>" + profile.getSmallCategory()
+                    + "\n希望年収：" + profile.getIncome() + "\n希望勤務地：" + profile.getPlaceId() + "\n希望企業規模：" + profile.getScaleNumber()
+                    + "\n希望企業タイプ：" + profile.getScaleTypeId() + "\n転職に求めるもの：" + profile.getWorkId()
+                    + "\n#################################\n\n"
+                    + "\nお問い合わせは下記までお願い致します。" + "\nCONNECT事務局\ntel：03-6432-0874\nmail：agent-info@career-connect.jp\n担当者：山下・秋元"
+            );
 
-        // 下のコメント外すと本当にCAにメール送られます
-        //javaMailSender.send(mailMessage);
+            // 下のコメント外すと本当にCAにメール送られます
+            javaMailSender.send(mailMessage);
+        }
     }
 
 
@@ -1125,30 +1128,33 @@ public class CampController extends AbstractRestHandler {
 
             SimpleMailMessage mailMessage = new SimpleMailMessage();
 
-            //mailMessage.setTo(ca.getCaMail());
-            System.out.println("送ったCAのメール" + ca.getCaMail());
-            mailMessage.setTo("m.sekine@mybrainlab.net");
-            //mailMessage.setReplyTo("リプライのメールアドレス");
-            mailMessage.setFrom("noreply@careerup-camp.jp");
-            mailMessage.setSubject("【CONNECT】新規マッチングのお知らせtest");
-            mailMessage.setText(ca.getCaName() + "様" + "\nお世話になっております。" + "CONNECT運営事務局でございます。"
-                    + "\nユーザーID：" + user_id + "様とマッチングしましたのでお知らせ致します。\n以下ユーザー情報"
-                    + "\n\n#################################\n"
-                    + "\nユーザーID：" + user_id + "\n名前：" + profile.getName() + "\n読み仮名：" + profile.getYomigana()
-                    + "\nメール：" + profile.getMail() + "\n性別：" + profile.getGender() + "\n年齢：" + profile.getAge()
-                    + "\n学歴：" + profile.getSchool() + "\n専攻：" + profile.getMajor() + "\n転職回数：" + profile.getTimes()
-                    + "\n英語力：" + profile.getEnglish() + "\n転職期間：" + profile.getTermId() + "\n転職タイミング：" + profile.getTimingId()
-                    + "\n資格：" + profile.getSkill() + "\n直近の企業名：" + profile.getPCompanyName() + "\n入社年度：" + profile.getJoinedYear()
-                    + "\n希望企業名：" + profile.gethCompanyName()
-                    + "\n希望業界：" + profile.getBigIndustry() + "\n>" + profile.getMiddleIndustry() + "\n>>" + profile.getSmallIndustry()
-                    + "\n希望職種：" + profile.getBigCategory() + "\n>" + profile.getMiddleCategory() + "\n>>" + profile.getSmallCategory()
-                    + "\n希望年収：" + profile.getIncome() + "\n希望勤務地：" + profile.getPlaceId() + "\n希望企業規模：" + profile.getScaleNumber()
-                    + "\n希望企業タイプ：" + profile.getScaleTypeId() + "\n転職に求めるもの：" + profile.getWorkId()
-                    + "\n#################################\n\n"
-                    + "\nお問い合わせは下記までお願い致します。" + "\nCONNECT事務局\ntel：03-6432-0874\nmail：agent-info@career-connect.jp\n担当者：山下・秋元"
-            );
+            // メアドが存在すれば送る
+            if(ca.getCaMail()!=null) {
+                mailMessage.setTo(ca.getCaMail());
+                System.out.println("送ったCAのメール" + ca.getCaMail());
+                //mailMessage.setTo("m.sekine@mybrainlab.net");
+                //mailMessage.setReplyTo("リプライのメールアドレス");
+                mailMessage.setFrom("noreply@careerup-camp.jp");
+                mailMessage.setSubject("【CONNECT】新規マッチングのお知らせtest");
+                mailMessage.setText(ca.getCaName() + "様" + "\nお世話になっております。CONNECT運営事務局でございます。"
+                        + "\nユーザーID：" + user_id + "様とマッチングしましたのでお知らせ致します。\n以下ユーザー情報"
+                        + "\n\n#################################\n"
+                        + "\nユーザーID：" + user_id + "\n名前：" + profile.getName() + "\n読み仮名：" + profile.getYomigana()
+                        + "\nメール：" + profile.getMail() + "\n性別：" + profile.getGender() + "\n年齢：" + profile.getAge()
+                        + "\n学歴：" + profile.getSchool() + "\n専攻：" + profile.getMajor() + "\n転職回数：" + profile.getTimes()
+                        + "\n英語力：" + profile.getEnglish() + "\n転職期間：" + profile.getTermId() + "\n転職タイミング：" + profile.getTimingId()
+                        + "\n資格：" + profile.getSkill() + "\n直近の企業名：" + profile.getPCompanyName() + "\n入社年度：" + profile.getJoinedYear()
+                        + "\n希望企業名：" + profile.gethCompanyName()
+                        + "\n希望業界：" + profile.getBigIndustry() + "\n>" + profile.getMiddleIndustry() + "\n>>" + profile.getSmallIndustry()
+                        + "\n希望職種：" + profile.getBigCategory() + "\n>" + profile.getMiddleCategory() + "\n>>" + profile.getSmallCategory()
+                        + "\n希望年収：" + profile.getIncome() + "\n希望勤務地：" + profile.getPlaceId() + "\n希望企業規模：" + profile.getScaleNumber()
+                        + "\n希望企業タイプ：" + profile.getScaleTypeId() + "\n転職に求めるもの：" + profile.getWorkId()
+                        + "\n#################################\n\n"
+                        + "\nお問い合わせは下記までお願い致します。" + "\nCONNECT事務局\ntel：03-6432-0874\nmail：agent-info@career-connect.jp\n担当者：山下・秋元"
+                );
 
-            javaMailSender.send(mailMessage);
+                javaMailSender.send(mailMessage);
+            }
         }
     }
 
