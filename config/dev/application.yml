@@ -3,12 +3,6 @@
 ### Java properties file format. 
 
 spring:
-  datasource:
-    url: jdbc:postgresql://192.168.50.5:51705/camp
- #   url: jdbc:postgresql://camp-prod-pgsql.cifaheblb7yk.ap-northeast-1.rds.amazonaws.com:5432/camp
-    username: brainlab_camp
-    password: jCcwRsP1
-    driverClassName: org.postgresql.Driver
   jmx:
     enabled: false
 
@@ -42,8 +36,15 @@ spring:
 #  region:
 #    static: ap-northeast-1
 
+service:
+  datasource:
+    url: jdbc:postgresql://192.168.50.5:51705/camp
+    username: brainlab_camp
+    password: jCcwRsP1
+    driverClassName: org.postgresql.Driver
+
 server:
-  port: 8090
+  port: 80
 
 #todo: make sure to always enable security in production
 security:
@@ -86,5 +87,3 @@ hotel.service:
 logging:
   file: boot_example.log
   org.hibernate: INFO
-
- 
