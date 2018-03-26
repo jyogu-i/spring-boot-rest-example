@@ -1,1 +1,1 @@
-UPDATE public."User" SET token=/* user.getToken() */'aa' WHERE user_id=/* user.getUserId() */'U1';
+UPDATE public."User" SET token=/* user.getToken() */'aa', token_expire=TIMESTAMP /* user.getTokenExpire() */'1999-01-08 04:05:06' WHERE user_id=/* user.getUserId() */'U1';

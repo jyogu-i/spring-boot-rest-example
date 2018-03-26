@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties(prefix = "service.datasource")
+@ConfigurationProperties("service.datasource")
 @Getter
 @Setter
 public class CAMPSettings extends BaseDBSettings {

@@ -1,0 +1,1 @@
+select password,mail,user_id from public."User" where mail=/* mail */'U1@test.co.jp';

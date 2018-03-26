@@ -16,6 +16,9 @@ public interface UserHopeRepository {
     @Select
     List<UserHope> selectMyprofile(UserHope userhope);
 
+    @Select
+    UserHope selectByUserId(String userId);
+
     @Insert(sqlFile = true)
     int insert(UserHope userhope);
 
@@ -27,6 +30,9 @@ public interface UserHopeRepository {
 
     @Update(sqlFile = true)
     int updateMyprofileUserHope(UserHope userhope);
+
+    @Update(sqlFile = true)
+    int updateOption(UserHope userhope);
 
     @Delete(sqlFile = true)
     int delete(UserHope userhope);

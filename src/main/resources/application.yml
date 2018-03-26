@@ -37,13 +37,16 @@ spring:
 #    static: ap-northeast-1
 service:
   datasource:
-    url: jdbc:postgresql://192.168.50.5:51705/camp
+#    url: jdbc:postgresql://192.168.50.5:51705/camp
+#    url: jdbc:postgresql://localhost:54321/camp
+    url: jdbc:postgresql://camp-stg-pgsql.cifaheblb7yk.ap-northeast-1.rds.amazonaws.com:5432/camp
     username: brainlab_camp
     password: jCcwRsP1
     driverClassName: org.postgresql.Driver
 
 server:
-  port: 8090
+#  contextPath: /api2
+  port: 80
 
 #todo: make sure to always enable security in production
 security:
@@ -82,9 +85,8 @@ spring.jpa:
 
 hotel.service:
   name: 'test profile:'
-  
+
 logging:
   file: boot_example.log
   org.hibernate: INFO
 
- 

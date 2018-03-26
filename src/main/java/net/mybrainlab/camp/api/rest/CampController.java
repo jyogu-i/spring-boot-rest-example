@@ -1,9 +1,12 @@
 package net.mybrainlab.camp.api.rest;
 
+import static java.util.Objects.*;
+
+import net.mybrainlab.camp.common.SimpleTemplateEngin;
+import net.mybrainlab.camp.common.Utils;
 import net.mybrainlab.camp.dao.entity.*;
 import net.mybrainlab.camp.repository.*;
 import io.swagger.annotations.Api;
-import net.mybrainlab.camp.service.CampService;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.python.apache.commons.compress.utils.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +15,10 @@ import org.springframework.http.MediaType;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.core.io.WritableResource;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +30,9 @@ import java.io.*;
 import java.net.URL;
 import java.util.List;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.codec.binary.Base64;
 
@@ -38,8 +45,8 @@ public class CampController extends AbstractRestHandler {
     @Autowired
     private ResourceLoader resourceLoader;
 
-    @Autowired
-    private CampService campService;
+//    @Autowired
+//    private CampService campService;
 
     @Autowired
     private CaRepository caRepository;
@@ -126,14 +133,15 @@ public class CampController extends AbstractRestHandler {
     private PersonalInfoRepository personalInfoRepository;
 
     // お問い合わせメール用の設定
-    private final JavaMailSender javaMailSender;
-    private final PasswordEncoder passwordEncoder;
-
     @Autowired
-    CampController(JavaMailSender javaMailSender, PasswordEncoder passwordEncoder) {
-        this.javaMailSender = javaMailSender;
-        this.passwordEncoder = passwordEncoder;
-    }
+    private JavaMailSender javaMailSender;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+//    CampController(JavaMailSender javaMailSender, PasswordEncoder passwordEncoder) {
+//        this.javaMailSender = javaMailSender;
+//        this.passwordEncoder = passwordEncoder;
+//    }
 
     // welcome画面
     @RequestMapping(value = "/welcome", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -402,6 +410,138 @@ public class CampController extends AbstractRestHandler {
         }
     }
 
+    private Function<String, User> getAccountById = userId -> {
+        User user = new User();
+        user.setUserId(userId);
+        return userRepository.selectAccount(user);
+    };
+
+    /**
+     * カテゴリデータからIDをビルドする.
+     * @param args カテゴリデータ
+     * @return {@link String}
+     */
+    private String generatCategoryId(final String...args) {
+        final String concateId = Stream.of(args)
+                .peek(Utils::trim)
+                .collect(Collectors.joining());
+        return nonNull(concateId) && concateId.length() > 0 ? concateId : null;
+    }
+
+    /**
+     * 基本情報をMappingする.
+     * @param userId ID
+     * @param dataType 変換タイプ
+     * @param mapper MapperObj
+     * @throws IOException
+     */
+    private void insertBasicInfo(final String userId, final String dataType, ObjectMapper mapper) throws IOException {
+        Basic basic = mapper.readValue(dataType, Basic.class);
+
+        // 基本：個人情報
+        User user = mappingUserInfo(userId, dataType, mapper);
+        userRepository.insertBasicUser(user);
+        // 基本：経験企業
+        UserPrevious previous = mappingPreviousInfo(userId, dataType, mapper);
+        userpreviousRepository.insertBasicUserPrevious(previous);
+        // 基本：希望
+        UserHope userhope = mappingHopeInfo(userId, dataType, mapper);
+        userhope.setScaleNumberId("6"); // 一旦６にする
+        userhopeRepository.insertBasicUserHope(userhope);
+    }
+
+    /**
+     * 基本情報をMappingする.
+     * @param userId ID
+     * @param dataType 変換タイプ
+     * @param mapper MapperObj
+     * @throws IOException
+     */
+    private void updateOptionInfo(final String userId, final String dataType, ObjectMapper mapper) throws IOException {
+        Option option = mapper.readValue(dataType, Option.class);
+
+        // ユーザオプション
+        User user = userRepository.selectByUserId(userId);
+        user.setSkill(option.getSkill());
+        user.setEnglishId(Utils.trim(option.getEnglish()));
+        user.setTimingId(Utils.trim(option.getTiming()));
+        user.setTimesId(Utils.trim(option.getTimes()));
+        userRepository.updateOption(user);
+
+        // ユーザ希望オプション
+        UserHope userhope = userhopeRepository.selectByUserId(userId);
+        userhope.setIncome(option.getIncome());
+        userhope.setPlaceId(Utils.trim(option.getPlace()));
+        userhope.setScaleNumberId(Utils.trim(option.getScaleNumber()));
+        userhope.setScaleTypeId(Utils.trim(option.getScaleType()));
+        userhope.setWorkId(Utils.trim(option.getWork()));
+        userhopeRepository.updateOption(userhope);
+    }
+
+    /**
+     * ユーザ情報をMappingする.
+     * @param userId ID
+     * @param dataType 変換タイプ
+     * @param mapper MapperObj
+     * @return {@linkplain User}
+     * @throws IOException
+     */
+    private User mappingUserInfo(final String userId, final String dataType, ObjectMapper mapper) throws IOException {
+        User user = new User();
+        user.setUserId(userId);
+        Basic basic = mapper.readValue(dataType, Basic.class);
+        // ユーザ情報
+        user.setName(Utils.trim(basic.getName()));
+        user.setGenderId(Utils.trim(basic.getGender().trim()));
+        user.setAge(basic.getAge());
+        // 学歴
+        user.setSchool(Utils.trim(basic.getSchool()));
+        user.setMajorId(Utils.trim(basic.getMajor().trim()));
+        user.setGraduationYear(basic.getGraduation_year());
+
+        return user;
+    }
+
+    /**
+     * 経験企業情報をMappingする.
+     * @param userId ID
+     * @param dataType 変換タイプ
+     * @param mapper MapperObj
+     * @return {@linkplain UserPrevious}
+     * @throws IOException
+     */
+    private UserPrevious mappingPreviousInfo(final String userId, final String dataType, ObjectMapper mapper) throws IOException {
+        UserPrevious userprevious = new UserPrevious();
+        userprevious.setUserId(userId);
+        Basic basic = mapper.readValue(dataType, Basic.class);
+        // 経験企業情報
+        userprevious.setCompanyName(Utils.trim(basic.getP_company_name()));
+        userprevious.setIndustryId(generatCategoryId(basic.getP_industry(), basic.getP_industry_middle(), basic.getP_industry_small()));
+        userprevious.setJobCategoryId(generatCategoryId(basic.getP_job_category(), basic.getP_job_category_middle(), basic.getP_job_category_small()));
+        userprevious.setJoinedYear(basic.getJoined_year());
+        userprevious.setLeavingYear(basic.getLeaving_year());
+
+        return userprevious;
+    }
+
+    /**
+     * 希望情報をMappingする.
+     * @param userId ID
+     * @param dataType 変換タイプ
+     * @param mapper MapperObj
+     * @return {@linkplain UserHope}
+     * @throws IOException
+     */
+    private UserHope mappingHopeInfo(final String userId, final String dataType, ObjectMapper mapper) throws IOException {
+        UserHope userhope = new UserHope();
+        userhope.setUserId(userId);
+        Basic basic = mapper.readValue(dataType, Basic.class);
+        // 希望情報
+        userhope.setIndustryId(generatCategoryId(basic.getH_industry(), basic.getH_industry_middle(), basic.getH_industry_small()));
+        userhope.setJobCategoryId(generatCategoryId(basic.getH_job_category(), basic.getH_job_category_middle(), basic.getH_job_category_small()));
+
+        return userhope;
+    }
 
     public void python(String user_id, String industry, String job_category, String company) throws IOException {
         Chat chat = new Chat();
@@ -462,126 +602,43 @@ public class CampController extends AbstractRestHandler {
     }
 
     // 初期登録画面
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @RequestMapping(value = "/{user_id}/question/basic", method = {RequestMethod.POST}, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public void basic(@PathVariable String user_id, @RequestBody String json) throws IOException {
+    public void basic(@PathVariable String userId, @RequestBody String json) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        Basic basic = mapper.readValue(json, Basic.class);
+        // 基本情報の格納
+        insertBasicInfo(userId, json, mapper);
 
-        Chat chat = new Chat();
-        chat.setUserId(user_id);
-        chat.setFlg(1);
-
-        UserHope userhope = new UserHope();
-        userhope.setUserId(user_id);
-        userhope.setIndustryId(basic.getH_industry() + basic.getH_industry_middle() + basic.getH_industry_small());
-        userhope.setJobCategoryId(basic.getH_job_category() + basic.getH_job_category_middle() + basic.getH_job_category_small());
-
-        // オプション項目できくけど一旦６にする
-        userhope.setScaleNumberId("6");
-        userhopeRepository.insertBasicUserHope(userhope);
-
-        UserPrevious userprevious = new UserPrevious();
-        userprevious.setUserId(user_id);
-        userprevious.setCompanyName(basic.getP_company_name());
-        userprevious.setIndustryId(trimSpace(basic.getP_industry() + basic.getP_industry_middle() + basic.getP_industry_small()));
-        userprevious.setJobCategoryId(trimSpace(basic.getP_job_category() + basic.getP_job_category_middle() + basic.getP_job_category_small()));
-        userprevious.setJoinedYear(basic.getJoined_year());
-        userpreviousRepository.insertBasicUserPrevious(userprevious);
-
-        User user = new User();
-        user.setUserId(user_id);
-        user.setAge(basic.getAge());
-        user.setEnglishId(trimSpace(basic.getEnglish()));
-        user.setGenderId(trimSpace(basic.getGender().trim()));
-        user.setMajorId(trimSpace(basic.getMajor().trim()));
-        user.setSchool(trimSpace(basic.getSchool()));
-        user.setTimesId(trimSpace(basic.getTimesId().trim()));
-        user.setAcademicId("なし");
-        if (basic.getPassword() == null) {
-            user.setPassword("");
-            user.setMail("");
-        } else {
-            user.setMail(basic.getCellphone());
-            user.setPassword(passwordEncoder.encode(basic.getPassword()));
+        UserHope userHope = userhopeRepository.selectByUserId(userId);
+        if (nonNull(userHope)) {
+            //AIシステムへ
+            python(userId, userHope.getIndustryId(), userHope.getJobCategoryId(), "");
         }
-        userRepository.insertBasicUser(user);
-
-        System.err.println("AIシステム＝" + user_id + "," + userhope.getIndustryId() + ","
-                + userhope.getJobCategoryId());
-        //AIシステムへ
-        python(user_id, userhope.getIndustryId(), userhope.getJobCategoryId(), "");
-
     }
 
     // オプション登録画面
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @RequestMapping(value = "/{user_id}/question/option", method = {RequestMethod.POST}, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public void option(@RequestBody String json, @PathVariable String user_id) throws IOException {
+    public void option(@RequestBody String json, @PathVariable String userId) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        Option option = mapper.readValue(json, Option.class);
+        // 基本情報の格納
+        insertBasicInfo(userId, json, mapper);
+        // オプション情報の格納
+        updateOptionInfo(userId, json, mapper);
 
-        Chat chat = new Chat();
-        chat.setUserId(user_id);
-        chat.setFlg(1);
-
-        UserPrevious userprevious = new UserPrevious();
-        userprevious.setUserId(user_id);
-        userprevious.setCompanyName(option.getP_company_name());
-        userprevious.setIndustryId(trimSpace(option.getP_industry() + option.getP_industry_middle() + option.getP_industry_small()));
-        userprevious.setJobCategoryId(trimSpace(option.getP_job_category() + option.getP_job_category_middle()
-                + option.getP_job_category_small()));
-        userprevious.setJoinedYear(option.getJoined_year());
-        userpreviousRepository.insertOptionUserPrevious(userprevious);
-
-        UserHope userhope = new UserHope();
-        userhope.setUserId(user_id);
-        userhope.setPlaceId(trimSpace(option.getPlace()));
-        if (option.getH_company_name() == null) {
-            userhope.setCompanyName("");
-        } else {
-            userhope.setCompanyName(trimSpace(option.getH_company_name()));
+        UserHope userHope = userhopeRepository.selectByUserId(userId);
+        if (nonNull(userHope)) {
+            //AIシステムへ
+            python(userId, userHope.getIndustryId(), userHope.getJobCategoryId(), userHope.getCompanyName());
         }
-        userhope.setIncome(trimSpace(option.getIncome()));
-        userhope.setWorkId(trimSpace(option.getWork()));
-        userhope.setScaleNumberId(trimSpace(option.getScaleNumber()));
-        userhope.setScaleTypeId(trimSpace(option.getScaleType()));
-        userhope.setIndustryId(option.getH_industry() + option.getH_industry_middle() + option.getH_industry_small());
-        userhope.setJobCategoryId(option.getH_job_category() + option.getH_job_category_middle() + option.getH_job_category_small());
-        userhopeRepository.insertOptionUserHope(userhope);
-
-        User user = new User();
-        user.setUserId(user_id);
-        if (option.getSkill() == null) {
-            user.setSkill("");
-        } else {
-            user.setSkill(option.getSkill());
-        }
-        user.setTimingId(trimSpace(option.getTiming()));
-        user.setTermId(trimSpace(option.getTerm()));
-        user.setAge(option.getAge());
-        user.setEnglishId(trimSpace(option.getEnglish()));
-        user.setGenderId(trimSpace(option.getGender().trim()));
-        user.setMajorId(trimSpace(option.getMajor().trim()));
-        user.setSchool(trimSpace(option.getSchool()));
-        user.setTimesId(trimSpace(option.getTimesId().trim()));
-        user.setAcademicId("なし");
-        if (option.getPassword() == null) {
-            user.setPassword("");
-            user.setMail("");
-        } else {
-            user.setMail(option.getCellphone());
-            user.setPassword(passwordEncoder.encode(option.getPassword()));
-        }
-        userRepository.insertOptionUser(user);
-
-        //　AIシステムへ
-        python(user_id, userhope.getIndustryId(), userhope.getJobCategoryId(), userhope.getCompanyName());
 
     }
 
     // 新規登録画面-アカウント
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @RequestMapping(value = "/{user_id}/signup", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -655,8 +712,8 @@ public class CampController extends AbstractRestHandler {
         UserHope userhope = new UserHope();
         userhope.setUserId(user_id);
         userhope.setIndustryId(trimSpace(myprofile.getH_industry() + myprofile.getH_industry_middle() + myprofile.getH_industry_small()));
-        if (myprofile.getPlace() != null) {
-            userhope.setPlaceId(trimSpace(myprofile.getPlace()));
+        if (myprofile.getPlaceId() != null) {
+            userhope.setPlaceId(trimSpace(myprofile.getPlaceId()));
         }
         if (myprofile.getH_company_name() == null) {
             userhope.setCompanyName("");
@@ -666,14 +723,14 @@ public class CampController extends AbstractRestHandler {
         if (myprofile.getIncome() != null) {
             userhope.setIncome(trimSpace(myprofile.getIncome()));
         }
-        if (myprofile.getWork() != null) {
-            userhope.setWorkId(trimSpace(myprofile.getWork()));
+        if (myprofile.getWorkId() != null) {
+            userhope.setWorkId(trimSpace(myprofile.getWorkId()));
         }
-        if (myprofile.getScaleType() != null) {
-            userhope.setScaleTypeId(trimSpace(myprofile.getScaleType()));
+        if (myprofile.getScaleTypeId() != null) {
+            userhope.setScaleTypeId(trimSpace(myprofile.getScaleTypeId()));
         }
-        if (myprofile.getScaleNumber() != null) {
-            userhope.setScaleNumberId(myprofile.getScaleNumber());
+        if (myprofile.getScaleNumberId() != null) {
+            userhope.setScaleNumberId(myprofile.getScaleNumberId());
         } else {
             userhope.setScaleNumberId("6");
         }
@@ -691,23 +748,23 @@ public class CampController extends AbstractRestHandler {
         userprevious.setIndustryId(trimSpace(myprofile.getP_industry() + myprofile.getP_industry_middle() + myprofile.getP_industry_small()));
         userprevious.setCompanyName(myprofile.getP_company_name());
         userprevious.setJobCategoryId(trimSpace(myprofile.getP_job_category() + myprofile.getP_job_category_middle() + myprofile.getP_job_category_small()));
-        userprevious.setJoinedYear(myprofile.getJoined_year());
+        userprevious.setJoinedYear(myprofile.getJoinedYear());
         userpreviousRepository.insertOptionUserPrevious(userprevious);
 
         User user = new User();
         user.setUserId(user_id);
         user.setAcademicId("なし");
         user.setAge(myprofile.getAge());
-        user.setEnglishId(trimSpace(myprofile.getEnglish()));
+        user.setEnglishId(trimSpace(myprofile.getEnglishId()));
         user.setGenderId(trimSpace(myprofile.getGender()));
         user.setMajorId(trimSpace(myprofile.getMajor()));
         user.setSchool(myprofile.getSchool());
-        if (myprofile.getTiming() == null) {
-            myprofile.setTiming("");
+        if (myprofile.getTimingId() == null) {
+            myprofile.setTimingId("");
         }
-        user.setTimingId(trimSpace(myprofile.getTiming()));
-        if (myprofile.getTerm() != null) {
-            user.setTermId(trimSpace(myprofile.getTerm()));
+        user.setTimingId(trimSpace(myprofile.getTimingId()));
+        if (myprofile.getTermId() != null) {
+            user.setTermId(trimSpace(myprofile.getTermId()));
         }
         user.setTimesId(myprofile.getTimesId());
         if (myprofile.getSkill() == null) {
@@ -838,6 +895,7 @@ public class CampController extends AbstractRestHandler {
     }
 
     // 再メール認証-トークン発行&メール送信
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     @RequestMapping(value = "/{user_id}/mailauth", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -864,6 +922,54 @@ public class CampController extends AbstractRestHandler {
                 ran + "\n\nお心当たりのない方は誠に恐れ入りますが、下記までご連絡ください。\n" +
                 "株式会社ブレイン・ラボ　tel:03-6432-0874　CONNECTアプリ担当");
 
+        javaMailSender.send(mailMessage);
+    }
+
+    // トークン発行&メール送信
+
+    /**
+     * パスワードリマインドのため、トークン発行とメール送信
+     *
+     * @param json
+     * @throws IOException
+     */
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @RequestMapping(value = "/accountforget", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public void accountForget(@RequestBody String json) throws IOException {
+        final int offsetHours = 24;
+
+        ObjectMapper mapper = new ObjectMapper();
+        User tmpUser = mapper.readValue(json, User.class);
+
+        // get account
+        User account = userRepository.selectAccountByMail(tmpUser.getMail());
+
+        // create token and update token and expire date.
+        Random rnd = new Random();
+        final int ran = rnd.nextInt(899999) + 100000;
+        account.setToken(ran);
+        account.setTokenExpire(Utils.getDateOffsetHours(offsetHours));
+
+        // トークンをDBへ登録
+        userRepository.updateToken(account);
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+
+        mailMessage.setTo(account.getMail());
+        mailMessage.setFrom("noreply@careerup-camp.jp");
+        mailMessage.setSubject("CONNECTメールアドレス認証");
+        final String passCode = Integer.toString(account.getToken());
+
+        SimpleTemplateEngin ste = new SimpleTemplateEngin();
+        ste.loadTemplate("templates/mailauth.txt");
+        ste.add("token", account.getToken());
+        ste.add("expireDate", account.getTokenExpire());
+        String message = ste.buildTemplate();
+        message = isNull(message)
+                ? passCode : message.replaceAll("token", passCode);
+        mailMessage.setText(message);
         javaMailSender.send(mailMessage);
     }
 
@@ -1135,6 +1241,8 @@ public class CampController extends AbstractRestHandler {
                 //mailMessage.setTo("m.sekine@mybrainlab.net");
                 //mailMessage.setReplyTo("リプライのメールアドレス");
                 mailMessage.setFrom("noreply@careerup-camp.jp");
+                // BL管理者をBCC
+                mailMessage.setBcc("NoReply@brainlab.co.jp");
                 mailMessage.setSubject("【CONNECT】新規マッチングのお知らせtest");
                 mailMessage.setText(ca.getCaName() + "様" + "\nお世話になっております。CONNECT運営事務局でございます。"
                         + "\nユーザーID：" + user_id + "様とマッチングしましたのでお知らせ致します。\n以下ユーザー情報"

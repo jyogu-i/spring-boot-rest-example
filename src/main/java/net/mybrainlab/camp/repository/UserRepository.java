@@ -37,6 +37,12 @@ public interface UserRepository {
     @Select
     User selectCheckToken(User user);
 
+    @Select
+    User selectByUserId(String userId);
+
+    @Select
+    User selectAccountByMail(String mail);
+
     @Insert(sqlFile = true)
     int insert(User user);
 
@@ -66,5 +72,8 @@ public interface UserRepository {
 
     @Update(sqlFile = true)
     int updateMailCheck(User user);
+
+    @Update(sqlFile = true)
+    int updateOption(User user);
 }
 

@@ -1,4 +1,5 @@
-INSERT INTO public."User"(user_id, gender_id, age, academic_id, school, major_id, times_id, english_id, term_id, skill, timing_id, mail, password)
-	VALUES (/* user.getUserId() */'01', /* user.getGenderId() */'0', /* user.getAge() */'24',/* user.getAcademicId() */'0', /* user.getSchool() */'ああ高校',
-	 /* user.getMajorId() */'0', /* user.getTimesId() */'0', /* user.getEnglishId() */'0', /* user.getTimesId() */'0', /* user.getSkill() */'TOEIC',
-	  /* user.getTimingId() */'0',/* user.getMail() */'0', /* user.getPassword() */'0');
+INSERT INTO public."User"(
+user_id, gender_id, age, academic_id, school, major_id, times_id, english_id, term_id, skill, timing_id, mail, password)
+VALUES (/* user.getUserId() */'01', /* user.getGenderId() */'0', /* user.getAge() */'24',/* user.getAcademicId() */'0', /* user.getSchool() */'ああ高校',
+/* user.getMajorId() */'0', /* user.getTimesId() */'0', /* user.getEnglishId() */'0', /* user.getTimesId() */'0', /* user.getSkill() */'TOEIC',
+/* user.getTimingId() */'0',/* user.getMail() */'0', /* user.getPassword() */'0');

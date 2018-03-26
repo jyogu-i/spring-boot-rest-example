@@ -1,17 +1,20 @@
 package net.mybrainlab.camp.dao.entity;
 
-import net.minidev.json.annotate.JsonIgnore;
+import lombok.Data;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
 import org.seasar.doma.Id;
 import org.seasar.doma.Table;
 
+import java.util.Date;
+
 /**
  */
 @Entity
 @Table(name = "User")
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Data
 public class User {
 
     /** */
@@ -38,6 +41,10 @@ public class User {
     /** */
     @Column(name = "major_id")
     String majorId;
+
+    /** Graduation year */
+    @Column(name = "graduation_year")
+    String graduationYear;
 
     /** */
     @Column(name = "times_id")
@@ -90,164 +97,8 @@ public class User {
     @Column(name = "token")
     int token;
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getGenderId() {
-        return genderId;
-    }
-
-    public void setGenderId(String genderId) {
-        this.genderId = genderId;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public String getAcademicId() {
-        return academicId;
-    }
-
-    public void setAcademicId(String academicId) {
-        this.academicId = academicId;
-    }
-
-    public String getSchool() {
-        return school;
-    }
-
-    public void setSchool(String school) {
-        this.school = school;
-    }
-
-    public String getMajorId() {
-        return majorId;
-    }
-
-    public void setMajorId(String majorId) {
-        this.majorId = majorId;
-    }
-
-    public String getTimesId() {
-        return timesId;
-    }
-
-    public void setTimesId(String timesId) {
-        this.timesId = timesId;
-    }
-
-    public String getEnglishId() {
-        return englishId;
-    }
-
-    public void setEnglishId(String englishId) {
-        this.englishId = englishId;
-    }
-
-    public String getTermId() {
-        return termId;
-    }
-
-    public void setTermId(String termId) {
-        this.termId = termId;
-    }
-
-    public String getSkill() {
-        return skill;
-    }
-
-    public void setSkill(String skill) {
-        this.skill = skill;
-    }
-
-    public String getTimingId() {
-        return timingId;
-    }
-
-    public void setTimingId(String timingId) {
-        this.timingId = timingId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getYomigana() {
-        return yomigana;
-    }
-
-    public void setYomigana(String yomigana) {
-        this.yomigana = yomigana;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String cellphone) {
-        this.mail = cellphone;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getOld_password() {
-        return old_password;
-    }
-
-    public void setOld_password(String old_password) {
-        this.old_password = old_password;
-    }
-
-    public int getLeave() {
-        return leave;
-    }
-
-    public void setLeave(int leave) {
-        this.leave = leave;
-    }
-
-    public String getUpdate() {
-        return update;
-    }
-
-    public void setUpdate(String update) {
-        this.update = update;
-    }
-
-    public int getMailcheck() {
-        return mailcheck;
-    }
-
-    public void setMailcheck(int mailcheck) {
-        this.mailcheck = mailcheck;
-    }
-
-    public int getToken() {
-        return token;
-    }
-
-    public void setToken(int token) {
-        this.token = token;
-    }
+    // timestamp
+    @Column(name = "token_expire")
+    Date tokenExpire;
 
 }

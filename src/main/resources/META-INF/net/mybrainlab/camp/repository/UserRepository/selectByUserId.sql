@@ -1,0 +1,1 @@
+select * from public."User" where user_id=/* userId */'U1';
